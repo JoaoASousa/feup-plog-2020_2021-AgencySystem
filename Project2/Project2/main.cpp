@@ -34,6 +34,7 @@ int main(){
 		} while (!x);
 	}
 
+	
 	cout << "Agency Name: " << newAgency.getName() << endl;
 	cout << "Agency NIF: " << newAgency.getNif() << endl;
 	cout << "Agency Url: " << newAgency.getUrl() << endl;
