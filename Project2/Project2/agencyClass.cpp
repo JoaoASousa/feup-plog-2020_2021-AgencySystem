@@ -45,24 +45,24 @@ Agency::Agency(string agencyFileName) {
 // Public Functions
 
 // set functions
-void Agency::setName(string newName) {
-	name = newName;
+void Agency::setName(string name) {
+	this->name = name;
 }
 
-void Agency::setNif(unsigned newNif) {
-	nif = newNif;
+void Agency::setNif(unsigned nif) {
+	this->nif = nif;
 }
 
-void Agency::setUrl(string newUrl) {
-	url = newUrl;
+void Agency::setUrl(string url) {
+	this->url = url;
 }
 
-void Agency::setClientsFile(string newClients) {
-	clientsFile = newClients;
+void Agency::setClientsFile(string clientsFile) {
+	this->clientsFile = clientsFile;
 }
 
-void Agency::setPackagesFile(string newPackages) {
-	packagesFile = newPackages;
+void Agency::setPackagesFile(string packagesFile) {
+	this->packagesFile = packagesFile;
 }
 
 void Agency::setInvalidAgencyFile() {
