@@ -1,5 +1,7 @@
 #include <iostream>
+
 #include "agencyClass.h"
+#include "menus.h"
 
 using namespace std;
 
@@ -34,12 +36,15 @@ int main(){
 		} while (!x);
 	}
 
-	
-	cout << "Agency Name: " << newAgency.getName() << endl;
-	cout << "Agency NIF: " << newAgency.getNif() << endl;
-	cout << "Agency Url: " << newAgency.getUrl() << endl;
-	cout << "Agency's Clients File Name: " << newAgency.getClientsFile() << endl;
-	cout << "Agency's Packages File Name: " << newAgency.getPackagesFile() << endl;
+	switch (mainMenu()) {
+		case 1:
+			newAgency.displayAgencyInfo(newAgency);
+			break;
+
+		default:
+			cout << "idk yet" << endl;
+			break;
+	}
 	
 }
 

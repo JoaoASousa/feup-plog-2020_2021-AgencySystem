@@ -37,5 +37,6 @@ class Agency {
 		string getClientsFile();
 		string getPackagesFile();
 		bool getAgencyNameStatus();
+		void displayAgencyInfo(Agency newAgency);
 
 };

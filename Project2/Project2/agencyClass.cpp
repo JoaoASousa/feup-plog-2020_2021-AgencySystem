@@ -98,3 +98,13 @@ string Agency::getPackagesFile() {
 bool Agency::getAgencyNameStatus() {
 	return agencyNameStatus;
 }
+
+void Agency::displayAgencyInfo(Agency newAgency) {
+
+	cout << "Agency Name: " << newAgency.getName() << endl;
+	cout << "Agency NIF: " << newAgency.getNif() << endl;
+	cout << "Agency Url: " << newAgency.getUrl() << endl;
+	cout << "Agency's Clients File Name: " << newAgency.getClientsFile() << endl;
+	cout << "Agency's Packages File Name: " << newAgency.getPackagesFile() << endl;
+
+}
