@@ -5,8 +5,12 @@
 
 using namespace std;
 
+
+
 // IR ATUALIZANDO
-vector<int> menuOptions = { 1 };
+vector<int> menuOptions = { 0, 1 };
+
+
 
 int mainMenu() {
 
@@ -19,16 +23,14 @@ int mainMenu() {
 
 		cout << "\nMain Menu\n" << endl;
 		cout << "  1. Agency Information" << endl;
+		cout << "  0. Quit" << endl;
 		
-
-
 		cout << endl;
 
 		menuFailFlags = false;
-		cout << "Please insert the corresponding number: (control + z to quit) ";
+		cout << "Please insert the corresponding number: ";
 		cin >> operationSelector;
-
-
+	
 		
 		if ((cin.fail()) || (count(menuOptions.begin(), menuOptions.end(), operationSelector) == 0)) {
 
@@ -49,10 +51,10 @@ int mainMenu() {
 
 		}
 
-
-		cout << "\x1B[2J\x1B[H";							// "clears" the terminal
+		cout << "\x1B[2J\x1B[H";	// "clears" the terminal
 
 	} while (menuFailFlags);
+
 
 	return operationSelector;
 }

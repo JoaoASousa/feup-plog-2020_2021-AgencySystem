@@ -2,6 +2,7 @@
 
 #include "agencyClass.h"
 #include "menus.h"
+#include "utilities.h"
 
 using namespace std;
 
@@ -9,42 +10,51 @@ using namespace std;
 int main(){
 
 	string agencyFileName;
-	bool x;
+	string moreActionsAnswer;
+	bool moreActions;
+
 
 	cout << "Welcome!" << endl;
-	cout << "Please insert the name of the Agency's File: ";
-	cin >> agencyFileName;
+	do {
+		cout << "Please insert the name of the Agency's File: ";
+		cin >> agencyFileName;
 
-	cin.ignore(1000, '\n');
-	cin.clear();
+		cin.ignore(1000, '\n');
+		cin.clear();
+
+	} while (!validAgencyFile(agencyFileName));
+	
 
 	Agency newAgency(agencyFileName);
 	
+	do {
+		switch (mainMenu()) {
 
-	if (!(newAgency.getAgencyNameStatus())) {
+			case 0:
+				return 0;
 
-		do {
-			cout << "Invalid File Name." << endl;
-			cout << "Please insert the name of the Agency's File: ";
-			cin >> agencyFileName;
+			case 1:
+				newAgency.displayAgencyInfo(newAgency);
+				break;
 
-			cin.ignore(1000, '\n');
-			cin.clear();
-			cout << "Valid? " << newAgency.getAgencyNameStatus() << endl;
-			Agency newAgency(agencyFileName);
-			x = newAgency.getAgencyNameStatus() ;
-		} while (!x);
-	}
 
-	switch (mainMenu()) {
-		case 1:
-			newAgency.displayAgencyInfo(newAgency);
-			break;
+			default:
+				cout << "Invalid Option" << endl;
+				
+		}
 
-		default:
-			cout << "idk yet" << endl;
-			break;
-	}
+		cout << "\nMore Actions ? [Y/N] ";
+		cin >> moreActionsAnswer;
+
+		if (moreActionsAnswer == "YES" || moreActionsAnswer == "Yes" || moreActionsAnswer == "yes" || moreActionsAnswer == "Y" || moreActionsAnswer == "y") {
+			moreActions = true;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (moreActions);
 	
+
+	return 0;
 }
 

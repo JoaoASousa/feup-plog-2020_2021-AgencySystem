@@ -13,30 +13,27 @@ Agency::Agency(string agencyFileName) {
 	string textLine;
 	ifstream agencyFile(agencyFileName);
 	vector<string> agencyInfo = {};
-
+	
 	if (agencyFile.is_open()) {
-
-		setValidAgencyFile();
+		
+		// setValidAgencyFile();
 
 		while (getline(agencyFile, textLine)) {
 			agencyInfo.push_back(textLine);
 		}
 
 		agencyFile.close();
-		if (agencyInfo.size() != 6) {
-			setInvalidAgencyFile();
-			return;
-		}
-
-
-		setName(agencyInfo.at(0));			// set agency name
+		
+		
+		setName(agencyInfo.at(0));
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		// ADDRESS
 		setClientsFile(agencyInfo.at(4));
 		setPackagesFile(agencyInfo.at(5));
-
+		
 	}
+
 
 }
 
@@ -65,13 +62,13 @@ void Agency::setPackagesFile(string packagesFile) {
 	this->packagesFile = packagesFile;
 }
 
-void Agency::setInvalidAgencyFile() {
-	agencyNameStatus = false;
-}
-
-void Agency::setValidAgencyFile() {
-	agencyNameStatus = true;
-}
+//void Agency::setInvalidAgencyFile() {
+//	agencyNameStatus = false;
+//}
+//
+//void Agency::setValidAgencyFile() {
+//	agencyNameStatus = true;
+//}
 
 
 // get functions
