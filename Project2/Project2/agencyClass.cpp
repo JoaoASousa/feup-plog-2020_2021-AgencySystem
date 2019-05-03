@@ -92,9 +92,9 @@ string Agency::getPackagesFile() {
 	return packagesFile;
 }
 
-bool Agency::getAgencyNameStatus() {
-	return agencyNameStatus;
-}
+//bool Agency::getAgencyNameStatus() {
+//	return agencyNameStatus;
+//}
 
 void Agency::displayAgencyInfo(Agency newAgency) {
 
