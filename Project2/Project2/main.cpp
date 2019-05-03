@@ -15,6 +15,7 @@ int main(){
 
 
 	cout << "Welcome!" << endl;
+
 	do {
 		cout << "Please insert the name of the Agency's File: ";
 		cin >> agencyFileName;
@@ -24,6 +25,7 @@ int main(){
 
 	} while (!validAgencyFile(agencyFileName));
 	
+	cout << "\x1B[2J\x1B[H";
 
 	Agency newAgency(agencyFileName);
 	

@@ -7,7 +7,7 @@ using namespace std;
 
 
 
-// IR ATUALIZANDO
+// IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> menuOptions = { 0, 1 };
 
 

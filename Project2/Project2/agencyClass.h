@@ -12,6 +12,7 @@ class Agency {
 	private:
 		string name, url, clientsFile, packagesFile;
 		string addressString;
+		// Address agencyAddress;
 		
 		bool agencyNameStatus;
 		int nif;
@@ -27,8 +28,8 @@ class Agency {
 		void setUrl(string newUrl);
 		void setClientsFile(string newClients);
 		void setPackagesFile(string newPackages);
-		void setInvalidAgencyFile();
-		void setValidAgencyFile();
+		// void setInvalidAgencyFile();
+		// void setValidAgencyFile();
 
 		// get functions
 		string getName();
@@ -36,7 +37,7 @@ class Agency {
 		string getUrl();
 		string getClientsFile();
 		string getPackagesFile();
-		bool getAgencyNameStatus();
+		// bool getAgencyNameStatus();
 		void displayAgencyInfo(Agency newAgency);
 
 };
