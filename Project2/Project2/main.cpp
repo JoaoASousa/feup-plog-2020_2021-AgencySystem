@@ -7,7 +7,7 @@ using namespace std;
 int main(){
 
 	string agencyFileName;
-	bool x;
+
 
 	cout << "Welcome!" << endl;
 	cout << "Please insert the name of the Agency's File: ";
@@ -15,11 +15,11 @@ int main(){
 
 	cin.ignore(1000, '\n');
 	cin.clear();
-
+	
 	Agency newAgency(agencyFileName);
 	
-
-	if (!(newAgency.getAgencyNameStatus())) {
+	/*
+	if (true) {
 
 		do {
 			cout << "Invalid File Name." << endl;
@@ -28,10 +28,9 @@ int main(){
 
 			cin.ignore(1000, '\n');
 			cin.clear();
-			cout << "Valid? " << newAgency.getAgencyNameStatus() << endl;
 			Agency newAgency(agencyFileName);
-			x = newAgency.getAgencyNameStatus() ;
-		} while (!x);
+
+		} while (false);
 	}
 
 	cout << "Agency Name: " << newAgency.getName() << endl;
@@ -39,6 +38,6 @@ int main(){
 	cout << "Agency Url: " << newAgency.getUrl() << endl;
 	cout << "Agency's Clients File Name: " << newAgency.getClientsFile() << endl;
 	cout << "Agency's Packages File Name: " << newAgency.getPackagesFile() << endl;
-	
+	*/
 }
 

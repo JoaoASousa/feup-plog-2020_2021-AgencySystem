@@ -16,15 +16,13 @@ Agency::Agency(string agencyFileName) {
 
 	if (agencyFile.is_open()) {
 
-		setValidAgencyFile();
-
 		while (getline(agencyFile, textLine)) {
 			agencyInfo.push_back(textLine);
 		}
 
 		agencyFile.close();
 		if (agencyInfo.size() != 6) {
-			setInvalidAgencyFile();
+			
 			return;
 		}
 
@@ -33,8 +31,8 @@ Agency::Agency(string agencyFileName) {
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		// ADDRESS
-		setClientsFile(agencyInfo.at(4));
-		setPackagesFile(agencyInfo.at(5));
+		/*setClientsFile(agencyInfo.at(4));
+		setPackagesFile(agencyInfo.at(5));*/
 
 	}
 
@@ -45,56 +43,52 @@ Agency::Agency(string agencyFileName) {
 // Public Functions
 
 // set functions
-void Agency::setName(string newName) {
-	name = newName;
+void Agency::setName(string name) {
+	this->name = name;
 }
 
-void Agency::setNif(unsigned newNif) {
-	nif = newNif;
+void Agency::setNif(unsigned nif) {
+	this->nif = nif;
 }
 
 void Agency::setUrl(string newUrl) {
-	url = newUrl;
+	this->url = url;
 }
 
-void Agency::setClientsFile(string newClients) {
-	clientsFile = newClients;
+void Agency::setClients(vector<Client> & clients) {
+	this->clients = clients;
 }
 
-void Agency::setPackagesFile(string newPackages) {
-	packagesFile = newPackages;
+void Agency::setPackages(vector<Packages> & packages) {
+	this->packages = packages;
 }
 
-void Agency::setInvalidAgencyFile() {
-	agencyNameStatus = false;
-}
-
-void Agency::setValidAgencyFile() {
-	agencyNameStatus = true;
-}
 
 
 // get functions
-string Agency::getName() {
+string Agency::getName() const {
 	return name;
 }
 
-int Agency::getNif() {
+unsigned Agency::getNif() const {
 	return nif;
 }
 
-string Agency::getUrl() {
+string Agency::getUrl() const {
 	return url;
 }
 
-string Agency::getClientsFile() {
-	return clientsFile;
+vector<Client> Agency::getClients() const{
+	return clients;
 }
 
-string Agency::getPackagesFile() {
-	return packagesFile;
+vector<Package> Agency::getPackages() const {
+	return packages;
 }
 
-bool Agency::getAgencyNameStatus() {
-	return agencyNameStatus;
+
+
+ostream& operator<<(ostream& out, const Agency & agency) {
+
+	// A IMPLEMENTATION REQUIRED 
 }
