@@ -15,8 +15,8 @@ class Agency {
 		unsigned int nif;
 		Address agencyAddress;
 		string url;
-		vector <Client> clients;
-		vector <Package> packages;
+		//vector <Client> clients;
+		//vector <Package> packages;
 
 		bool clientsInfoHasChanged;
 		bool packetsInfoHasChanged; 
@@ -32,16 +32,16 @@ class Agency {
 		void setName(string newName);
 		void setNif(unsigned newNif);
 		void setUrl(string newUrl);
-		void setClients(vector<Client> & clients);
-		void setPackages(vector<Packages> & packages);
+		//void setClients(vector<Client> & clients);
+		//void setPackages(vector<Packages> & packages);
 
 		// get functions
 		string getName() const;
 		unsigned getNif() const;
 		Address getAddress() const;
 		string getUrl() const;
-		vector<Client> getClients() const;
-		vector<Package> getPackages() const;
+		//vector<Client> getClients() const;
+		//vector<Package> getPackages() const;
 
 
 		friend ostream& operator<<(ostream& out, const Agency & agency);

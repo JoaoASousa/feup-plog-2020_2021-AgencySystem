@@ -55,13 +55,13 @@ void Agency::setUrl(string newUrl) {
 	this->url = url;
 }
 
-void Agency::setClients(vector<Client> & clients) {
-	this->clients = clients;
-}
-
-void Agency::setPackages(vector<Packages> & packages) {
-	this->packages = packages;
-}
+//void Agency::setClients(vector<Client> & clients) {
+//	this->clients = clients;
+//}
+//
+//void Agency::setPackages(vector<Packages> & packages) {
+//	this->packages = packages;
+//}
 
 
 
@@ -78,17 +78,16 @@ string Agency::getUrl() const {
 	return url;
 }
 
-vector<Client> Agency::getClients() const{
-	return clients;
-}
+//vector<Client> Agency::getClients() const{
+//	return clients;
+//}
+//
+//vector<Package> Agency::getPackages() const {
+//	return packages;
+//}
 
-vector<Package> Agency::getPackages() const {
-	return packages;
-}
 
 
-
-ostream& operator<<(ostream& out, const Agency & agency) {
-
-	// A IMPLEMENTATION REQUIRED 
-}
+//ostream& operator<<(ostream& out, const Agency & agency) {
+//
+//}

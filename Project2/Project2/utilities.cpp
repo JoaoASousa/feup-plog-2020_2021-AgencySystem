@@ -2,7 +2,7 @@
 
 using namespace std;
 
-bool validAgencyFiles(string agencyName) {
+bool validAgencyFile(string agencyName) {
 
 	string textLine;
 	ifstream agencyFile(agencyName);

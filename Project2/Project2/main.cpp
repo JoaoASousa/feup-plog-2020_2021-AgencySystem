@@ -1,4 +1,7 @@
 #include <iostream>
+
+#include "utilities.h"
+#include "menus.h"
 #include "agencyClass.h"
 
 using namespace std;
@@ -25,7 +28,7 @@ int main(){
 	cout << "\x1B[2J\x1B[H";
 
 	Agency newAgency(agencyFileName);
-	/*
+
 	do {
 		moreActions = false;
 		switch (mainMenu()) {
@@ -54,7 +57,7 @@ int main(){
 
 	} while (moreActions);
 
-	*/
+
 	return 0;
 
 }
