@@ -23,11 +23,11 @@ class Agency {
 
 		
 		// set functions
-		void setName(string newName);
-		void setNif(unsigned newNif);
-		void setUrl(string newUrl);
-		void setClientsFile(string newClients);
-		void setPackagesFile(string newPackages);
+		void setName(string name);
+		void setNif(unsigned nif);
+		void setUrl(string url);
+		void setClientsFile(string clientsFile);
+		void setPackagesFile(string packagesFile);
 		// void setInvalidAgencyFile();
 		// void setValidAgencyFile();
 
