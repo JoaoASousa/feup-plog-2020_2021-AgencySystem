@@ -30,6 +30,7 @@ int main(){
 	Agency newAgency(agencyFileName);
 	
 	do {
+		moreActions = false;
 		switch (mainMenu()) {
 
 			case 0:
