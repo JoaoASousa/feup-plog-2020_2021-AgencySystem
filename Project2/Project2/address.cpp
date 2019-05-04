@@ -34,9 +34,14 @@ Address::Address(string addressString) {
 Address::Address() {
 }
 
-Address::Address(string street, unsigned short doorNumber, string floor, string postalCode, string location) {
+Address::Address(string street, unsigned short doorNumber, string floor, string zipCode, string location) {
 
-	// REQUIRES IMPLEMENTATION
+	setStreet(street);
+	setDoorNumber(doorNumber);
+	setFloor(floor);
+	setZipCode(zipCode);
+	setLocation(location);
+
 }
 
 
