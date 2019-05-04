@@ -7,37 +7,55 @@ using namespace std;
 int main(){
 
 	string agencyFileName;
+	string moreActionsAnswer;
+	bool moreActions;
 
 
 	cout << "Welcome!" << endl;
-	cout << "Please insert the name of the Agency's File: ";
-	cin >> agencyFileName;
 
-	cin.ignore(1000, '\n');
-	cin.clear();
-	
+	do {
+		cout << "Please insert the name of the Agency's File: ";
+		cin >> agencyFileName;
+
+		cin.ignore(1000, '\n');
+		cin.clear();
+
+	} while (!validAgencyFile(agencyFileName));
+
+	cout << "\x1B[2J\x1B[H";
+
 	Agency newAgency(agencyFileName);
-	
 	/*
-	if (true) {
+	do {
+		moreActions = false;
+		switch (mainMenu()) {
 
-		do {
-			cout << "Invalid File Name." << endl;
-			cout << "Please insert the name of the Agency's File: ";
-			cin >> agencyFileName;
+			case 0:
+				return 0;
 
-			cin.ignore(1000, '\n');
-			cin.clear();
-			Agency newAgency(agencyFileName);
+			case 1:
+				//newAgency.displayAgencyInfo(newAgency);
+				break;
 
-		} while (false);
-	}
 
-	cout << "Agency Name: " << newAgency.getName() << endl;
-	cout << "Agency NIF: " << newAgency.getNif() << endl;
-	cout << "Agency Url: " << newAgency.getUrl() << endl;
-	cout << "Agency's Clients File Name: " << newAgency.getClientsFile() << endl;
-	cout << "Agency's Packages File Name: " << newAgency.getPackagesFile() << endl;
+			default:
+				cout << "Invalid Option" << endl;
+
+		}
+
+		cout << "\nMore Actions ? [Y/N] ";
+		cin >> moreActionsAnswer;
+
+		if (moreActionsAnswer == "YES" || moreActionsAnswer == "Yes" || moreActionsAnswer == "yes" || moreActionsAnswer == "Y" || moreActionsAnswer == "y") {
+			moreActions = true;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (moreActions);
+
 	*/
+	return 0;
+
 }
 
