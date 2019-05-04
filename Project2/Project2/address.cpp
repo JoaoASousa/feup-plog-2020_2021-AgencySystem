@@ -32,7 +32,7 @@ Address::Address(string addressString) {
 // Constructors
 
 Address::Address() {
-
+	
 	setStreet("");
 	setDoorNumber(0);
 	setFloor("");
@@ -41,14 +41,25 @@ Address::Address() {
 
 }
 
-Address::Address(string street, unsigned short doorNumber, string floor, string zipCode, string location) {
+// Address::Address(string street, unsigned short doorNumber, string floor, string zipCode, string location) {
+Address::Address(string addressString){
 
-	setStreet(street);
-	setDoorNumber(doorNumber);
-	setFloor(floor);
-	setZipCode(zipCode);
-	setLocation(location);
+	stringstream ss(addressString);
 
+	string temp;
+
+	vector <string> stringsVector;
+
+	while (getline(ss, temp, '/')) {
+		stringsVector.push_back(temp);
+	}
+
+	setStreet(stringsVector.at(0).erase(stringsVector.at(0).find_last_not_of(" ") + 1));
+	setDoorNumber(stoi(stringsVector.at(1)));
+	setFloor(stringsVector.at(2));
+	setZipCode(stringsVector.at(3));
+	setLocation(stringsVector.at(4));
+	
 }
 
 
@@ -109,7 +120,10 @@ string Address::getLocation() const {
  ********************************/
 
  // discplyes an address in a nice format
-//ostream& operator<<(ostream& out, const Address &address) {
-//
-//	// REQUIRES IMPLEMENTATION
-//}
+ostream& operator<<(ostream& out, const Address &address) {
+	out << address.getStreet() << ", " << address.getDoorNumber()
+		<< ", " << address.getFloor() << ", "
+		<< address.getZipCode() << ", " << address.getLocation() << '\n';
+	
+	return out;
+}

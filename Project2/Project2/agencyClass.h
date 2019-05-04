@@ -32,6 +32,7 @@ class Agency {
 		void setName(string newName);
 		void setNif(unsigned newNif);
 		void setUrl(string newUrl);
+		void setAddress(Address agencyAddress);
 		//void setClients(vector<Client> & clients);
 		//void setPackages(vector<Packages> & packages);
 

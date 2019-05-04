@@ -27,7 +27,7 @@ int main(){
 
 	cout << "\x1B[2J\x1B[H";
 
-	Agency newAgency(agencyFileName);
+	Agency agency(agencyFileName);
 
 	do {
 		moreActions = false;
@@ -37,7 +37,7 @@ int main(){
 				return 0;
 
 			case 1:
-				//newAgency.displayAgencyInfo(newAgency);
+				cout << agency << endl;
 				break;
 
 
