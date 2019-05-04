@@ -29,7 +29,6 @@ Agency::Agency(string agencyFileName) {
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		// ADDRESS
-		Address addresssss("Rua Sem Nome / 100 / -/ 4400 - 345 / Porto");
 		setClientsFile(agencyInfo.at(4));
 		setPackagesFile(agencyInfo.at(5));
 		
@@ -54,6 +53,13 @@ void Agency::setNif(unsigned nif) {
 void Agency::setUrl(string url) {
 	this->url = url;
 }
+
+void Agency::setAddress(string addressString) {
+	//auto x = Address agencyAddress(addressString);
+	//this->agencyAddress =;
+
+}
+
 
 void Agency::setClientsFile(string clientsFile) {
 	this->clientsFile = clientsFile;

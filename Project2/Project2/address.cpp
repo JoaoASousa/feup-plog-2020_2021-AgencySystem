@@ -27,11 +27,11 @@ Address::Address(string addressString) {
 	setZipCode(stringsVector.at(3));
 	setLocation(stringsVector.at(4));
 
-	cout << "Street:" << getStreet() << "!" << endl;
+	/*cout << "Street:" << getStreet() << "!" << endl;
 	cout << "Door number:" << getDoorNumber() << "!" << endl;
 	cout << "Floor:" << getFloor() << "!" << endl;
 	cout << "Zip Code:" << getZipCode() << "!" << endl;
-	cout << "Location:" << getLocation() << "!" << endl;
+	cout << "Location:" << getLocation() << "!" << endl;*/
 }
 
 
@@ -79,4 +79,11 @@ string Address::getZipCode() {
 
 string Address::getLocation() {
 	return location;
+}
+
+void Address::displayAddress() {
+	cout << "Address: " << getStreet() << ", "
+		<< getDoorNumber() << ", " << getFloor() << ", "
+		<< getZipCode() << ", " << getLocation() << endl;
+
 }
