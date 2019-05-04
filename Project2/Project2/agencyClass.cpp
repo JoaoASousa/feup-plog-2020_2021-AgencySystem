@@ -29,6 +29,7 @@ Agency::Agency(string agencyFileName) {
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		// ADDRESS
+		Address addresssss("Rua Sem Nome / 100 / -/ 4400 - 345 / Porto");
 		setClientsFile(agencyInfo.at(4));
 		setPackagesFile(agencyInfo.at(5));
 		
@@ -101,6 +102,7 @@ void Agency::displayAgencyInfo(Agency newAgency) {
 	cout << "Agency Name: " << newAgency.getName() << endl;
 	cout << "Agency NIF: " << newAgency.getNif() << endl;
 	cout << "Agency Url: " << newAgency.getUrl() << endl;
+	cout << "Address: " << endl;
 	cout << "Agency's Clients File Name: " << newAgency.getClientsFile() << endl;
 	cout << "Agency's Packages File Name: " << newAgency.getPackagesFile() << endl;
 
