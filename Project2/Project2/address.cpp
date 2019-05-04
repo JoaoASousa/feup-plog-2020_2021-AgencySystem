@@ -32,6 +32,13 @@ Address::Address(string addressString) {
 // Constructors
 
 Address::Address() {
+
+	setStreet("");
+	setDoorNumber(0);
+	setFloor("");
+	setZipCode("");
+	setLocation("");
+
 }
 
 Address::Address(string street, unsigned short doorNumber, string floor, string zipCode, string location) {
