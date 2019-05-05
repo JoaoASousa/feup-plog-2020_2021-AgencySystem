@@ -95,22 +95,22 @@ ostream &operator<<(ostream& out, const Package &package) {
 
 	out << "\nPlaces: ";
 
-	bool mainPlace = true;
 
 	for (int i = 0; i < package.places.size(); i++) {
-		if (mainPlace) {
-			out << package.places.at(i) << " - ";
-			mainPlace = false;
-		}
-		else {
-			if (i == (package.places.size() - 1)) {
-				out << package.places.at(i);
+		if (i == 0) {
+			if (package.places.size() > 1) {
+				out << package.places.at(i) << " -";
 			}
 			else {
-				out << package.places.at(i) << ", ";
+				out << package.places.at(i);
 			}
 		}
+
+		else {
+			out << " " << package.places.at(i);
+		}
 	}
+
 	out << '\n';
 	out << "Begin Date: " << package.begin << '\n';
 	out << "End Date: " << package.end << '\n';
@@ -119,5 +119,15 @@ ostream &operator<<(ostream& out, const Package &package) {
 	out << "Maximum number of People: " << package.maxPeople << '\n';
 	out << "Currently sold: " << package.sold;
 
+	/*
+	else {
+			if (i == (package.places.size() - 1)) {
+				out << " " << package.places.at(i);
+			}
+			else {
+				out << package.places.at(i) << ", ";
+			}
+		}
+	*/
 	return out;
 }

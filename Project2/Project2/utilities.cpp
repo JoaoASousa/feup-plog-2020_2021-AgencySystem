@@ -3,6 +3,7 @@
 
 using namespace std;
 
+
 bool validAgencyFile(string agencyName) {
 
 	string textLine;
@@ -68,8 +69,7 @@ vector<Package> packagesInfo(string packagesFileName) {
 						break;
 
 					case 1:
-						//package.places = textLine;
-						
+						package.setPlaces(stringToStringVector(textLine));						
 						break;
 
 					case 2:
@@ -113,4 +113,22 @@ vector<Package> packagesInfo(string packagesFileName) {
 	}
 
 	return packagesInfo;
+}
+
+vector <string> stringToStringVector(string fullString) {
+
+	istringstream ss(fullString);
+
+	string temp;
+
+	vector <string> stringsVector;
+
+	while (ss >> temp) {
+		if (temp == "-" || temp == ",") {
+			continue;
+		}
+		stringsVector.push_back(temp);
+	}
+
+	return stringsVector;
 }
