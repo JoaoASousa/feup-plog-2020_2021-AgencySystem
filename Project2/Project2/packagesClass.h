@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include "dateClass.h"
+
 using namespace std;
 
 class Package {
@@ -18,7 +20,7 @@ class Package {
 		unsigned sold;
 
 	public:
-		//Package(vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons);
+		Package(vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons);
 
 		// set functions
 		void setId(int id);

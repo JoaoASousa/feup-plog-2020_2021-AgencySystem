@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <ctime>
-
+#include <sstream>
 #include "dateClass.h"
 
 using namespace std;
@@ -15,15 +15,23 @@ Date::Date() {
 	tm* timePointer = localtime(&t);
 	
 	this->day = (timePointer->tm_mday);
-	this->month = (timePointer->tm_mon);
-	this->year = (timePointer->tm_year);
+	this->month = (timePointer->tm_mon) + 1;
+	this->year = (timePointer->tm_year) + 1900;
 
 }
 
 Date::Date(string date) {
 
-	// REQUIRES IMPLEMENTATION
+	istringstream ss(date);
 
+	unsigned short year, month, day;
+	char delimiter;
+
+	ss >> year >> delimiter >> month >> delimiter >> day;
+	
+	this->day = day;
+	this->month = month;
+	this->year = year;
 }
 
 
@@ -34,8 +42,10 @@ Date::Date(unsigned short day, unsigned short month, unsigned year) {
 }
 
 
+
 // ------------------------------------------------------------------------
 // Public Functions
+
 
 // set functions
 void Date::setDay(unsigned short day) {
@@ -67,6 +77,5 @@ unsigned Date::getYear() const {
 ostream& operator<<(ostream& out, const Date & date) {
 
 	out << date.year << '/' << date.month << '/' << date.day;
-
 	return out;
 }
