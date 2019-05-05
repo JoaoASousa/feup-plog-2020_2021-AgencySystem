@@ -112,18 +112,10 @@ string Address::getLocation() const {
 }
 
 
-
-
-
-/*********************************
- * Mostrar Address
- ********************************/
-
- // discplyes an address in a nice format
 ostream& operator<<(ostream& out, const Address &address) {
 	out << address.getStreet() << ", " << address.getDoorNumber()
 		<< ", " << address.getFloor() << ", "
-		<< address.getZipCode() << ", " << address.getLocation() << '\n';
+		<< address.getZipCode() << ", " << address.getLocation();
 	
 	return out;
 }

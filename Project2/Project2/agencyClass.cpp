@@ -22,7 +22,7 @@ Agency::Agency(string agencyFileName) {
 
 		agencyFile.close();
 		if (agencyInfo.size() != 6) {
-			// missing some information in the .txt file
+			// if some information is missing from the .txt file
 			return ;
 		}
 
@@ -31,8 +31,8 @@ Agency::Agency(string agencyFileName) {
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		setAddress(agencyInfo.at(3));
-		//setClientsFile(agencyInfo.at(4));
-		//setPackagesFile(agencyInfo.at(5));*/
+		setClientsFile(agencyInfo.at(4));
+		setPackagesFile(agencyInfo.at(5));
 
 	}
 
@@ -57,6 +57,14 @@ void Agency::setUrl(string url) {
 
 void Agency::setAddress(Address agencyAddress) {
 	this->agencyAddress = agencyAddress;
+}
+
+void Agency::setClientsFile(string clientsFileName) {
+	this->clientsFileName = clientsFileName;
+}
+
+void Agency::setPackagesFile(string packagesFileName) {
+	this->packagesFileName = packagesFileName;
 }
 
 //void Agency::setClients(vector<Client> & clients) {
@@ -86,6 +94,14 @@ Address Agency::getAddress() const {
 	return agencyAddress;
 }
 
+string Agency::getClientsFile() const {
+	return clientsFileName;
+}
+
+string Agency::getPackagesFile() const {
+	return packagesFileName;
+}
+
 //vector<Client> Agency::getClients() const{
 //	return clients;
 //}
@@ -97,10 +113,12 @@ Address Agency::getAddress() const {
 
 
 ostream& operator<<(ostream& out, const Agency & agency) {
-	out << "Agency " << agency.getName() << '\n'
-		<< "NIF: " << agency.getNif() << '\n'
-		<< "URL: " << agency.getUrl() << '\n'
-		<< "Address: " << agency.getAddress() << '\n';
+	out << "Agency " << agency.name << '\n'
+		<< "NIF: " << agency.nif << '\n'
+		<< "URL: " << agency.url << '\n'
+		<< "Address: " << agency.getAddress() << '\n'
+		<< "Client's File Name: " << agency.clientsFileName << '\n'
+		<< "Packages' File Name: " << agency.packagesFileName << '\n';
 
 	return out;
 
