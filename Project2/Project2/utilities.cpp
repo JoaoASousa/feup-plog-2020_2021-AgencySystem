@@ -69,6 +69,7 @@ vector<Package> packagesInfo(string packagesFileName) {
 
 					case 1:
 						//package.places = textLine;
+						
 						break;
 
 					case 2:

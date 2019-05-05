@@ -6,7 +6,7 @@
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> menuOptions = { 0, 1 };
+vector<int> menuOptions = { 0, 1, 2 };
 
 
 int mainMenu() {
@@ -20,6 +20,7 @@ int mainMenu() {
 		cout << "\nMain Menu\n" << endl;
 
 		cout << "  1. Agency Information" << endl;
+		cout << "  2. Packages" << endl;
 		cout << "  0. Quit" << endl;
 
 		cout << endl;

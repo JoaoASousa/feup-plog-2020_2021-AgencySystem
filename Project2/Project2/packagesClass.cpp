@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 
+
 #include "dateClass.h"
 #include "packagesClass.h"
 
@@ -12,7 +13,6 @@ using namespace std;
 // ------------------------------------------------------------------------
 // Constructor
 
-
 Package::Package() {
 
 }
@@ -20,6 +20,7 @@ Package::Package() {
 Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons, unsigned sold) {
 	
 }
+
 
 // ------------------------------------------------------------------------
 // Public Functions
@@ -110,10 +111,9 @@ ostream &operator<<(ostream& out, const Package &package) {
 			}
 		}
 	}
-	
-	// TO BE FINISHED
-	out << "Begin Date: " << '\n';
-	out << "End Date: " << '\n';
+	out << '\n';
+	out << "Begin Date: " << package.begin << '\n';
+	out << "End Date: " << package.end << '\n';
 
 	out << "Price per Person: " << package.pricePer << '\n';
 	out << "Maximum number of People: " << package.maxPeople << '\n';

@@ -40,6 +40,12 @@ int main(){
 				cout << agency << endl;
 				break;
 
+			case 2:
+				for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+					cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
+					cout << endl;
+				}
+				break;
 
 			default:
 				cout << "Invalid Option" << endl;
