@@ -69,7 +69,7 @@ vector<Package> packagesInfo(string packagesFileName) {
 						break;
 
 					case 1:
-						package.setPlaces(stringToStringVector(textLine));						
+						package.setPlaces(stringToStringVector(textLine));
 						break;
 
 					case 2:
@@ -117,18 +117,25 @@ vector<Package> packagesInfo(string packagesFileName) {
 
 vector <string> stringToStringVector(string fullString) {
 
-	istringstream ss(fullString);
+	//istringstream ss(fullString);
 
 	string temp;
-
+	string const delims = { "-," };
 	vector <string> stringsVector;
 
-	while (ss >> temp) {
+	size_t beg, pos = 0;
+	while ((beg = fullString.find_first_not_of(delims, pos)) != std::string::npos)
+	{
+		pos = fullString.find_first_of(delims, beg + 1);
+		stringsVector.push_back(fullString.substr(beg, pos - beg));
+	}
+	/*while (ss >> temp) {
 		if (temp == "-" || temp == ",") {
 			continue;
 		}
+		cout << temp << endl;
 		stringsVector.push_back(temp);
-	}
+	}*/
 
 	return stringsVector;
 }
