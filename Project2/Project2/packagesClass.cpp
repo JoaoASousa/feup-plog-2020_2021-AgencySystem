@@ -1,4 +1,9 @@
 #include <cmath>
+#include <string>
+#include <sstream>
+#include <fstream>
+
+#include "dateClass.h"
 #include "packagesClass.h"
 
 using namespace std;
@@ -7,10 +12,14 @@ using namespace std;
 // ------------------------------------------------------------------------
 // Constructor
 
-//Package::Package(vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons) {
-//
-//}
 
+Package::Package() {
+
+}
+
+Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons, unsigned sold) {
+	
+}
 
 // ------------------------------------------------------------------------
 // Public Functions
@@ -22,6 +31,14 @@ void Package::setId(int id) {
 
 void Package::setPlaces(vector<string> newplaces) {
 	places = newplaces;
+}
+
+void Package::setBeginDate(Date begin) {
+	this->begin = begin;
+}
+
+void Package::setEndDate(Date end) {
+	this->end = end;
 }
 
 void Package::setPricePer(double pricePer) {
@@ -44,6 +61,14 @@ unsigned Package::getId() const {
 
 vector<string> Package::getPlaces() const {
 	return places;
+}
+
+Date Package::getBeginDate() const {
+	return begin;
+}
+
+Date Package::getEndDate() const {
+	return end;
 }
 
 double Package::getPricePer() const {

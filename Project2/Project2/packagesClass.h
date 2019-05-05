@@ -13,20 +13,22 @@ class Package {
 	private:
 		int id; 
 		vector<string> places;
-		//Date begin;  
-		//Date end; 
+		Date begin;  
+		Date end; 
 		double pricePer;
 		unsigned maxPeople;
 		unsigned sold;
 
 	public:
-		Package(vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons);
+		Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons, unsigned sold);
+		
+		Package();
 
 		// set functions
 		void setId(int id);
 		void setPlaces(vector<string> places);
-		//void setBeginDate(Date begin);
-		//void setEndDate(Date end);
+		void setBeginDate(Date begin);
+		void setEndDate(Date end);
 		void setPricePer(double pricePer);
 		void setMaxPeople(unsigned maxPeople);
 		void setSold(unsigned sold);
@@ -34,8 +36,8 @@ class Package {
 		// get functions
 		unsigned getId() const;
 		vector<string> getPlaces() const;
-		//Date getBeginDate() const;
-		//Date getEndDate() const;
+		Date getBeginDate() const;
+		Date getEndDate() const;
 		double getPricePer() const;
 		unsigned getMaxPeople() const;
 		unsigned getSold() const;
