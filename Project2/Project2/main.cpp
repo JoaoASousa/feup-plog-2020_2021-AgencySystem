@@ -34,7 +34,7 @@ int main(){
 		
 		value = mainMenu(agency);
 
-		if (value <= 0) {
+		if (value <= 0 && value > -10) {
 			return 0;
 		}
 

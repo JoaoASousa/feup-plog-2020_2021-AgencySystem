@@ -9,7 +9,8 @@
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> menuOptions = { 0, 1, 2 };
+vector<int> mainMenuOptions = { 0, 1, 2 };
+vector<int> packageMenuOptions = { 0,1,2 };
 
 
 int mainMenu(Agency agency) {
@@ -31,7 +32,7 @@ int mainMenu(Agency agency) {
 		cout << "Please insert the corresponding number: ";
 		cin >> mainOperationSelector;
 
-		if ((cin.fail()) || (count(menuOptions.begin(), menuOptions.end(), mainOperationSelector) == 0)) {
+		if ((cin.fail()) || (count(mainMenuOptions.begin(), mainMenuOptions.end(), mainOperationSelector) == 0)) {
 
 			if (cin.eof()) {
 				// cout << "\nStopping the program . . ." << endl;
@@ -52,6 +53,8 @@ int mainMenu(Agency agency) {
 	
 	int goBack = -1;
 
+	bool flag = false;
+
 	switch (mainOperationSelector) {
 
 		case 1:
@@ -60,20 +63,27 @@ int mainMenu(Agency agency) {
 
 		case 2:
 			// goBack = packageMenu(agency);
+			do {
+				switch (packageMenu(agency)) {
+					flag = false;
+					case 0:
+						if (mainMenu(agency) == 0) {
+							return 0;
+						}
 
-			switch (packageMenu(agency)) {
-				case 0:
-					if (mainMenu(agency) == 0) {
-						return 0;
-					}
+					case 1:
+						packageDisplayAll(agency);
+						break;
 
-				case 1:
-					packageDisplayAll(agency);
-					break;
+					case 2:
+						switch (packageDisplayOne(agency)) {
+							case 0:
+								flag = true;
+						}
 
-				case 2:
-					packageDisplayOne(agency);
-			}
+				}
+				
+			} while (flag);
 			break;
 
 		default:
@@ -110,7 +120,7 @@ int packageMenu(Agency agency) {
 		cout << "Please insert the corresponding number: ";
 		cin >> packageOperationSelector;
 
-		if ((cin.fail()) || (count(menuOptions.begin(), menuOptions.end(), packageOperationSelector) == 0)) {
+		if ((cin.fail()) || (count(packageMenuOptions.begin(), packageMenuOptions.end(), packageOperationSelector) == 0)) {
 
 			if (cin.eof()) {
 				cout << "\nStopping the program . . ." << endl;
@@ -146,25 +156,54 @@ void packageDisplayAll(Agency agency) {
 }
 
 
-void packageDisplayOne(Agency agency) {
-
+int packageDisplayOne(Agency agency) {
+	bool packageSelectorFailFlag = false;
 	vector <int> packageNumbers;
 	int packageSelection;
-	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
-		
-		cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
-			<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
 
-		packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+	do {
+		packageSelectorFailFlag = false;
+		for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
 
-		if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
-			cout << "\t[Unavailable Package]";
+			cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
+				<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
+
+			packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+
+			if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
+				cout << "\t[Unavailable Package]";
+			}
+			cout << endl;
 		}
-		cout << endl;
-	}
 
-	cout << "\nPlease insert the corresponding number: ";
-	cin >> packageSelection;
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> packageSelection;
 
+		cout << "\x1B[2J\x1B[H";
 
+		if (packageSelection == 0) {
+			return 0;
+		}
+
+		if ((cin.fail()) || (count(packageNumbers.begin(), packageNumbers.end(), packageSelection) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			packageSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (packageSelectorFailFlag);
+
+	cout << packagesInfo(agency.getPackagesFile()).at(packageSelection - 1) << endl;
+
+	return -1;
 }

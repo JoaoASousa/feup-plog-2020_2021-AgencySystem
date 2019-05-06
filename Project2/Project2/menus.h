@@ -7,4 +7,4 @@ int packageMenu(Agency agency);
 
 void packageDisplayAll(Agency agency);
 
-void packageDisplayOne(Agency agency);
+int packageDisplayOne(Agency agency);
