@@ -41,10 +41,16 @@ int main(){
 				break;
 
 			case 2:
-				for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+
+				switch (packageMenu()) {
+					case 0:
+						cout << "idk" << endl;
+
+				}
+				/*for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
 					cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
 					cout << endl;
-				}
+				}*/
 				break;
 
 			default:
