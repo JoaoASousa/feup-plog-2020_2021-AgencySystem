@@ -34,7 +34,7 @@ class Package {
 		void setSold(unsigned sold);
 
 		// get functions
-		unsigned getId() const;
+		int getId() const;
 		vector<string> getPlaces() const;
 		Date getBeginDate() const;
 		Date getEndDate() const;

@@ -1,5 +1,6 @@
 #pragma once
 
-int mainMenu();
+#include "agencyClass.h"
+int mainMenu(Agency agency);
 
-int packageMenu();
+int packageMenu(Agency agency);

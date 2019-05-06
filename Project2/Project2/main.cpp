@@ -28,36 +28,44 @@ int main(){
 	cout << "\x1B[2J\x1B[H";
 
 	Agency agency(agencyFileName);
-
+	int value;
 	do {
 		moreActions = false;
-		switch (mainMenu()) {
+		
+		value = mainMenu(agency);
 
-			case 0:
-				return 0;
-
-			case 1:
-				cout << agency << endl;
-				break;
-
-			case 2:
-
-				switch (packageMenu()) {
-					case 0:
-						cout << "idk" << endl;
-
-				}
-				/*for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
-					cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
-					cout << endl;
-				}*/
-				break;
-
-			default:
-				cout << "Invalid Option" << endl;
-
+		if (value <= 0) {
+			return 0;
 		}
 
+		//switch (mainMenu(agency)) {
+
+		//	case 0:
+		//		return 0;
+
+		//	case 1:
+		//		cout << agency << endl;
+		//		break;
+
+		//	case 2:
+
+		//		switch (packageMenu()) {
+		//			case 0:
+		//				return 0;
+
+		//		}
+		//		/*for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+		//			cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
+		//			cout << endl;
+		//		}*/
+		//		break;
+
+		//	default:
+		//		cout << "Invalid Option" << endl;
+
+		//}
+
+		
 		cout << "\nMore Actions ? [Y/N] ";
 		cin >> moreActionsAnswer;
 

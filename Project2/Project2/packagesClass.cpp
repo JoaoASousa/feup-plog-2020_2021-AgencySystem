@@ -56,7 +56,7 @@ void Package::setSold(unsigned sold) {
 
 
 // get functions
-unsigned Package::getId() const {
+int Package::getId() const {
 	return id;
 }
 
