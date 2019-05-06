@@ -59,19 +59,33 @@ int mainMenu(Agency agency) {
 			break;
 
 		case 2:
-			goBack = packageMenu(agency);
+			// goBack = packageMenu(agency);
+
+			switch (packageMenu(agency)) {
+				case 0:
+					if (mainMenu(agency) == 0) {
+						return 0;
+					}
+
+				case 1:
+					packageDisplayAll(agency);
+					break;
+
+				case 2:
+					packageDisplayOne(agency);
+			}
 			break;
 
 		default:
 			break;
 	}
 
-	if (goBack == 0) {
+	/*if (goBack == 0) {
 		if (mainMenu(agency) == 0) {
 			return -1;
 		};
 
-	}
+	}*/
 
 	return mainOperationSelector;
 }
@@ -114,32 +128,43 @@ int packageMenu(Agency agency) {
 
 	} while (packageMenuFailFlags);
 
+	return packageOperationSelector;
 
+}
+
+void packageDisplayAll(Agency agency) {
 
 	vector <int> packageNumbers;
+	int packageSelection;
 
-	switch (packageOperationSelector) {
+	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
 
-		case 1:
-			for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
-				cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
-				cout << endl;
-			}
-
-		case 2:
-			for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
-				cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " (" << packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
-				if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
-					cout << "\t[Unavailable Package]";
-				}
-				cout << endl;
-			}
-
-			cout << "\nPlease insert the corresponding number: ";
-			//cin >>
+		cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
+		cout << endl;
 
 	}
+}
 
 
-	return packageOperationSelector;
+void packageDisplayOne(Agency agency) {
+
+	vector <int> packageNumbers;
+	int packageSelection;
+	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+		
+		cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
+			<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
+
+		packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+
+		if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
+			cout << "\t[Unavailable Package]";
+		}
+		cout << endl;
+	}
+
+	cout << "\nPlease insert the corresponding number: ";
+	cin >> packageSelection;
+
+
 }

@@ -38,32 +38,7 @@ int main(){
 			return 0;
 		}
 
-		//switch (mainMenu(agency)) {
-
-		//	case 0:
-		//		return 0;
-
-		//	case 1:
-		//		cout << agency << endl;
-		//		break;
-
-		//	case 2:
-
-		//		switch (packageMenu()) {
-		//			case 0:
-		//				return 0;
-
-		//		}
-		//		/*for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
-		//			cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
-		//			cout << endl;
-		//		}*/
-		//		break;
-
-		//	default:
-		//		cout << "Invalid Option" << endl;
-
-		//}
+		
 
 		
 		cout << "\nMore Actions ? [Y/N] ";
