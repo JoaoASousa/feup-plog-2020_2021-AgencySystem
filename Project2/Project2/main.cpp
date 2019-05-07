@@ -28,6 +28,7 @@ int main(){
 	cout << "\x1B[2J\x1B[H";
 
 	Agency agency(agencyFileName);
+
 	int value;
 	do {
 		moreActions = false;
@@ -37,8 +38,6 @@ int main(){
 		if (value <= 0 && value > -10) {
 			return 0;
 		}
-
-		
 
 		
 		cout << "\nMore Actions ? [Y/N] ";
