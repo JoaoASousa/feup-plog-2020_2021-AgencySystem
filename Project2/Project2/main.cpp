@@ -13,15 +13,17 @@ int main(){
 	string moreActionsAnswer;
 	bool moreActions;
 
-
+	
 	cout << "Welcome!" << endl;
-
+	
 	do {
 		cout << "Please insert the name of the Agency's File: ";
 		cin >> agencyFileName;
 
 		cin.ignore(1000, '\n');
 		cin.clear();
+
+		// CONTROL FOR CONTROL + Z  and '0' MISSING
 
 	} while (!validAgencyFile(agencyFileName));
 

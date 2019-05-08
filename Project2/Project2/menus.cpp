@@ -10,7 +10,7 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4 };
 
 
 int mainMenu(Agency agency) {
@@ -85,6 +85,11 @@ int mainMenu(Agency agency) {
 							case 0:
 								flag = true;
 						}
+					case 4:
+						if (displayForPlace(agency) == 0) {
+							flag = true;
+						}
+						break;
 				}
 				
 			} while (flag);
@@ -118,6 +123,7 @@ int packageMenu(Agency agency) {
 		cout << "  1. Display All Packages" << endl;
 		cout << "  2. Display a Package of Choice" << endl;
 		cout << "  3. Display Between Dates" << endl;
+		cout << "  4. Display for Place" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -318,23 +324,23 @@ int displayBetweenDates(Agency agency) {
 		cout << "Second Date (YYYY / MM / DD) : ";
 		getline(cin >> ws, secondDateString);
 
-		if (secondDateString == to_string(0)) {
-			return 0;
-		}
+if (secondDateString == to_string(0)) {
+	return 0;
+}
 
-		if (cin.fail()) {
-			if (cin.eof()) {
-				return 0;
-			}
-			cin.clear();
-			cin.ignore(1000, '\n');
-		}
+if (cin.fail()) {
+	if (cin.eof()) {
+		return 0;
+	}
+	cin.clear();
+	cin.ignore(1000, '\n');
+}
 
-		Date secondDate(secondDateString);
+Date secondDate(secondDateString);
 
-		if (!checkDate(secondDate, firstDate)) {
-			secondDateFailInput = true;
-		}
+if (!checkDate(secondDate, firstDate)) {
+	secondDateFailInput = true;
+}
 
 	} while (secondDateFailInput);
 
@@ -370,4 +376,83 @@ int displayBetweenDates(Agency agency) {
 	}
 
 	return -1;
+}
+
+
+int displayForPlace(Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector<Package> packagesToDisplay;
+
+
+	string placeInputString;
+	bool placeNotFound = false;
+
+	do {
+
+		cin.clear();
+		cin.ignore(1000, '\n');
+
+		placeNotFound = false;
+		cout << "Place to look for: ";
+		getline(cin, placeInputString);
+
+		if (cin.fail()) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+		
+			placeNotFound = true;
+		}
+
+		else if (placeInputString == "0") {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+	} while (placeNotFound);
+
+	cout << endl;
+	// tirar espaços no Place to look for ?
+	// e tirar espaços das strings do vetor que tem os lugares de cada package?
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+		for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+			if (placeInputString == packagesInfoVector.at(i).getPlaces().at(j)) {
+				packagesToDisplay.push_back(packagesInfoVector.at(i));
+			}
+			// cout << packagesInfoVector.at(i).getPlaces().at(j);
+			// cout << endl;
+		}
+		// cout << endl;
+	}
+
+	if (packagesToDisplay.size() == 0) {
+		cout << "No package meets the requirement" << endl;
+	}
+
+	else {
+		for (int k = 0; k < packagesToDisplay.size(); k++) {
+			cout << packagesToDisplay.at(k) << endl;
+			cout << endl;
+		}
+	}
+
+	return -1;
+}
+
+
+string trimString(const string &toTrim, const string &whitespace) {
+
+	auto stringBegin = toTrim.find_first_not_of(whitespace);
+	if (stringBegin == string::npos) {
+		return "";
+	}
+
+	auto stringEnd = toTrim.find_last_not_of(whitespace);
+	auto stringRange = stringEnd - stringBegin + 1;
+
+	return toTrim.substr(stringBegin, stringRange);
 }
