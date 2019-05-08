@@ -115,6 +115,55 @@ vector<Package> packagesInfo(string packagesFileName) {
 	return packagesInfo;
 }
 
+int daysOfMonth(int month, int year) {
+
+	bool leapYear = false;
+
+	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+		leapYear = true;
+	}
+
+	if ((month < 8 && month % 2 == 1) || (month >= 8 && month % 2 == 0)) {
+		return 31;
+	}
+
+	else if (month == 2) {
+		return leapYear ? 29 : 28;
+	}
+
+	return 30;
+}
+
+bool checkDate(Date ToEvaluateDate, Date referenceDate) {
+	//cout << referenceDate << endl;
+	bool validDate = true;
+
+	// basic verification
+	if (ToEvaluateDate.getYear() <= 0 || (ToEvaluateDate.getMonth() <= 0 || ToEvaluateDate.getMonth() > 12) || ToEvaluateDate.getDay() <= 0) {
+		validDate = false;
+	}
+
+	// year verification
+	else if (ToEvaluateDate.getYear() < referenceDate.getYear()) {
+		validDate = false;
+	}
+
+	// same year, month verification
+	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() < referenceDate.getMonth())) {
+		validDate = false;
+	}
+
+	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() == referenceDate.getMonth()) && (ToEvaluateDate.getDay() < referenceDate.getDay())) {
+		validDate = false;
+	}
+
+	else if (daysOfMonth(ToEvaluateDate.getMonth(), ToEvaluateDate.getYear()) < ToEvaluateDate.getDay()) {
+		validDate = false;
+	}
+
+	return validDate;
+}
+
 vector <string> stringToStringVector(string fullString) {
 
 	//istringstream ss(fullString);
@@ -139,8 +188,6 @@ vector <string> stringToStringVector(string fullString) {
 
 	return stringsVector;
 }
-
-
 
 string trimString(const string &toTrim, const string &whitespace) {
 

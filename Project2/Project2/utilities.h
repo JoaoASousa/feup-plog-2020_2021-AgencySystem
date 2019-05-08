@@ -16,6 +16,10 @@ bool validAgencyFile(string agencyName);
 
 vector<Package> packagesInfo(string packagesFileName);
 
+int daysOfMonth(int month, int year);
+
+bool checkDate(Date ToEvaluateDate, Date referenceDate);
+
 vector <string> stringToStringVector(string fullString);
 
 string trimString(const string &toTrim, const string &whitespace = " \t");

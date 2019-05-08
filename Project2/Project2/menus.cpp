@@ -223,69 +223,6 @@ int packageDisplayOne(Agency agency) {
 }
 
 
-
-
-int daysOfMonth(int month, int year) {
-
-	bool leapYear = false;
-
-	if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
-		leapYear = true;
-	}
-
-	if ((month < 8 && month % 2 == 1) || (month >= 8 && month % 2 == 0)) {
-		return 31;
-	}
-
-	else if (month == 2) {
-		return leapYear ? 29 : 28;
-	}
-
-	return 30;
-}
-
-
-bool checkDate(Date ToEvaluateDate, Date referenceDate) {
-	//cout << referenceDate << endl;
-	bool validDate = true;
-
-	// basic verification
-	if (ToEvaluateDate.getYear() <= 0 || (ToEvaluateDate.getMonth() <= 0 || ToEvaluateDate.getMonth() > 12) || ToEvaluateDate.getDay() <= 0) {
-		// cout << "A" << endl;
-		validDate = false;
-	}
-
-	// year verification
-	else if (ToEvaluateDate.getYear() < referenceDate.getYear()) {
-		// cout << "B" << endl;
-		validDate = false;
-	}
-
-	// same year, month verification
-	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() < referenceDate.getMonth())) {
-		// cout << "C" << endl;
-		validDate = false;
-	}
-
-	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() == referenceDate.getMonth()) && (ToEvaluateDate.getDay() < referenceDate.getDay())) {
-		// cout << "D" << endl;
-		validDate = false;
-	}
-
-	else if (daysOfMonth(ToEvaluateDate.getMonth(), ToEvaluateDate.getYear()) < ToEvaluateDate.getDay()) {
-		// cout << "E" << endl;
-		validDate = false;
-	}
-
-	return validDate;
-}
-
-
-// ISSUE: FIRST DATE AND SECOND DATE GET THE DEFAULT VALUE (CURRENT DATE)
-// AND DON'T UPDATE
-// POSSIBLE FIX: SET FOR EACH ONE THE DAY, MONTH AND YEAR
-// (FIRSTDATE.SETDAY(), ETC...)
-// TRY TO INITIALIZE WITH THE STRING ?
 int displayBetweenDates(Agency agency) {
 
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
@@ -353,11 +290,7 @@ int displayBetweenDates(Agency agency) {
 
 	} while (secondDateFailInput);
 
-	//cout << "HI" << endl; // it goes through
-	//cout << "Dates: " << endl;
-	//cout << firstDate << endl;
-	//cout << secondDate << endl;
-	//cout << "---" << endl;
+
 	bool validLowerBound = false, validUpperBound = false;
 	vector<Package> validPackages;
 
@@ -370,7 +303,7 @@ int displayBetweenDates(Agency agency) {
 		}
 
 		if (validLowerBound && validUpperBound) {
-			cout << i << endl;
+			// cout << i << endl;
 			validPackages.push_back(packagesInfoVector.at(i));
 		}
 
@@ -378,7 +311,6 @@ int displayBetweenDates(Agency agency) {
 
 
 	for (int i = 0; i < validPackages.size(); i++) {
-		// cout << "me" << endl;
 		cout << validPackages.at(i) << endl;
 		cout << endl;
 
@@ -456,6 +388,7 @@ int displayForPlace(Agency agency) {
 int displayDateAndPlace(Agency agency) {
 
 	// Dates
+
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	Date currentDate;
 
@@ -532,7 +465,7 @@ int displayDateAndPlace(Agency agency) {
 		}
 
 		if (validLowerBound && validUpperBound) {
-			cout << i << endl;
+			// cout << i << endl;
 			validPackages.push_back(packagesInfoVector.at(i));
 		}
 
