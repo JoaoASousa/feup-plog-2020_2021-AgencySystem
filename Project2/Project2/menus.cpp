@@ -10,7 +10,7 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5 };
 
 
 int mainMenu(Agency agency) {
@@ -90,6 +90,10 @@ int mainMenu(Agency agency) {
 							flag = true;
 						}
 						break;
+					case 5:
+						if (displayDateAndPlace(agency) == 0) {
+							flag = true;
+						}
 				}
 				
 			} while (flag);
@@ -124,6 +128,7 @@ int packageMenu(Agency agency) {
 		cout << "  2. Display a Package of Choice" << endl;
 		cout << "  3. Display Between Dates" << endl;
 		cout << "  4. Display for Place" << endl;
+		cout << "  5. Display For Dates and Place" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -246,29 +251,29 @@ bool checkDate(Date ToEvaluateDate, Date referenceDate) {
 
 	// basic verification
 	if (ToEvaluateDate.getYear() <= 0 || (ToEvaluateDate.getMonth() <= 0 || ToEvaluateDate.getMonth() > 12) || ToEvaluateDate.getDay() <= 0) {
-		cout << "A" << endl;
+		// cout << "A" << endl;
 		validDate = false;
 	}
 
 	// year verification
 	else if (ToEvaluateDate.getYear() < referenceDate.getYear()) {
-		cout << "B" << endl;
+		// cout << "B" << endl;
 		validDate = false;
 	}
 
 	// same year, month verification
 	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() < referenceDate.getMonth())) {
-		cout << "C" << endl;
+		// cout << "C" << endl;
 		validDate = false;
 	}
 
 	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() == referenceDate.getMonth()) && (ToEvaluateDate.getDay() < referenceDate.getDay())) {
-		cout << "D" << endl;
+		// cout << "D" << endl;
 		validDate = false;
 	}
 
 	else if (daysOfMonth(ToEvaluateDate.getMonth(), ToEvaluateDate.getYear()) < ToEvaluateDate.getDay()) {
-		cout << "E" << endl;
+		// cout << "E" << endl;
 		validDate = false;
 	}
 
@@ -310,6 +315,8 @@ int displayBetweenDates(Agency agency) {
 
 		//Date firstDate(firstDateString);
 		// firstDate.setDay(10);
+		Date firstDateS(firstDateString);
+		firstDate = firstDateS;
 
 		if (!checkDate(firstDate, currentDate)) {
 			firstDateFailInput = true;
@@ -324,31 +331,33 @@ int displayBetweenDates(Agency agency) {
 		cout << "Second Date (YYYY / MM / DD) : ";
 		getline(cin >> ws, secondDateString);
 
-if (secondDateString == to_string(0)) {
-	return 0;
-}
+		if (secondDateString == to_string(0)) {
+			return 0;
+		}
 
-if (cin.fail()) {
-	if (cin.eof()) {
-		return 0;
-	}
-	cin.clear();
-	cin.ignore(1000, '\n');
-}
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
 
-Date secondDate(secondDateString);
+		// Date secondDate(secondDateString);
+		Date secondDateS(secondDateString);
+		secondDate = secondDateS;
 
-if (!checkDate(secondDate, firstDate)) {
-	secondDateFailInput = true;
-}
+		if (!checkDate(secondDate, firstDate)) {
+			secondDateFailInput = true;
+		}
 
 	} while (secondDateFailInput);
 
-	cout << "HI" << endl; // it goes through
-	cout << "Dates: " << endl;
-	cout << firstDate << endl;
-	cout << secondDate << endl;
-	cout << "---" << endl;
+	//cout << "HI" << endl; // it goes through
+	//cout << "Dates: " << endl;
+	//cout << firstDate << endl;
+	//cout << secondDate << endl;
+	//cout << "---" << endl;
 	bool validLowerBound = false, validUpperBound = false;
 	vector<Package> validPackages;
 
@@ -369,7 +378,7 @@ if (!checkDate(secondDate, firstDate)) {
 
 
 	for (int i = 0; i < validPackages.size(); i++) {
-		cout << "me" << endl;
+		// cout << "me" << endl;
 		cout << validPackages.at(i) << endl;
 		cout << endl;
 
@@ -441,4 +450,151 @@ int displayForPlace(Agency agency) {
 
 	return -1;
 
+}
+
+
+int displayDateAndPlace(Agency agency) {
+
+	// Dates
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	Date currentDate;
+
+	bool firstDateFailInput, secondDateFailInput;
+	Date firstDate, secondDate;
+	string firstDateString, secondDateString;
+
+	do {
+		firstDateFailInput = false;
+
+		cout << "First Date (YYYY / MM / DD) : ";
+		getline(cin >> ws, firstDateString);
+
+		if (firstDateString == to_string(0)) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+
+		Date firstDateS(firstDateString);
+		firstDate = firstDateS;
+		// firstDate.setDay(10);
+		if (!checkDate(firstDate, currentDate)) {
+			firstDateFailInput = true;
+		}
+
+	} while (firstDateFailInput);
+
+
+	do {
+		secondDateFailInput = false;
+
+		cout << "Second Date (YYYY / MM / DD) : ";
+		getline(cin >> ws, secondDateString);
+
+		if (secondDateString == to_string(0)) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+
+		Date secondDateS(secondDateString);
+		secondDate = secondDateS;
+
+		if (!checkDate(secondDate, firstDate)) {
+			secondDateFailInput = true;
+		}
+
+	} while (secondDateFailInput);
+
+	bool validLowerBound = false, validUpperBound = false;
+	vector<Package> validPackages;
+
+	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+
+		validLowerBound = checkDate(packagesInfo(agency.getPackagesFile()).at(i).getBeginDate(), firstDate);
+
+		if (validLowerBound) {
+			validUpperBound = checkDate(secondDate, packagesInfoVector.at(i).getEndDate());
+		}
+
+		if (validLowerBound && validUpperBound) {
+			cout << i << endl;
+			validPackages.push_back(packagesInfoVector.at(i));
+		}
+
+	}
+	
+
+	// Places
+
+	vector<Package> packagesToDisplay;
+	
+	string placeInputString;
+	bool placeNotFound = false;
+
+	do {
+
+		placeNotFound = false;
+		cout << "Place to look for: ";
+		getline(cin, placeInputString);
+
+		if (cin.fail()) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+
+			placeNotFound = true;
+		}
+
+		else if (trimString(placeInputString) == "0") {
+			cin.clear();
+			cin.ignore(1000, '\n');
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+	} while (placeNotFound);
+
+	cout << endl;
+
+	for (int i = 0; i < validPackages.size(); i++) {
+
+		for (int j = 0; j < validPackages.at(i).getPlaces().size(); j++) {
+
+			if (trimString(placeInputString) == validPackages.at(i).getPlaces().at(j)) {
+				packagesToDisplay.push_back(validPackages.at(i));
+			}
+			// cout << validPackages.at(i).getPlaces().at(j);
+			// cout << endl;
+		}
+		// cout << endl;
+	}
+
+	if (packagesToDisplay.size() == 0) {
+		cout << "No package meets the requirements" << endl;
+	}
+
+	else {
+		for (int k = 0; k < packagesToDisplay.size(); k++) {
+			cout << packagesToDisplay.at(k) << endl;
+			cout << endl;
+		}
+	}
+
+	return -1;
 }
