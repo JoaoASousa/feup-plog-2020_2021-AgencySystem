@@ -406,7 +406,7 @@ int displayForPlace(Agency agency) {
 			placeNotFound = true;
 		}
 
-		else if (placeInputString == "0") {
+		else if (trimString(placeInputString) == "0") {
 			cout << "\x1B[2J\x1B[H";
 			return 0;
 		}
@@ -414,13 +414,12 @@ int displayForPlace(Agency agency) {
 	} while (placeNotFound);
 
 	cout << endl;
-	// tirar espaços no Place to look for ?
-	// e tirar espaços das strings do vetor que tem os lugares de cada package?
+	
 	for (int i = 0; i < packagesInfoVector.size(); i++) {
 
 		for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
 
-			if (placeInputString == packagesInfoVector.at(i).getPlaces().at(j)) {
+			if (trimString(placeInputString) == packagesInfoVector.at(i).getPlaces().at(j)) {
 				packagesToDisplay.push_back(packagesInfoVector.at(i));
 			}
 			// cout << packagesInfoVector.at(i).getPlaces().at(j);
@@ -441,18 +440,5 @@ int displayForPlace(Agency agency) {
 	}
 
 	return -1;
-}
 
-
-string trimString(const string &toTrim, const string &whitespace) {
-
-	auto stringBegin = toTrim.find_first_not_of(whitespace);
-	if (stringBegin == string::npos) {
-		return "";
-	}
-
-	auto stringEnd = toTrim.find_last_not_of(whitespace);
-	auto stringRange = stringEnd - stringBegin + 1;
-
-	return toTrim.substr(stringBegin, stringRange);
 }

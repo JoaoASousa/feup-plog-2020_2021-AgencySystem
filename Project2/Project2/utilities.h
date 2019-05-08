@@ -17,3 +17,5 @@ bool validAgencyFile(string agencyName);
 vector<Package> packagesInfo(string packagesFileName);
 
 vector <string> stringToStringVector(string fullString);
+
+string trimString(const string &toTrim, const string &whitespace = " \t");

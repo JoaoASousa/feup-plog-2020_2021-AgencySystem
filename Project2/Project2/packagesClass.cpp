@@ -99,7 +99,7 @@ ostream &operator<<(ostream& out, const Package &package) {
 		
 		if (i == 0) {
 			if (package.places.size() > 1) {
-				out << package.places.at(i) << "-";
+				out << package.places.at(i) << " - ";
 				
 			}
 			else {
@@ -113,7 +113,7 @@ ostream &operator<<(ostream& out, const Package &package) {
 				out << package.places.at(i);
 			}
 			else {
-				out << "," << package.places.at(i);
+				out << ", " << package.places.at(i);
 			}
 		}
 	}

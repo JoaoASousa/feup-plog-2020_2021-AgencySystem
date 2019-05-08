@@ -127,7 +127,7 @@ vector <string> stringToStringVector(string fullString) {
 	while ((beg = fullString.find_first_not_of(delims, pos)) != std::string::npos)
 	{
 		pos = fullString.find_first_of(delims, beg + 1);
-		stringsVector.push_back(fullString.substr(beg, pos - beg));
+		stringsVector.push_back(trimString(fullString.substr(beg, pos - beg)));
 	}
 	/*while (ss >> temp) {
 		if (temp == "-" || temp == ",") {
@@ -138,4 +138,19 @@ vector <string> stringToStringVector(string fullString) {
 	}*/
 
 	return stringsVector;
+}
+
+
+
+string trimString(const string &toTrim, const string &whitespace) {
+
+	auto stringBegin = toTrim.find_first_not_of(whitespace);
+	if (stringBegin == string::npos) {
+		return "";
+	}
+
+	auto stringEnd = toTrim.find_last_not_of(whitespace);
+	auto stringRange = stringEnd - stringBegin + 1;
+
+	return toTrim.substr(stringBegin, stringRange);
 }
