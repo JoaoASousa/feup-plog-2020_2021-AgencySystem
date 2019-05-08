@@ -20,10 +20,18 @@ int main(){
 		cout << "Please insert the name of the Agency's File: ";
 		cin >> agencyFileName;
 
-		cin.ignore(1000, '\n');
-		cin.clear();
+		if (agencyFileName == to_string(0)) {
+			return 0;
+		}
 
-		// CONTROL FOR CONTROL + Z  and '0' MISSING
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+		}
+
+		cin.clear();
+		cin.ignore(1000, '\n');
 
 	} while (!validAgencyFile(agencyFileName));
 
