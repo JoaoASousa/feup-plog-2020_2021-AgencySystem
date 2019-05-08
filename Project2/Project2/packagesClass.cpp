@@ -17,8 +17,14 @@ Package::Package() {
 
 }
 
-Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons, unsigned sold) {
-	
+Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPeople, unsigned sold) {
+	setId(id);
+	setPlaces(sites);
+	setBeginDate(begin);
+	setEndDate(end);
+	setPricePer(pricePer);
+	setMaxPeople(maxPeople);
+	setSold(sold);
 }
 
 

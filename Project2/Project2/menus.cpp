@@ -10,7 +10,7 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6 };
 
 
 int mainMenu(Agency agency) {
@@ -94,6 +94,10 @@ int mainMenu(Agency agency) {
 						if (displayDateAndPlace(agency) == 0) {
 							flag = true;
 						}
+					case 6:
+						if (addPackage(agency) == 0) {
+							flag = true;
+						}
 				}
 				
 			} while (flag);
@@ -129,6 +133,7 @@ int packageMenu(Agency agency) {
 		cout << "  3. Display Between Dates" << endl;
 		cout << "  4. Display for Place" << endl;
 		cout << "  5. Display For Dates and Place" << endl;
+		cout << "  6. Add a Package" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -157,6 +162,7 @@ int packageMenu(Agency agency) {
 	return packageOperationSelector;
 
 }
+
 
 void packageDisplayAll(Agency agency) {
 
@@ -244,7 +250,7 @@ int displayBetweenDates(Agency agency) {
 
 		if (cin.fail()) {
 			if (cin.eof()) {
-				return -1;
+				return 0;
 			}
 			cin.clear();
 			cin.ignore(1000, '\n');
@@ -528,6 +534,245 @@ int displayDateAndPlace(Agency agency) {
 			cout << endl;
 		}
 	}
+
+	return -1;
+}
+
+
+int addPackage(Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	string packagesFileName = agency.getPackagesFile();
+
+	string textLine;
+	int lastCreated;
+	ifstream packagesFile(packagesFileName);
+	
+	bool firstLine = true;
+
+	while (getline(packagesFile, textLine)) {
+
+		if (firstLine) {
+			lastCreated = abs(stoi(textLine)); // last package created was already unavailable?
+			firstLine = false;
+			break;
+		}
+	}
+
+	packagesFile.close();
+
+	Package newPackage;
+	
+
+	newPackage.setId(lastCreated + 1);
+
+	string placesString;
+	cout << "Places ([main place] - [other], [other], ...) : ";
+	getline(cin >> ws, placesString);
+
+	if (placesString == to_string(0)) {
+		return 0;
+	}
+
+	if (cin.fail()) {
+		if (cin.eof()) {
+			return 0;
+		}
+		cin.clear();
+		cin.ignore(1000, '\n');
+	}
+
+	newPackage.setPlaces(stringToStringVector(placesString));
+
+
+	Date currentDate;
+
+	bool startDateFailInput, endDateFailInput;
+	Date startDate, endDate;
+	string startDateString, endDateString;
+
+	do {
+		startDateFailInput = false;
+
+		cout << "First Date (YYYY / MM / DD) : ";
+		getline(cin >> ws, startDateString);
+
+		if (startDateString == to_string(0)) {
+			return 0;
+		}
+
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+
+		//Date firstDate(firstDateString);
+		// firstDate.setDay(10);
+		Date startDateS(startDateString);
+		startDate = startDateS;
+
+		if (!checkDate(startDate, currentDate)) {
+			startDateFailInput = true;
+		}
+
+	} while (startDateFailInput);
+
+	newPackage.setBeginDate(startDate);
+
+
+	do {
+		endDateFailInput = false;
+
+		cout << "Second Date (YYYY / MM / DD) : ";
+		getline(cin >> ws, endDateString);
+
+		if (endDateString == to_string(0)) {
+			return 0;
+		}
+
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+
+		// Date secondDate(secondDateString);
+		Date endDateS(endDateString);
+		endDate = endDateS;
+
+		if (!checkDate(endDate, startDate)) {
+			endDateFailInput = true;
+		}
+
+	} while (endDateFailInput);
+
+	newPackage.setEndDate(endDate);
+
+
+
+	bool pricePerInputFail;
+	double pricePer;
+
+	do {
+		pricePerInputFail = false;
+		cout << "Price per person: ";
+		cin >> pricePer;
+
+		if (pricePer == 0) {
+			return 0;
+		}
+		
+		if (pricePer < 0) {
+			pricePerInputFail = true;
+		}
+
+		if (cin.fail()) {
+			if (cin.eof()) {
+				cin.clear();
+				cin.ignore(1000, '\n');
+				return 0;
+			}
+
+			else {
+				cout << "\n(Invalid input)" << endl;
+				pricePerInputFail = true;
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+
+		}
+
+	} while (pricePerInputFail);
+
+	newPackage.setPricePer(pricePer);
+
+
+
+	bool totalInputFail;
+	int maxPeople;
+
+	do {
+		totalInputFail = false;
+		cout << "Max number of people: ";
+		cin >> maxPeople;
+
+		if (maxPeople == 0) {
+			return 0;
+		}
+
+		if (maxPeople < 0) {
+			totalInputFail = true;
+		}
+
+		if (cin.fail()) {
+			cout << "\n(Invalid input)" << endl;
+			totalInputFail = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+	} while (totalInputFail);
+
+	newPackage.setMaxPeople(maxPeople);
+
+
+
+
+	bool soldInputFail;
+	int sold;
+
+	do {
+		soldInputFail = false;
+		cout << "Sold: ";
+		cin >> sold;
+
+		/*if (sold == 0) {
+			return 0;
+		}*/
+
+		if (maxPeople < 0) {
+			soldInputFail = true;
+		}
+
+		if (cin.fail()) {
+			cout << "\nInvalid input)" << endl;
+			soldInputFail = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+	} while (soldInputFail);
+
+	newPackage.setSold(sold);
+
+	packagesInfoVector.push_back(newPackage);
+
+
+	ofstream packagesFileInput(packagesFileName);
+
+	if (packagesFileInput.is_open()) {
+		packagesFileInput << lastCreated + 1 << endl;
+
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+			if (i == 0 && packagesInfoVector.size() > 1) {
+
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+
+			else {
+				packagesFileInput << "::::::::::" << endl;
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+
+		}
+
+		packagesFileInput.close();
+	}
+
 
 	return -1;
 }

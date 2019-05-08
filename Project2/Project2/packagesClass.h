@@ -20,7 +20,7 @@ class Package {
 		unsigned sold;
 
 	public:
-		Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPersons, unsigned sold);
+		Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPeople, unsigned sold);
 		
 		Package();
 
