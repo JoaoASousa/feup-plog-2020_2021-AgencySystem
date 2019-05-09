@@ -793,6 +793,7 @@ int changePackage(Agency agency) {
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	vector <int> possibleChoices;
 	bool invalidPackageInputFlag;
+	int packageSelector;
 
 	do {
 		invalidPackageInputFlag = false;
@@ -813,7 +814,7 @@ int changePackage(Agency agency) {
 			possibleChoices.push_back(abs(packagesInfoVector.at(i).getId()));
 		}
 
-		int packageSelector;
+		
 		cout << "Please insert the corresponding number: ";
 		cin >> packageSelector;
 
@@ -834,15 +835,136 @@ int changePackage(Agency agency) {
 			cout << "Invalid input" << endl;
 		}
 		
-		////////////////////////////////
-		// TO FINISH
-		////////////////////////////////
-
 
 		cout << "\x1B[2J\x1B[H";
 
 	} while (invalidPackageInputFlag);
 
+
+
+
+	int packageToChangePosition;
+
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+		if (abs(packagesInfoVector.at(i).getId()) == packageSelector) {
+			packageToChangePosition = i;
+			break;
+		}
+	}
+
+
+
+	bool invalidChangeSelection;
+	vector<int> changeOptions = { 1, 2, 3, 4, 5, 6 };
+	int changeSelection;
+	// Places, First Date, Second Date, PricePer, Max Number, Sold
+
+	do {
+		invalidChangeSelection = false;
+
+		cout << packagesInfoVector.at(packageToChangePosition) << endl;
+		cout << endl;
+
+		cout << "Change Options" << endl;
+		cout << " 1. Places" << endl;
+		cout << " 2. Begin Date" << endl;
+		cout << " 3. End Date" << endl;
+		cout << " 4. Price per Person" << endl;
+		cout << " 5. Maximum number of people" << endl;
+		cout << " 6. Sold" << endl;
+
+		
+		cout << endl;
+		cout << "Please insert the corresponding number: ";
+		cin >> changeSelection;
+
+		if (changeSelection == 0) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+		if ((cin.fail()) || (count(changeOptions.begin(), changeOptions.end(), changeSelection) == 0)) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+
+			invalidChangeSelection = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidChangeSelection);
+
+	
+	string placeChangesString;
+	bool startDateFailInput;
+	string startDateString;
+	Date currentDate;
+	Date startDate;
+
+	switch (changeSelection) {
+
+		case 1:
+			cout << "Places ([main place] - [other], [other], ...) : ";
+			getline(cin >> ws, placeChangesString);
+
+			if (placeChangesString == to_string(0)) {
+				return 0;
+			}
+
+			if (cin.fail()) {
+				if (cin.eof()) {
+					return 0;
+				}
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+
+			packagesInfoVector.at(packageToChangePosition).setPlaces(stringToStringVector(placeChangesString));
+
+			
+		case 2:
+
+			do {
+				startDateFailInput = false;
+
+				cout << "First Date (YYYY / MM / DD) : ";
+				getline(cin >> ws, startDateString);
+
+				if (startDateString == to_string(0)) {
+					return 0;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						return 0;
+					}
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+
+				//Date firstDate(firstDateString);
+				// firstDate.setDay(10);
+				Date startDateS(startDateString);
+				startDate = startDateS;
+
+				if (!checkDate(startDate, currentDate)) {
+					startDateFailInput = true;
+				}
+
+			} while (startDateFailInput);
+
+			packagesInfoVector.at(packageToChangePosition).setBeginDate(startDate);
+
+
+		// case 3:
+
+	}
 
 
 	return -1;
