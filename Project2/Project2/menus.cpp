@@ -79,6 +79,7 @@ int mainMenu(Agency agency) {
 						switch (packageDisplayOne(agency)) {
 							case 0:
 								flag = true;
+								break; // DOES THIS HELP?
 						}
 					case 3:
 						switch (displayBetweenDates(agency)) {
@@ -739,7 +740,7 @@ int addPackage(Agency agency) {
 			return 0;
 		}*/
 
-		if (maxPeople < 0) {
+		if (sold < 0) {
 			soldInputFail = true;
 		}
 
@@ -902,10 +903,24 @@ int changePackage(Agency agency) {
 
 	
 	string placeChangesString;
+
 	bool startDateFailInput;
 	string startDateString;
 	Date currentDate;
 	Date startDate;
+
+	bool endDateFailInput;
+	string endDateString;
+	Date endDate;
+
+	bool pricePerInputFail;
+	double pricePer;
+
+	bool totalInputFail;
+	int maxPeople;
+
+	bool soldInputFail;
+	int sold;
 
 	switch (changeSelection) {
 
@@ -962,9 +977,146 @@ int changePackage(Agency agency) {
 			packagesInfoVector.at(packageToChangePosition).setBeginDate(startDate);
 
 
-		// case 3:
+		case 3:
 
+			do {
+				endDateFailInput = false;
+
+				cout << "Second Date (YYYY / MM / DD) : ";
+				getline(cin >> ws, endDateString);
+
+				if (endDateString == to_string(0)) {
+					return 0;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						return 0;
+					}
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+
+				// Date secondDate(secondDateString);
+				Date endDateS(endDateString);
+				endDate = endDateS;
+
+				if (!checkDate(endDate, startDate)) {
+					endDateFailInput = true;
+				}
+
+			} while (endDateFailInput);
+			
+			packagesInfoVector.at(packageToChangePosition).setEndDate(endDate);
+
+
+		case 4:
+
+			do {
+				pricePerInputFail = false;
+				cout << "Price per person: ";
+				cin >> pricePer;
+
+				if (pricePer == 0) {
+					return 0;
+				}
+
+				if (pricePer < 0) {
+					pricePerInputFail = true;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						cin.clear();
+						cin.ignore(1000, '\n');
+						return 0;
+					}
+
+					else {
+						cout << "\n(Invalid input)" << endl;
+						pricePerInputFail = true;
+						cin.clear();
+						cin.ignore(1000, '\n');
+					}
+
+				}
+
+			} while (pricePerInputFail);
+
+			packagesInfoVector.at(packageToChangePosition).setPricePer(pricePer);
+
+
+		case 5:
+
+			do {
+				totalInputFail = false;
+				cout << "Max number of people: ";
+				cin >> maxPeople;
+
+				if (maxPeople == 0) {
+					return 0;
+				}
+
+				if (maxPeople < 0) {
+					totalInputFail = true;
+				}
+
+				if (cin.fail()) {
+					cout << "\n(Invalid input)" << endl;
+					totalInputFail = true;
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+			} while (totalInputFail);
+
+			packagesInfoVector.at(packageToChangePosition).setMaxPeople(maxPeople);
+
+		
+		case 6:
+
+			do {
+				soldInputFail = false;
+				cout << "Sold: ";
+				cin >> sold;
+
+				if (sold < 0) {
+					soldInputFail = true;
+				}
+
+				if (cin.fail()) {
+					cout << "\nInvalid input)" << endl;
+					soldInputFail = true;
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+			} while (soldInputFail);
+
+			packagesInfoVector.at(packageToChangePosition).setSold(sold);
 	}
+
+
+	string packagesFileName = agency.getPackagesFile();
+
+	ofstream packagesFileInput("101.txt");
+
+	if (packagesFileInput.is_open()) {
+
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+			if (i == 0 && packagesInfoVector.size() > 1) {
+
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+
+			else {
+				packagesFileInput << "::::::::::" << endl;
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+		}
+
+		packagesFileInput.close();
+	}
+
 
 
 	return -1;
