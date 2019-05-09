@@ -10,7 +10,7 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
 
 int mainMenu(Agency agency) {
@@ -98,6 +98,10 @@ int mainMenu(Agency agency) {
 						if (addPackage(agency) == 0) {
 							flag = true;
 						}
+					case 7:
+						if (changePackage(agency) == 0) {
+							flag = true;
+						}
 				}
 				
 			} while (flag);
@@ -134,6 +138,7 @@ int packageMenu(Agency agency) {
 		cout << "  4. Display for Place" << endl;
 		cout << "  5. Display For Dates and Place" << endl;
 		cout << "  6. Add a Package" << endl;
+		cout << "  7. Change a Package" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -772,6 +777,72 @@ int addPackage(Agency agency) {
 
 		packagesFileInput.close();
 	}
+
+
+	return -1;
+}
+
+
+////////////////////////////////////////
+// IMPLEMENT SAVE CHANGES FUNCIONALITY
+////////////////////////////////////////
+
+
+int changePackage(Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector <int> possibleChoices;
+	bool invalidPackageInputFlag;
+
+	do {
+		invalidPackageInputFlag = false;
+
+		cout << "Package to Change: " << endl;
+
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+			if (abs(packagesInfoVector.at(i).getId()) != packagesInfoVector.at(i).getId()) {
+				cout << "  #" << abs(packagesInfoVector.at(i).getId())
+					<< " " << packagesInfoVector.at(i).getPlaces().at(0)
+					<< "\t\t[Unavailable Package]" << endl;
+			}
+			else {
+				cout << "  #" << abs(packagesInfoVector.at(i).getId())
+					<< " " << packagesInfoVector.at(i).getPlaces().at(0)
+					<< endl;
+			}
+			possibleChoices.push_back(abs(packagesInfoVector.at(i).getId()));
+		}
+
+		int packageSelector;
+		cout << "Please insert the corresponding number: ";
+		cin >> packageSelector;
+
+		if (packageSelector == 0) {
+			return 0;
+		}
+
+		if ((cin.fail()) || (count(possibleChoices.begin(), possibleChoices.end(), packageSelector) == 0)) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+
+			invalidPackageInputFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+		
+		////////////////////////////////
+		// TO FINISH
+		////////////////////////////////
+
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidPackageInputFlag);
+
 
 
 	return -1;

@@ -17,3 +17,5 @@ int displayForPlace(Agency agency);
 int displayDateAndPlace(Agency agency);
 
 int addPackage(Agency agency);
+
+int changePackage(Agency agency);
