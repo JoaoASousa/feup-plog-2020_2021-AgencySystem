@@ -81,28 +81,37 @@ int mainMenu(Agency agency) {
 								flag = true;
 								break;
 						}
+						break;
+
 					case 3:
 						switch (displayBetweenDates(agency)) {
 							case 0:
 								flag = true;
 						}
+						break;
+
 					case 4:
 						if (displayForPlace(agency) == 0) {
 							flag = true;
 						}
 						break;
+
 					case 5:
 						if (displayDateAndPlace(agency) == 0) {
 							flag = true;
 						}
+						break;
 					case 6:
 						if (addPackage(agency) == 0) {
 							flag = true;
 						}
+						break;
+
 					case 7:
 						if (changePackage(agency) == 0) {
 							flag = true;
 						}
+						break;
 				}
 				
 			} while (flag);
@@ -760,18 +769,79 @@ int addPackage(Agency agency) {
 	ofstream packagesFileInput(packagesFileName);
 
 	if (packagesFileInput.is_open()) {
+
 		packagesFileInput << lastCreated + 1 << endl;
 
 		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
 			if (i == 0 && packagesInfoVector.size() > 1) {
 
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+				
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
 
 			else {
 				packagesFileInput << "::::::::::" << endl;
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
 
 		}
@@ -1094,12 +1164,141 @@ int changePackage(Agency agency) {
 			packagesInfoVector.at(packageToChangePosition).setSold(sold);
 	}
 
+	
 
 	string packagesFileName = agency.getPackagesFile();
 
+	string textLine;
+	int lastCreated;
+	ifstream packagesFile(packagesFileName);
+
+	bool firstLine = true;
+
+	while (getline(packagesFile, textLine)) {
+
+		if (firstLine) {
+			lastCreated = abs(stoi(textLine)); // last package created was already unavailable?
+			firstLine = false;
+			break;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////
 	ofstream packagesFileInput(packagesFileName);
 
 	if (packagesFileInput.is_open()) {
+
+		packagesFileInput << lastCreated << endl;
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+			if (i == 0 && packagesInfoVector.size() > 1) {
+
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+
+			else {
+				packagesFileInput << "::::::::::" << endl;
+				packagesFileInput << packagesInfoVector.at(i) << endl;
+			}
+		}
+
+		packagesFileInput.close();
+	}
+	////////////////////////////////////////////////////////////////////////////
+
+
+	return -1;
+}
+
+
+int unavailablePackage(Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector <int> possibleChoices;
+	bool invalidPackageInputFlag;
+	int packageSelector;
+
+	do {
+		invalidPackageInputFlag = false;
+
+		cout << "Package to Change from Available to Unavailable or vice-versa: " << endl;
+
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+			if (abs(packagesInfoVector.at(i).getId()) != packagesInfoVector.at(i).getId()) {
+				cout << "  #" << abs(packagesInfoVector.at(i).getId())
+					<< " " << packagesInfoVector.at(i).getPlaces().at(0)
+					<< "\t\t[Unavailable Package]" << endl;
+			}
+			else {
+				cout << "  #" << abs(packagesInfoVector.at(i).getId())
+					<< " " << packagesInfoVector.at(i).getPlaces().at(0)
+					<< endl;
+			}
+			possibleChoices.push_back(abs(packagesInfoVector.at(i).getId()));
+		}
+
+
+		cout << "Please insert the corresponding number: ";
+		cin >> packageSelector;
+
+		if (packageSelector == 0) {
+			return 0;
+		}
+
+		if ((cin.fail()) || (count(possibleChoices.begin(), possibleChoices.end(), packageSelector) == 0)) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+
+			invalidPackageInputFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+		
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidPackageInputFlag);
+
+
+	int packageToChangePosition;
+
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+		if (abs(packagesInfoVector.at(i).getId()) == packageSelector) {
+			packageToChangePosition = i;
+			break;
+		}
+	}
+
+	packagesInfoVector.at(packageToChangePosition).setId( -packagesInfoVector.at(packageToChangePosition).getId() );
+
+
+
+	string packagesFileName = agency.getPackagesFile();
+
+	string textLine;
+	int lastCreated;
+	ifstream packagesFile(packagesFileName);
+
+	bool firstLine = true;
+
+	while (getline(packagesFile, textLine)) {
+
+		if (firstLine) {
+			lastCreated = abs(stoi(textLine)); // last package created was already unavailable?
+			firstLine = false;
+			break;
+		}
+	}
+
+	////////////////////////////////////////////////////////////////////////////
+	ofstream packagesFileInput("101.txt");
+
+	if (packagesFileInput.is_open()) {
+
+		packagesFileInput << lastCreated << endl;
 
 		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
@@ -1116,8 +1315,6 @@ int changePackage(Agency agency) {
 
 		packagesFileInput.close();
 	}
-
-
-
+	////////////////////////////////////////////////////////////////////////////
 	return -1;
 }
