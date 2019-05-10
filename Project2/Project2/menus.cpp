@@ -10,7 +10,7 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 
 int mainMenu(Agency agency) {
@@ -112,6 +112,12 @@ int mainMenu(Agency agency) {
 							flag = true;
 						}
 						break;
+
+					case 8:
+						if (unavailablePackage(agency) == 0) {
+							flag = true;
+						}
+						break;
 				}
 				
 			} while (flag);
@@ -149,6 +155,7 @@ int packageMenu(Agency agency) {
 		cout << "  5. Display For Dates and Place" << endl;
 		cout << "  6. Add a Package" << endl;
 		cout << "  7. Change a Package" << endl;
+		cout << "  8. Change a Package to Available or Unavailable" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -1183,28 +1190,90 @@ int changePackage(Agency agency) {
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////
+	
 	ofstream packagesFileInput(packagesFileName);
 
 	if (packagesFileInput.is_open()) {
 
 		packagesFileInput << lastCreated << endl;
+
 		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
 			if (i == 0 && packagesInfoVector.size() > 1) {
 
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
 
 			else {
 				packagesFileInput << "::::::::::" << endl;
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
+
 		}
 
 		packagesFileInput.close();
 	}
-	////////////////////////////////////////////////////////////////////////////
+
 
 
 	return -1;
@@ -1293,8 +1362,7 @@ int unavailablePackage(Agency agency) {
 		}
 	}
 
-	////////////////////////////////////////////////////////////////////////////
-	ofstream packagesFileInput("101.txt");
+	ofstream packagesFileInput(packagesFileName);
 
 	if (packagesFileInput.is_open()) {
 
@@ -1304,17 +1372,78 @@ int unavailablePackage(Agency agency) {
 
 			if (i == 0 && packagesInfoVector.size() > 1) {
 
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
 
 			else {
 				packagesFileInput << "::::::::::" << endl;
-				packagesFileInput << packagesInfoVector.at(i) << endl;
+
+				packagesFileInput << packagesInfoVector.at(i).getId() << endl;
+
+				for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+					if (j == 0) {
+						if (packagesInfoVector.at(i).getPlaces().size() > 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j) << " - ";
+
+						}
+						else {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+
+					}
+
+					else {
+						if (j == 1) {
+							packagesFileInput << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+						else {
+							packagesFileInput << ", " << packagesInfoVector.at(i).getPlaces().at(j);
+						}
+					}
+				}
+
+				packagesFileInput << endl;
+				packagesFileInput << packagesInfoVector.at(i).getBeginDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getEndDate() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getPricePer() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getMaxPeople() << endl;
+				packagesFileInput << packagesInfoVector.at(i).getSold() << endl;
 			}
+
 		}
 
 		packagesFileInput.close();
 	}
-	////////////////////////////////////////////////////////////////////////////
+
 	return -1;
 }
