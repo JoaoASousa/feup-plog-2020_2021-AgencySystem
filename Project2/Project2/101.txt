@@ -1,4 +1,3 @@
-4
 Package Number #1
 Places: Madeira - Funchal, Porto Santo
 Begin Date: 2019/8/1
@@ -21,13 +20,4 @@ Begin Date: 2019/9/21
 End Date: 2019/9/22
 Price per Person: 100
 Maximum number of People: 120
-Currently sold: 62
-::::::::::
-Package Number #4
-Places: Espanha - Madrid, Barcelona
-Begin Date: 2020/1/1
-End Date: 2020/1/5
-Price per Person: 100
-Maximum number of People: 10
-Currently sold: 0
-
+Currently sold: 1
