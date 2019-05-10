@@ -79,7 +79,7 @@ int mainMenu(Agency agency) {
 						switch (packageDisplayOne(agency)) {
 							case 0:
 								flag = true;
-								break; // DOES THIS HELP?
+								break;
 						}
 					case 3:
 						switch (displayBetweenDates(agency)) {
@@ -1097,7 +1097,7 @@ int changePackage(Agency agency) {
 
 	string packagesFileName = agency.getPackagesFile();
 
-	ofstream packagesFileInput("101.txt");
+	ofstream packagesFileInput(packagesFileName);
 
 	if (packagesFileInput.is_open()) {
 
