@@ -115,14 +115,14 @@ vector<Package> packagesInfo(string packagesFileName) {
 	return packagesInfo;
 }
 
-vector<Client> clientsInfo(string clientsFileName, Agency agency) {
-
+vector<Client> clientsInfo(Agency agency) {
+	
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	vector<int> clientPackagesIds;
 	vector<Package> clientPackages;
 
 	string textLine;
-	ifstream clientsFile(clientsFileName);
+	ifstream clientsFile(agency.getClientsFile());
 
 	vector<Client> clientsInfo;
 

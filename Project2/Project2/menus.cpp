@@ -10,10 +10,11 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2, 3 };
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 
 int mainMenu(Agency agency) {
+
 
 	bool mainMenuFailFlags;
 	int mainOperationSelector;
@@ -119,15 +120,19 @@ int mainMenu(Agency agency) {
 							flag = true;
 						}
 						break;
+
+					case 9:
+						packageDisplayAllClients(agency);
+						break;
 				}
 				
 			} while (flag);
 			break;
 
 		case 3:
-			for (int i = 0; i < clientsInfo("clients.txt", agency).size(); i++) {
+			for (int i = 0; i < clientsInfo( agency).size(); i++) {
 				cout << endl;
-				cout << clientsInfo("clients.txt", agency).at(i) << endl;
+				cout << clientsInfo(agency).at(i) << endl;
 			}
 			break;
 
@@ -164,6 +169,7 @@ int packageMenu(Agency agency) {
 		cout << "  6. Add a Package" << endl;
 		cout << "  7. Change a Package" << endl;
 		cout << "  8. Change a Package to Available or Unavailable" << endl;
+		cout << "  9. Packages Sold To All Clients" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -1459,6 +1465,32 @@ int unavailablePackage(Agency agency) {
 void packageDisplayAllClients(Agency agency) {
 
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
-	// vector<Client> clientsInfoVector = clientsInfo(agency.getClientsFile());
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	vector<Package> packagesToDisplay;
+	vector<int> alreadyInVector;
+
+	for (int i = 0; i < clientsInfoVector.size(); i++) {
+
+		for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
+
+			for (int k = 0; k < packagesInfoVector.size(); k++) {
+
+				if (clientsInfoVector.at(i).getPackageList().at(j).getId() == packagesInfoVector.at(k).getId()) {
+					
+					if (find(alreadyInVector.begin(), alreadyInVector.end(), packagesInfoVector.at(k).getId()) == alreadyInVector.end()) {
+						alreadyInVector.push_back(packagesInfoVector.at(k).getId());
+						packagesToDisplay.push_back(packagesInfoVector.at(k));
+					}
+					
+				}
+			}
+		}
+	}
+
+	for (int i = 0; i < packagesToDisplay.size(); i++) {
+		cout << packagesToDisplay.at(i) << endl;
+		cout << endl;
+	}
+
 
 }

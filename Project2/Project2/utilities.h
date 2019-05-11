@@ -17,7 +17,7 @@ bool validAgencyFile(string agencyName);
 
 vector<Package> packagesInfo(string packagesFileName);
 
-vector<Client> clientsInfo(string clientsFileName, Agency agency);
+vector<Client> clientsInfo(Agency agency);
 
 int daysOfMonth(int month, int year);
 
