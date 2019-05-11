@@ -2,6 +2,6 @@
 
 #include "agencyClass.h"
 
-int mainMenu(Agency agency);
+int mainMenu(Agency &agency);
 
-int packageMenu(Agency agency);
+int packageMenu(Agency &agency);

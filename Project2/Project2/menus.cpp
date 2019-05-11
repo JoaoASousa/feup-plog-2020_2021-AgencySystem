@@ -15,7 +15,7 @@ vector<int> mainMenuOptions = { 0, 1, 2, 3 };
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 
-int mainMenu(Agency agency) {
+int mainMenu(Agency &agency) {
 
 
 	bool mainMenuFailFlags;
@@ -132,10 +132,13 @@ int mainMenu(Agency agency) {
 			break;
 
 		case 3:
-			for (int i = 0; i < clientsInfo( agency).size(); i++) {
+			if (packageDisplayOneClient(agency) == 0) {
+				return 0;
+			};
+			/*for (int i = 0; i < clientsInfo( agency).size(); i++) {
 				cout << endl;
 				cout << clientsInfo(agency).at(i) << endl;
-			}
+			}*/
 			break;
 
 		default:
@@ -153,7 +156,7 @@ int mainMenu(Agency agency) {
 }
 
 
-int packageMenu(Agency agency) {
+int packageMenu(Agency &agency) {
 
 	bool packageMenuFailFlags;
 	int packageOperationSelector;

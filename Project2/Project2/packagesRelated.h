@@ -23,3 +23,5 @@ int changePackage(Agency &agency);
 int unavailablePackage(Agency &agency);
 
 void packageDisplayAllClients(Agency &agency);
+
+int packageDisplayOneClient(Agency &agency);

@@ -108,7 +108,7 @@ void packageDisplayAll(Agency &agency) {
 int packageDisplayOne(Agency &agency) {
 
 	bool packageSelectorFailFlag = false;
-	vector <int> packageNumbers;
+	vector <int> packageNumbers = { 0 };
 	int packageSelection;
 
 	do {
@@ -131,9 +131,7 @@ int packageDisplayOne(Agency &agency) {
 
 		cout << "\x1B[2J\x1B[H";
 
-		if (packageSelection == 0) {
-			return 0;
-		}
+		
 
 		if ((cin.fail()) || (count(packageNumbers.begin(), packageNumbers.end(), packageSelection) == 0)) {
 
@@ -147,6 +145,10 @@ int packageDisplayOne(Agency &agency) {
 			cin.ignore(1000, '\n');
 
 			cout << "Invalid input" << endl;
+		}
+
+		else if (packageSelection == 0) {
+			return 0;
 		}
 
 		cout << "\x1B[2J\x1B[H";
@@ -1190,7 +1192,6 @@ int unavailablePackage(Agency &agency) {
 }
 
 
-
 void packageDisplayAllClients(Agency &agency) {
 
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
@@ -1210,7 +1211,6 @@ void packageDisplayAllClients(Agency &agency) {
 						alreadyInVector.push_back(packagesInfoVector.at(k).getId());
 						packagesToDisplay.push_back(packagesInfoVector.at(k));
 					}
-
 				}
 			}
 		}
@@ -1221,5 +1221,77 @@ void packageDisplayAllClients(Agency &agency) {
 		cout << endl;
 	}
 
+}
 
+
+int packageDisplayOneClient(Agency &agency) {
+	
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	vector<Package> packagesToDisplay;
+
+	bool clientSelectorFailFlag = false;
+	vector <int> clientNumbers = {-1};
+	int clientSelection;
+
+
+	do {
+		clientSelectorFailFlag = false;
+
+		for (int i = 0; i < clientsInfo(agency).size(); i++) {
+
+			cout << "Client #" << i + 1 << ": "
+				<< clientsInfo(agency).at(i).getName() << endl;
+			clientNumbers.push_back(i);
+		}
+
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> clientSelection;
+
+		cout << "\x1B[2J\x1B[H";
+
+
+		if ((cin.fail()) || (count(clientNumbers.begin(), clientNumbers.end(), clientSelection - 1) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			clientSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (clientSelection == 0) {
+			return 0;
+		}
+		
+
+		cout << "\x1B[2J\x1B[H";
+
+
+	} while (clientSelectorFailFlag);
+
+
+	int realClientIndexInVector = clientSelection - 1;
+
+	for (int i = 0; i < clientsInfoVector.at(realClientIndexInVector).getPackageList().size(); i++) {
+
+		for (int j = 0; j < packagesInfoVector.size(); j++) {
+			if (clientsInfoVector.at(realClientIndexInVector).getPackageList().at(i).getId() == packagesInfoVector.at(j).getId()) {
+				packagesToDisplay.push_back(packagesInfoVector.at(j));
+			}
+		}
+	}
+
+	for (int i = 0; i < packagesToDisplay.size(); i++) {
+		cout << packagesToDisplay.at(i) << endl;
+		cout << endl;
+	}
+
+
+	return -1;
 }
