@@ -1,5 +1,5 @@
-
 #include "utilities.h"
+
 
 using namespace std;
 
@@ -115,6 +115,88 @@ vector<Package> packagesInfo(string packagesFileName) {
 	return packagesInfo;
 }
 
+vector<Client> clientsInfo(string clientsFileName, Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector<int> clientPackagesIds;
+	vector<Package> clientPackages;
+
+	string textLine;
+	ifstream clientsFile(clientsFileName);
+
+	vector<Client> clientsInfo;
+
+	Client client;
+
+	int lineCounter = 0;
+
+	if (clientsFile.is_open()) {
+
+		while (getline(clientsFile, textLine)) {
+			if (textLine.find("::::::::::") != string::npos) {
+				// lineCounter = 0;
+			}
+
+			else {
+
+				switch (lineCounter) {
+					case 0:
+						client.setName(textLine);
+						break;
+
+					case 1:
+						client.setNif(stoi(textLine));
+						break;
+
+					case 2:
+						client.setFamilySize(stoi(textLine));
+						break;
+
+					case 3:
+						client.setAddress(textLine);
+						break;
+
+					case 4:
+						clientPackages = {};
+
+						clientPackagesIds = stringToIntVector(textLine);
+						for (int i = 0; i < packagesInfoVector.size(); i++) {
+							
+							for (int j = 0; j < clientPackagesIds.size(); j++) {
+								if (abs(packagesInfoVector.at(i).getId()) == clientPackagesIds.at(j)) {
+									// cout << '\n' << clientPackagesIds.at(j) << '\n' << endl;
+									clientPackages.push_back(packagesInfoVector.at(i));
+								}
+							}
+							
+						}
+						client.setPackageList(clientPackages);
+						// client.packages = parsePackages(textLine);
+						// packagesString = packageIDsString(client.packages);
+						break;
+					
+					case 5:
+						client.setTotalPurchased(stoi(textLine));
+						break;
+				}
+
+				lineCounter++;
+			}
+
+			if (lineCounter == 6) {
+
+				clientsInfo.push_back(client);
+				lineCounter = 0;
+			}
+
+		}
+
+		clientsFile.close();
+	}
+
+	return clientsInfo;
+}
+
 int daysOfMonth(int month, int year) {
 
 	bool leapYear = false;
@@ -187,6 +269,23 @@ vector <string> stringToStringVector(string fullString) {
 	}*/
 
 	return stringsVector;
+}
+
+vector <int> stringToIntVector(string fullString) {
+
+	string temp;
+	string const delims = { ";" };
+	vector <int> intVector;
+
+	size_t beg, pos = 0;
+	while ((beg = fullString.find_first_not_of(delims, pos)) != std::string::npos){
+		
+		pos = fullString.find_first_of(delims, beg + 1);
+		//cout << '\n' << stoi(fullString.substr(beg, pos - beg)) << '\n' << endl;
+		intVector.push_back(stoi(trimString(fullString.substr(beg, pos - beg))));
+	}
+
+	return intVector;
 }
 
 string trimString(const string &toTrim, const string &whitespace) {

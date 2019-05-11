@@ -21,3 +21,5 @@ int addPackage(Agency agency);
 int changePackage(Agency agency);
 
 int unavailablePackage(Agency agency);
+
+void packageDisplayAllClients(Agency agency);

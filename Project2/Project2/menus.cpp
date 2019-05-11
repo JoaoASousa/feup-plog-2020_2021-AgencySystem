@@ -3,13 +3,13 @@
 #include <cmath>
 
 #include "utilities.h"
-
+#include "clientClass.h"
 #include "menus.h"
 
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> mainMenuOptions = { 0, 1, 2 };
+vector<int> mainMenuOptions = { 0, 1, 2, 3 };
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 
@@ -25,6 +25,7 @@ int mainMenu(Agency agency) {
 
 		cout << "  1. Agency" << endl;
 		cout << "  2. Packages" << endl;
+		cout << "  3. Clients" << endl;
 		cout << "  0. Quit" << endl;
 
 		cout << endl;
@@ -121,6 +122,13 @@ int mainMenu(Agency agency) {
 				}
 				
 			} while (flag);
+			break;
+
+		case 3:
+			for (int i = 0; i < clientsInfo("clients.txt", agency).size(); i++) {
+				cout << endl;
+				cout << clientsInfo("clients.txt", agency).at(i) << endl;
+			}
 			break;
 
 		default:
@@ -862,7 +870,7 @@ int addPackage(Agency agency) {
 
 
 ////////////////////////////////////////
-// IMPLEMENT SAVE CHANGES FUNCIONALITY
+// IMPLEMENT SAVE CHANGES FUNCIONALITY ?
 ////////////////////////////////////////
 
 
@@ -1446,4 +1454,11 @@ int unavailablePackage(Agency agency) {
 	}
 
 	return -1;
+}
+
+void packageDisplayAllClients(Agency agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency.getClientsFile());
+
 }

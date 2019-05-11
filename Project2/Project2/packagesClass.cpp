@@ -11,7 +11,7 @@ using namespace std;
 
 
 // ------------------------------------------------------------------------
-// Constructor
+// Constructors
 
 Package::Package() {
 

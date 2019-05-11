@@ -1,6 +1,7 @@
 #include <fstream>
 #include <vector>
 
+#include "utilities.h"
 #include "agencyClass.h"
 
 
@@ -27,7 +28,7 @@ Agency::Agency(string agencyFileName) {
 		}
 
 
-		setName(agencyInfo.at(0));			// set agency name
+		setName(agencyInfo.at(0));
 		setNif(stoi(agencyInfo.at(1)));
 		setUrl(agencyInfo.at(2));
 		setAddress(agencyInfo.at(3));
@@ -112,11 +113,11 @@ string Agency::getPackagesFile() const {
 
 
 
-ostream& operator<<(ostream& out, const Agency & agency) {
+ostream& operator<<(ostream& out, const Agency &agency) {
 	out << "Agency " << agency.name << '\n'
 		<< "NIF: " << agency.nif << '\n'
 		<< "URL: " << agency.url << '\n'
-		<< "Address: " << agency.getAddress() << '\n'
+		<< "Address: " << agency.agencyAddress << '\n'
 		<< "Client's File Name: " << agency.clientsFileName << '\n'
 		<< "Packages' File Name: " << agency.packagesFileName << '\n';
 

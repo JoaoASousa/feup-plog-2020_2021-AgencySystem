@@ -1,6 +1,7 @@
 #include <sstream>
 #include <vector>
 
+#include "utilities.h"
 #include "address.h"
 
 using namespace std;
@@ -32,11 +33,16 @@ Address::Address(string addressString){
 		stringsVector.push_back(temp);
 	}
 
-	setStreet(stringsVector.at(0).erase(stringsVector.at(0).find_last_not_of(" ") + 1));
+	setStreet(trimString(stringsVector.at(0)));
+	setDoorNumber(stoi(trimString(stringsVector.at(1))));
+	setFloor(trimString(stringsVector.at(2)));
+	setZipCode(trimString(stringsVector.at(3)));
+	setLocation(trimString(stringsVector.at(4)));
+	/*setStreet(stringsVector.at(0).erase(stringsVector.at(0).find_last_not_of(" ") + 1));
 	setDoorNumber(stoi(stringsVector.at(1)));
 	setFloor(stringsVector.at(2));
 	setZipCode(stringsVector.at(3));
-	setLocation(stringsVector.at(4));
+	setLocation(stringsVector.at(4));*/
 	
 }
 
