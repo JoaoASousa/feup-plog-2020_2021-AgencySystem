@@ -39,6 +39,9 @@
     <ClCompile Include="dateClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="packagesRelated.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clientClass.h">
@@ -60,6 +63,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dateClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="packagesRelated.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

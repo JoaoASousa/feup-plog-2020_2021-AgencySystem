@@ -158,6 +158,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="menus.cpp" />
     <ClCompile Include="packagesClass.cpp" />
+    <ClCompile Include="packagesRelated.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,7 @@
     <ClInclude Include="dateClass.h" />
     <ClInclude Include="menus.h" />
     <ClInclude Include="packagesClass.h" />
+    <ClInclude Include="packagesRelated.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
