@@ -21,6 +21,7 @@ multimap<V, K, greater<V>> invertMap(map<K, V> const &mapToInvert) {
 	}
 
 	return invertedMultiMap;
+
 }
 
 // write to packs.txt from a vector
