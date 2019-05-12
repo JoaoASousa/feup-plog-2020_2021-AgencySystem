@@ -4,10 +4,23 @@
 
 #include <utility>
 #include <map>
+#include <set>
+#include <algorithm>
+#include <iomanip>
 
 using namespace std;
 
+template<typename K, typename V>
+multimap<V, K, greater<V>> invertMap(map<K, V> const &mapToInvert) {
 
+	multimap<V, K, greater<V> > invertedMultiMap;
+
+	for (auto const &pair : mapToInvert) {
+		invertedMultiMap.insert(make_pair(pair.second, pair.first));
+	}
+
+	return invertedMultiMap;
+}
 
 void writePackagesFromVector(string &packagesFileName, int &lastCreated, vector<Package> &packagesInfoVector) {
 
@@ -1328,7 +1341,97 @@ void numberValueSoldPackages(Agency &agency) {
 	
 }
 
-void mostVisitedPlaces(Agency &agency) {
+
+int mostVisitedPlaces(Agency &agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+
+	vector<string> allPlaces;
+	// all places from all packages with a value of 0
+	// then go through the packages sold and add to the value of each one of them
+
+	map <string, int> placesFrequency;
 
 
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+		for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+			// cout << packagesInfoVector.at(i).getPlaces().at(j) << endl;
+
+			if (placesFrequency.find(packagesInfoVector.at(i).getPlaces().at(j)) == placesFrequency.end()) {
+				placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] = packagesInfoVector.at(i).getSold();
+
+			}
+
+			else {
+				placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] += packagesInfoVector.at(i).getSold();
+			}
+
+		}
+		// cout << endl;
+	}
+
+	multimap<int, string, greater<int> > descending = invertMap(placesFrequency);
+	cout << descending.size() << endl;
+	bool invalidNumberFlag;
+	int nMostVisited;
+
+	do {
+		invalidNumberFlag = false;
+
+		cout << "N most visited places: ";
+		cin >> nMostVisited;
+
+		if ((cin.fail()) || (nMostVisited > descending.size()) || (nMostVisited < 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			invalidNumberFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (nMostVisited == 0) {
+			return 0;
+		}
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidNumberFlag);
+
+
+	cout << nMostVisited << " most Visited Places" << endl;
+
+	for (auto const &pair : descending) {
+		cout << "Place: " << setw(20) << pair.second << "\tFrequency: " << pair.first << endl;
+		nMostVisited = nMostVisited - 1;
+		if (nMostVisited <= 0) {
+			break;
+		}
+	}
+
+
+	///////////////////////////////////////////////////////////////////////////
+
+	/*multimap <int, string> invertedMap;
+
+	for (auto const &pair : placesFrequency) {
+		invertedMap.insert(make_pair(pair.second, pair.first));
+	}
+
+	for (auto const &pair : invertedMap) {
+		std::cout << '{' << pair.second << "," << pair.first << '}' << '\n';
+	}*/
+
+	///////////////////////////////////////////////////////////////////////////
+
+	/*for (map<string, int>::const_iterator it = placesFrequency.begin(); it != placesFrequency.end(); it++) {
+		cout << endl;
+		cout << "Place: " << it->first << "\tPurchases: " << it->second << endl;
+	}*/
+
+	return -1;
 }

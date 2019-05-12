@@ -132,7 +132,10 @@ int mainMenu(Agency &agency) {
 			break;
 
 		case 3:
-			numberValueSoldPackages(agency);
+			mostVisitedPlaces(agency);
+
+			// numberValueSoldPackages(agency);
+
 			/*if (packageDisplayOneClient(agency) == 0) {
 				return 0;
 			};*/
