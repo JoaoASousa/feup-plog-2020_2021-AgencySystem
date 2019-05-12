@@ -2,9 +2,10 @@
 #include "clientClass.h"
 #include "packagesRelated.h"
 
+#include <utility>
+#include <map>
 
 using namespace std;
-
 
 
 
@@ -93,6 +94,7 @@ void writePackagesFromVector(string &packagesFileName, int &lastCreated, vector<
 		packagesFileInput.close();
 	}
 }
+
 
 void packageDisplayAll(Agency &agency) {
 
@@ -1294,4 +1296,39 @@ int packageDisplayOneClient(Agency &agency) {
 
 
 	return -1;
+}
+
+
+void numberValueSoldPackages(Agency &agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+
+	// map <int, int> idSoldMap;
+
+	map <int, pair<int,int> > idSoldMap;
+	pair<int, int> soldValue;
+
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+		soldValue.first = packagesInfoVector.at(i).getSold();
+		soldValue.second = packagesInfoVector.at(i).getSold() * packagesInfoVector.at(i).getPricePer();
+		idSoldMap[abs(packagesInfoVector.at(i).getId())] = soldValue;
+	}
+
+
+	for (map<int, pair<int, int> >::const_iterator mi = idSoldMap.begin(); mi != idSoldMap.end(); mi++) {
+		cout << endl;
+		cout << "Package Number " << mi->first << " - " << packagesInfoVector.at(mi->first - 1).getPlaces().at(0) << endl;
+		cout << "Sold: " << mi->second.first << "\tValue: " << mi->second.second << endl;
+
+	}
+
+	/*for (map<int, int>::const_iterator mi = idSoldMap.begin(); mi != idSoldMap.end(); mi++) {
+		cout << "Package Number " << mi->first << "\tSold: " << mi->second << endl;
+	}*/
+	
+}
+
+void mostVisitedPlaces(Agency &agency) {
+
+
 }

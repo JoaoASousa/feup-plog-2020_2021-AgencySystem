@@ -25,3 +25,7 @@ int unavailablePackage(Agency &agency);
 void packageDisplayAllClients(Agency &agency);
 
 int packageDisplayOneClient(Agency &agency);
+
+void numberValueSoldPackages(Agency &agency);
+
+void mostVisitedPlaces(Agency &agency);
