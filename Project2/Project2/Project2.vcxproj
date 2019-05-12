@@ -159,6 +159,7 @@
     <ClCompile Include="menus.cpp" />
     <ClCompile Include="packagesClass.cpp" />
     <ClCompile Include="packagesRelated.cpp" />
+    <ClCompile Include="UnusedCode.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
