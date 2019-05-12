@@ -132,9 +132,11 @@ int mainMenu(Agency &agency) {
 			break;
 
 		case 3:
-			if (packageDisplayOneClient(agency) == 0) {
+			numberValueSoldPackages(agency);
+			/*if (packageDisplayOneClient(agency) == 0) {
 				return 0;
-			};
+			};*/
+
 			/*for (int i = 0; i < clientsInfo( agency).size(); i++) {
 				cout << endl;
 				cout << clientsInfo(agency).at(i) << endl;
