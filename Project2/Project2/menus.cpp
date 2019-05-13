@@ -43,6 +43,7 @@ int mainMenu(Agency &agency) {
 				return -1;
 			}
 
+
 			mainMenuFailFlags = true;
 			cin.clear();
 			cin.ignore(1000, '\n');
