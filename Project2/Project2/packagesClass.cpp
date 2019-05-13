@@ -14,7 +14,7 @@ using namespace std;
 // Constructors
 
 Package::Package() {
-
+	
 }
 
 Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPeople, unsigned sold) {

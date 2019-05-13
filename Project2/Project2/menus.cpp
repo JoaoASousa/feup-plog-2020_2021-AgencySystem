@@ -138,7 +138,7 @@ int mainMenu(Agency &agency) {
 				cout << "HII" << endl;
 				switch (clientMenu(agency)) {
 					clientFlag = false;
-
+					
 					case 0:
 						if (mainMenu(agency) == 0) {
 							return 0;
