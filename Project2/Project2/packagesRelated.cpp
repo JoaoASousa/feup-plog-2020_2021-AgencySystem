@@ -24,6 +24,7 @@ multimap<V, K, greater<V>> invertMap(map<K, V> const &mapToInvert) {
 
 }
 
+
 // write to packs.txt from a vector
 void writePackagesFromVector(string &packagesFileName, int &lastCreated, vector<Package> &packagesInfoVector) {
 
@@ -111,6 +112,7 @@ void writePackagesFromVector(string &packagesFileName, int &lastCreated, vector<
 	}
 }
 
+
 // outputs to the terminal the information of all packages
 void packageDisplayAll(Agency &agency) {
 
@@ -174,7 +176,7 @@ int packageDisplayOne(Agency &agency) {
 
 	} while (packageSelectorFailFlag);
 
-	// output to the terminal the selected packages
+	// output to the terminal the selected package
 	cout << packagesInfo(agency.getPackagesFile()).at(packageSelection - 1) << endl;
 
 	return -1;
@@ -506,7 +508,7 @@ int addPackage(Agency &agency) {
 	while (getline(packagesFile, textLine)) {
 
 		if (firstLine) {
-			lastCreated = abs(stoi(textLine));		// last package created was already unavailable?
+			lastCreated = abs(stoi(textLine));
 			firstLine = false;
 			break;
 		}

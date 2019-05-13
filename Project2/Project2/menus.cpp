@@ -12,9 +12,9 @@
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> mainMenuOptions = { 0, 1, 2, 3 };
+vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-vector<int> clientMenuOptions = { 0, 1 };
+vector<int> clientMenuOptions = { 0, 1, 2, 3 };
 
 int mainMenu(Agency &agency) {
 
@@ -136,7 +136,7 @@ int mainMenu(Agency &agency) {
 		case 3:
 
 			do {
-				cout << "HII" << endl;
+
 				switch (clientMenu(agency)) {
 					clientFlag = false;
 					
@@ -148,12 +148,28 @@ int mainMenu(Agency &agency) {
 					case 1:
 						clientDisplayAll(agency);
 						break;
+
+					case 2:
+						if (displayOneClient(agency) == 0) {
+							clientFlag = true;
+						}
+						break;
+
+					case 3:
+						if (addClient(agency) == 0) {
+							clientFlag = true;
+						}
+						break;
+						
 				}
 
 			} while (clientFlag);
 			break;
 
-			// mostVisitedPlaces(agency);
+
+			/*if (mostVisitedPlaces(agency) == 0) {
+				return 0;
+			}*/
 
 			// numberValueSoldPackages(agency);
 
@@ -243,6 +259,7 @@ int clientMenu(Agency &agency) {
 
 		cout << "  1. Display All Clients" << endl;
 		cout << "  2. Display a Client of Choice" << endl;
+		cout << "  3. Add a Client" << endl;
 
 		cout << endl;
 
