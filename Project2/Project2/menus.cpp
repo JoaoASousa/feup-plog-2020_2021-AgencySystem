@@ -7,13 +7,14 @@
 #include "utilities.h"
 #include "clientClass.h"
 #include "menus.h"
+#include "clientRelated.h"
 
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2, 3 };
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-
+vector<int> clientMenuOptions = { 0, 1 };
 
 int mainMenu(Agency &agency) {
 
@@ -39,7 +40,6 @@ int mainMenu(Agency &agency) {
 		if ((cin.fail()) || (count(mainMenuOptions.begin(), mainMenuOptions.end(), mainOperationSelector) == 0)) {
 
 			if (cin.eof()) {
-				// cout << "\nStopping the program . . ." << endl;
 				return -1;
 			}
 
@@ -57,7 +57,8 @@ int mainMenu(Agency &agency) {
 	
 	int goBack = -1;
 
-	bool flag = false;
+	bool packageFlag = false;
+	bool clientFlag = false;
 
 	switch (mainOperationSelector) {
 
@@ -69,7 +70,7 @@ int mainMenu(Agency &agency) {
 			// goBack = packageMenu(agency);
 			do {
 				switch (packageMenu(agency)) {
-					flag = false;
+					packageFlag = false;
 					case 0:
 						if (mainMenu(agency) == 0) {
 							return 0;
@@ -82,7 +83,7 @@ int mainMenu(Agency &agency) {
 					case 2:
 						switch (packageDisplayOne(agency)) {
 							case 0:
-								flag = true;
+								packageFlag = true;
 								break;
 						}
 						break;
@@ -90,36 +91,36 @@ int mainMenu(Agency &agency) {
 					case 3:
 						switch (displayBetweenDates(agency)) {
 							case 0:
-								flag = true;
+								packageFlag = true;
 						}
 						break;
 
 					case 4:
 						if (displayForPlace(agency) == 0) {
-							flag = true;
+							packageFlag = true;
 						}
 						break;
 
 					case 5:
 						if (displayDateAndPlace(agency) == 0) {
-							flag = true;
+							packageFlag = true;
 						}
 						break;
 					case 6:
 						if (addPackage(agency) == 0) {
-							flag = true;
+							packageFlag = true;
 						}
 						break;
 
 					case 7:
 						if (changePackage(agency) == 0) {
-							flag = true;
+							packageFlag = true;
 						}
 						break;
 
 					case 8:
 						if (unavailablePackage(agency) == 0) {
-							flag = true;
+							packageFlag = true;
 						}
 						break;
 
@@ -128,11 +129,30 @@ int mainMenu(Agency &agency) {
 						break;
 				}
 				
-			} while (flag);
+			} while (packageFlag);
 			break;
 
 		case 3:
-			mostVisitedPlaces(agency);
+
+			do {
+				cout << "HII" << endl;
+				switch (clientMenu(agency)) {
+					clientFlag = false;
+
+					case 0:
+						if (mainMenu(agency) == 0) {
+							return 0;
+						}
+
+					case 1:
+						clientDisplayAll(agency);
+						break;
+				}
+
+			} while (clientFlag);
+			break;
+
+			// mostVisitedPlaces(agency);
 
 			// numberValueSoldPackages(agency);
 
@@ -144,7 +164,7 @@ int mainMenu(Agency &agency) {
 				cout << endl;
 				cout << clientsInfo(agency).at(i) << endl;
 			}*/
-			break;
+
 
 		default:
 			break;
@@ -207,4 +227,45 @@ int packageMenu(Agency &agency) {
 
 	return packageOperationSelector;
 
+}
+
+
+int clientMenu(Agency &agency) {
+
+	bool clientMenuFailFlag;
+	int clientOperationSelector;
+
+	do {
+		clientMenuFailFlag = false;
+
+		cout << "\nClient Menu\n" << endl;
+
+		cout << "  1. Display All Clients" << endl;
+		cout << "  2. Display a Client of Choice" << endl;
+
+		cout << endl;
+
+		cout << "Please insert the corresponding number: ";
+		cin >> clientOperationSelector;
+		
+		if ((cin.fail()) || (count(clientMenuOptions.begin(), clientMenuOptions.end(), clientOperationSelector) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return -1;
+			}
+
+			clientMenuFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (clientMenuFailFlag);
+
+	
+	return clientOperationSelector;
 }

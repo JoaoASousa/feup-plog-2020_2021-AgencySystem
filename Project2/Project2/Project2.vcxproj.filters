@@ -45,6 +45,9 @@
     <ClCompile Include="UnusedCode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="clientRelated.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clientClass.h">
@@ -69,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="packagesRelated.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="clientRelated.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
