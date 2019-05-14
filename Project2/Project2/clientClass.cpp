@@ -90,7 +90,7 @@ ostream &operator<<(ostream& out, const Client &client) {
 	out << "Family Size: " << client.familySize << endl;
 	out << "Address: " << client.clientAddress << endl;
 	
-	out << "Packages Bought: ";
+	out << "Packages Bought (IDs): ";
 	for (int i = 0; i < client.packages.size(); i++) {
 		if (i == 0) {
 			

@@ -7,10 +7,12 @@
 
 void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfoVector);
 
-void clientDisplayAll(Agency &agency);
+int clientDisplayAll(Agency &agency);
 
 int displayOneClient(Agency &agency);
 
 int addClient(Agency &agency);
 
 int removeClient(Agency &agency);
+
+int buyPackage(Agency &agency);

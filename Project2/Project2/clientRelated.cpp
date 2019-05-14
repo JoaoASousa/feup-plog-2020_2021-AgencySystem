@@ -1,4 +1,5 @@
 #include "clientRelated.h"
+#include "packagesRelated.h"
 #include <iostream>
 
 using namespace std;
@@ -45,17 +46,21 @@ void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfo
 	}
 }
 
-void clientDisplayAll(Agency &agency) {
+int clientDisplayAll(Agency &agency) {
 
-	for (int i = 0; i < clientsInfo(agency).size(); i++) {
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+
+	for (int i = 0; i < clientsInfoVector.size(); i++) {
 
 		cout << endl;
-		cout << clientsInfo(agency).at(i) << endl;
+		cout << clientsInfoVector.at(i) << endl;
 	}
-
+	return -1;
 }
 
 int displayOneClient(Agency &agency) {
+
+	vector<Client> clientsInfoVector = clientsInfo(agency);
 
 	bool clientSelectorFailFlag = false;
 	vector <int> clientsNumbers = { 0 };
@@ -65,10 +70,10 @@ int displayOneClient(Agency &agency) {
 	do {
 
 		clientSelectorFailFlag = false;
-		for (int i = 0; i < clientsInfo(agency).size(); i++) {
+		for (int i = 0; i < clientsInfoVector.size(); i++) {
 
 			cout << "Client #" << i + 1 << " ("
-				<< clientsInfo(agency).at(i).getName() << ")";
+				<< clientsInfoVector.at(i).getName() << ")";
 
 			clientsNumbers.push_back(i + 1);
 
@@ -103,7 +108,7 @@ int displayOneClient(Agency &agency) {
 	} while (clientSelectorFailFlag);
 
 	// output to the terminal the selected client
-	cout << clientsInfo(agency).at(clientSelection - 1) << endl;
+	cout << clientsInfoVector.at(clientSelection - 1) << endl;
 
 	return -1;
 
@@ -360,4 +365,162 @@ int removeClient(Agency &agency) {
 
 	return -1;
 
+}
+
+int buyPackage(Agency &agency) {
+
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	string clientsFileName = agency.getClientsFile();
+	string packagesFileName = agency.getPackagesFile();
+
+	bool clientSelectorFailFlag = false;
+	vector <int> clientsNumbers = { 0 };
+	int clientSelection;
+
+	// Input control for the client choice
+	do {
+
+		clientSelectorFailFlag = false;
+		for (int i = 0; i < clientsInfoVector.size(); i++) {
+
+			cout << "Client #" << i + 1 << " ("
+				<< clientsInfoVector.at(i).getName() << ")";
+
+			clientsNumbers.push_back(i + 1);
+
+			cout << endl;
+		}
+
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> clientSelection;
+
+		cout << "\x1B[2J\x1B[H";
+
+		if ((cin.fail()) || (count(clientsNumbers.begin(), clientsNumbers.end(), clientSelection) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			clientSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (clientSelection == 0) {
+			return 0;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (clientSelectorFailFlag);
+
+
+
+	bool packageSelectorFailFlag = false;
+	bool unavailablePackage = false;
+	vector <int> packageNumbers = { 0 };
+	int packageSelection;
+	int newTotalSold;
+
+	// Input control for the package choice
+	do {
+		packageSelectorFailFlag = false;
+
+		for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+
+			cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
+				<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
+
+			packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+
+			if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
+				cout << "\t[Unavailable Package]";
+			}
+			cout << endl;
+		}
+
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> packageSelection;
+
+		cout << "\x1B[2J\x1B[H";
+
+		if ((cin.fail()) || (count(packageNumbers.begin(), packageNumbers.end(), packageSelection) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			packageSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (packageSelection == 0) {
+			return 0;
+		}
+
+		// unavailable package
+		else if (packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getId() < 0) {
+			packageSelectorFailFlag = true;
+		}
+
+		// if the limit of people is surpassed
+		newTotalSold = packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getSold() +
+			clientsInfoVector.at(clientSelection - 1).getFamilySize();
+
+		if (newTotalSold > packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getMaxPeople()) {
+			packageSelectorFailFlag = true;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (packageSelectorFailFlag);
+
+	cout << "Package Purchase Successful" << endl;
+	
+	vector<Package> newPackageList;
+	newPackageList = clientsInfoVector.at(clientSelection - 1).getPackageList();
+	newPackageList.push_back(packagesInfo(agency.getPackagesFile()).at(packageSelection - 1));
+	
+	int newTotalPurchased;
+	newTotalPurchased = clientsInfoVector.at(clientSelection - 1).getTotalPurchased();
+	newTotalPurchased += packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getPricePer()
+		* clientsInfoVector.at(clientSelection - 1).getFamilySize();
+
+
+	
+	clientsInfoVector.at(clientSelection - 1).setTotalPurchased(newTotalPurchased);
+	clientsInfoVector.at(clientSelection - 1).setPackageList(newPackageList);
+	// cout << "new total sold " << newTotalSold << endl;
+	packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
+	// packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).setSold(newTotalSold);
+
+
+	string textLine;
+	int lastCreated;
+	ifstream packagesFile(packagesFileName);
+
+	bool firstLine = true;
+
+	while (getline(packagesFile, textLine)) {
+
+		if (firstLine) {
+			lastCreated = abs(stoi(textLine));
+			firstLine = false;
+			break;
+		}
+	}
+
+	writeClientsFromVector(clientsFileName, clientsInfoVector);
+	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+
+	return -1;
 }
