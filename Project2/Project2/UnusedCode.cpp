@@ -148,3 +148,14 @@
 // firstDate.setDay(10);
 
 // Date secondDate(secondDateString);
+
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// from menus.cpp
+
+			/*for (int i = 0; i < clientsInfo( agency).size(); i++) {
+				cout << endl;
+				cout << clientsInfo(agency).at(i) << endl;
+			}*/

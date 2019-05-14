@@ -302,3 +302,62 @@ int addClient(Agency &agency) {
 
 	return -1;
 }
+
+int removeClient(Agency &agency) {
+
+	bool clientSelectorFailFlag = false;
+	vector <int> clientsNumbers = { 0 };
+	int clientSelection;
+
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	string clientsFileName = agency.getClientsFile();
+
+	// Input control for the client choice
+	do {
+
+		clientSelectorFailFlag = false;
+		for (int i = 0; i < clientsInfoVector.size(); i++) {
+
+			cout << "Client #" << i + 1 << " ("
+				<< clientsInfoVector.at(i).getName() << ")";
+
+			clientsNumbers.push_back(i + 1);
+
+			cout << endl;
+		}
+
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> clientSelection;
+
+		cout << "\x1B[2J\x1B[H";
+
+		if ((cin.fail()) || (count(clientsNumbers.begin(), clientsNumbers.end(), clientSelection) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			clientSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (clientSelection == 0) {
+			return 0;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (clientSelectorFailFlag);
+
+
+	clientsInfoVector.erase(clientsInfoVector.begin() + clientSelection - 1);
+
+	writeClientsFromVector(clientsFileName, clientsInfoVector);
+
+	return -1;
+
+}

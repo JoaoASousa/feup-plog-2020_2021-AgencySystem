@@ -12,9 +12,9 @@
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-vector<int> clientMenuOptions = { 0, 1, 2, 3 };
+vector<int> mainMenuOptions = { 0, 1, 2, 3};
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+vector<int> clientMenuOptions = { 0, 1, 2, 3, 4 };
 
 int mainMenu(Agency &agency) {
 
@@ -70,6 +70,7 @@ int mainMenu(Agency &agency) {
 		case 2:
 			// goBack = packageMenu(agency);
 			do {
+
 				switch (packageMenu(agency)) {
 					packageFlag = false;
 					case 0:
@@ -128,6 +129,12 @@ int mainMenu(Agency &agency) {
 					case 9:
 						packageDisplayAllClients(agency);
 						break;
+
+					case 10:
+						if (packageDisplayOneClient(agency) == 0) {
+							return 0;
+						}
+						break;
 				}
 				
 			} while (packageFlag);
@@ -143,7 +150,8 @@ int mainMenu(Agency &agency) {
 					case 0:
 						if (mainMenu(agency) == 0) {
 							return 0;
-						}
+						};
+						break;
 
 					case 1:
 						clientDisplayAll(agency);
@@ -160,6 +168,12 @@ int mainMenu(Agency &agency) {
 							clientFlag = true;
 						}
 						break;
+					
+					case 4:
+						if (removeClient(agency) == 0) {
+							clientFlag = true;
+						}
+						break;
 						
 				}
 
@@ -173,14 +187,8 @@ int mainMenu(Agency &agency) {
 
 			// numberValueSoldPackages(agency);
 
-			/*if (packageDisplayOneClient(agency) == 0) {
-				return 0;
-			};*/
+			
 
-			/*for (int i = 0; i < clientsInfo( agency).size(); i++) {
-				cout << endl;
-				cout << clientsInfo(agency).at(i) << endl;
-			}*/
 
 
 		default:
@@ -217,6 +225,7 @@ int packageMenu(Agency &agency) {
 		cout << "  7. Change a Package" << endl;
 		cout << "  8. Change a Package to Available or Unavailable" << endl;
 		cout << "  9. Packages Sold To All Clients" << endl;
+		cout << " 10. Packages Sold to a Client" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -255,11 +264,14 @@ int clientMenu(Agency &agency) {
 	do {
 		clientMenuFailFlag = false;
 
+		cout << "\x1B[2J\x1B[H";
+
 		cout << "\nClient Menu\n" << endl;
 
 		cout << "  1. Display All Clients" << endl;
 		cout << "  2. Display a Client of Choice" << endl;
 		cout << "  3. Add a Client" << endl;
+		cout << "  4. Delete a Client" << endl;
 
 		cout << endl;
 

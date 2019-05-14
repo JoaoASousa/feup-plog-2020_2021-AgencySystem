@@ -12,3 +12,5 @@ void clientDisplayAll(Agency &agency);
 int displayOneClient(Agency &agency);
 
 int addClient(Agency &agency);
+
+int removeClient(Agency &agency);
