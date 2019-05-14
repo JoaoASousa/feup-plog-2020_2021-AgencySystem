@@ -1286,13 +1286,23 @@ int mostVisitedPlaces(Agency &agency) {
 
 		for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
 
-			if (placesFrequency.find(packagesInfoVector.at(i).getPlaces().at(j)) == placesFrequency.end()) {
-				placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] = packagesInfoVector.at(i).getSold();
+			if (packagesInfoVector.at(i).getPlaces().size() > 1 && j == 0) {
+				continue;
 			}
 
-			else {
-				placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] += packagesInfoVector.at(i).getSold();
+			else{
+
+				if (placesFrequency.find(packagesInfoVector.at(i).getPlaces().at(j)) == placesFrequency.end()) {
+					placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] = packagesInfoVector.at(i).getSold();
+				}
+
+				else {
+					placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] += packagesInfoVector.at(i).getSold();
+				}
 			}
+
+			
+
 		}
 	}
 
