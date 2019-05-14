@@ -524,3 +524,310 @@ int buyPackage(Agency &agency) {
 
 	return -1;
 }
+
+int changeClient(Agency &agency) {
+
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	string clientsFileName = agency.getClientsFile();
+	string packagesFileName = agency.getPackagesFile();
+
+
+	bool clientSelectorFailFlag = false;
+	vector <int> clientsNumbers = { 0 };
+	int clientSelection;
+
+	// Input control for the client choice
+	do {
+
+		clientSelectorFailFlag = false;
+		for (int i = 0; i < clientsInfoVector.size(); i++) {
+
+			cout << "Client #" << i + 1 << " ("
+				<< clientsInfoVector.at(i).getName() << ")";
+
+			clientsNumbers.push_back(i + 1);
+
+			cout << endl;
+		}
+
+		cout << "\nPlease insert the corresponding number: ";
+		cin >> clientSelection;
+
+		cout << "\x1B[2J\x1B[H";
+
+		if ((cin.fail()) || (count(clientsNumbers.begin(), clientsNumbers.end(), clientSelection) == 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			clientSelectorFailFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (clientSelection == 0) {
+			return 0;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (clientSelectorFailFlag);
+
+
+
+	bool invalidChangeSelection = false;
+	vector<int> changeOptions = {1, 2, 3, 4, 5 };
+	int changeSelection;
+
+	// Input control for the change selection
+	do {
+		invalidChangeSelection = false;
+
+		cout << clientsInfoVector.at(clientSelection - 1) << endl;
+		cout << endl;
+
+		cout << "Change Options" << endl;
+		cout << " 1. Name" << endl;
+		cout << " 2. NIF" << endl;
+		cout << " 3. Family Size" << endl;
+		cout << " 4. Address" << endl;
+		cout << " 5. Packages Bought (IDs)" << endl;
+		
+
+		cout << endl;
+		cout << "Please insert the corresponding number: ";
+		cin >> changeSelection;
+
+		if (changeSelection == 0) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
+
+		if ((cin.fail()) || (count(changeOptions.begin(), changeOptions.end(), changeSelection) == 0)) {
+
+			if (cin.eof()) {
+				return 0;
+			}
+
+			invalidChangeSelection = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidChangeSelection);
+
+
+
+	string nameString;
+
+	bool nifInputFail;
+	int nif;
+
+	bool familySizeInputFail;
+	int familySize;
+
+	bool addressInputFail;
+	string clientAddressString;
+	bool changedAddress = false;
+	
+	bool packageListInputFail;
+	string packageListString;
+	vector<int> clientPackagesIds;
+	vector<Package> clientPackages;
+	int packageCounter;
+	int totalPurchases;
+
+
+	switch (changeSelection) {
+		
+		case 1:
+			cout << "Name: ";
+			getline(cin >> ws, nameString);
+			// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
+
+			if (nameString == to_string(0)) {
+				return 0;
+			}
+
+			if (cin.fail()) {
+				if (cin.eof()) {
+					return 0;
+				}
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+
+			clientsInfoVector.at(clientSelection - 1).setName(nameString);
+			break;
+
+
+		case 2:
+			do {
+				nifInputFail = false;
+
+				cout << "NIF: ";
+				cin >> nif;
+
+				if (nif < 100000000 || nif > 999999999) {
+					nifInputFail = true;
+				}
+
+				if (nif == 0) {
+					return 0;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						cin.clear();
+						cin.ignore(1000, '\n');
+						return 0;
+					}
+					else {
+						cout << "Invalid input" << endl;
+						nifInputFail = true;
+						cin.clear();
+						cin.ignore(1000, '\n');
+					}
+				}
+			} while (nifInputFail);
+
+			clientsInfoVector.at(clientSelection - 1).setNif(nif);
+			break;
+
+
+		case 3:
+			do {
+				familySizeInputFail = false;
+
+				cout << "Family Size: ";
+				cin >> familySize;
+
+				if (familySize == 0) {
+					return 0;
+				}
+
+				if (familySize < 0) {
+					familySizeInputFail = true;
+				}
+
+				if (cin.fail()) {
+					cout << "\n(Invalid input)" << endl;
+					familySizeInputFail = true;
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+
+			} while (familySizeInputFail);
+
+			clientsInfoVector.at(clientSelection - 1).setFamilySize(familySize);
+			break;
+
+
+		case 4:
+			do {
+				addressInputFail = false;
+				changedAddress = true;
+
+				cout << "Address ([Street] / [Door number] / [Floor, '-' if not applicable] / [Zip Code] / [Place]) : ";
+				getline(cin >> ws, clientAddressString);
+
+				if (clientAddressString == to_string(0)) {
+					return 0;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						return 0;
+					}
+
+					addressInputFail = true;
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+
+			} while (addressInputFail);
+
+			// function to do what's bellow in the "if" statement so it can loop while the input
+			// produces an exception ?
+			break;
+
+
+		case 5:
+			do {
+				packageListInputFail = false;
+				packageCounter = 0;
+				clientPackages = {};
+
+				cout << "Packages bought ([id] ; [id] ... ) : ";
+				cin >> packageListString;
+
+				if (packageListString == to_string(0)) {
+					return 0;
+				}
+
+				if (cin.fail()) {
+					if (cin.eof()) {
+						return 0;
+					}
+					packageListInputFail = true;
+					cin.clear();
+					cin.ignore(1000, '\n');
+				}
+
+				clientPackagesIds = stringToIntVector(packageListString);
+
+				for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+					for (int j = 0; j < clientPackagesIds.size(); j++) {
+						if (abs(packagesInfoVector.at(i).getId()) == clientPackagesIds.at(j)) {
+							packageCounter++;
+							clientPackages.push_back(packagesInfoVector.at(i));
+						}
+					}
+
+				}
+
+				if (packageCounter != clientPackagesIds.size()) {
+					packageListInputFail = true;
+				}
+
+
+
+			} while (packageListInputFail);
+
+			clientsInfoVector.at(clientSelection - 1).setPackageList(clientPackages);
+
+			totalPurchases = 0;
+
+			for (int i = 0; i < clientPackages.size(); i++) {
+				totalPurchases += clientPackages.at(i).getPricePer() * clientsInfoVector.at(clientSelection - 1).getFamilySize();
+			}
+
+			if (totalPurchases < 0) {
+				cout << "Invalid Package Price" << endl;
+				return 0;
+			}
+			break;
+
+	}
+
+	if (changedAddress) {
+		changedAddress = false;
+		Address clientAddress(clientAddressString);
+		clientsInfoVector.at(clientSelection - 1).setAddress(clientAddress);
+	}
+	
+	writeClientsFromVector(clientsFileName, clientsInfoVector);
+
+
+	return -1;
+}

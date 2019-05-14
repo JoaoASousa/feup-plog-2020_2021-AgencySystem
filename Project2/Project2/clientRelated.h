@@ -16,3 +16,5 @@ int addClient(Agency &agency);
 int removeClient(Agency &agency);
 
 int buyPackage(Agency &agency);
+
+int changeClient(Agency &agency);

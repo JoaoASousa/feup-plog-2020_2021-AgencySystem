@@ -14,7 +14,7 @@ using namespace std;
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5 };
+vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6 };
 
 int mainMenu(Agency &agency) {
 
@@ -182,6 +182,12 @@ int mainMenu(Agency &agency) {
 							clientFlag = true;
 						}
 						break;
+
+					case 6:
+						if (changeClient(agency) == 0) {
+							clientFlag = true;
+						}
+						break;
 						
 				}
 
@@ -284,6 +290,7 @@ int clientMenu(Agency &agency) {
 		cout << "  3. Add a Client" << endl;
 		cout << "  4. Delete a Client" << endl;
 		cout << "  5. Buy a Package" << endl;
+		cout << "  6. Change a Client" << endl;
 
 		cout << endl;
 
