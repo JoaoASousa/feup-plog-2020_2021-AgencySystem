@@ -12,7 +12,7 @@
 using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> mainMenuOptions = { 0, 1, 2, 3};
+vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 vector<int> clientMenuOptions = { 0, 1, 2, 3, 4 };
 
@@ -143,7 +143,7 @@ int mainMenu(Agency &agency) {
 		case 3:
 
 			do {
-
+				clientFlag = false;
 				switch (clientMenu(agency)) {
 					clientFlag = false;
 					
@@ -154,7 +154,9 @@ int mainMenu(Agency &agency) {
 						break;
 
 					case 1:
-						clientDisplayAll(agency);
+						if (clientDisplayAll(agency) == 0) {
+							return 0;
+						}
 						break;
 
 					case 2:
@@ -188,7 +190,10 @@ int mainMenu(Agency &agency) {
 			// numberValueSoldPackages(agency);
 
 			
-
+		case 4:
+			if (mostVisitedPlaces(agency) == 0) {
+				return 0;
+			}
 
 
 		default:
