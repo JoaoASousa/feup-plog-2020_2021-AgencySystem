@@ -1268,7 +1268,7 @@ void numberValueSoldPackages(Agency &agency) {
 	for (map<int, pair<int, int> >::const_iterator mi = idSoldMap.begin(); mi != idSoldMap.end(); mi++) {
 		cout << endl;
 		cout << "Package Number " << mi->first << " - " << packagesInfoVector.at(mi->first - 1).getPlaces().at(0) << endl;
-		cout << "Sold: " << mi->second.first << "\tValue: " << mi->second.second << endl;
+		cout << "Sold: " << setw(6) << mi->second.first << "\tValue: " << mi->second.second << endl;
 	}
 
 }
@@ -1301,7 +1301,6 @@ int mostVisitedPlaces(Agency &agency) {
 				}
 			}
 
-			
 
 		}
 	}
@@ -1351,6 +1350,108 @@ int mostVisitedPlaces(Agency &agency) {
 			break;
 		}
 	}
+
+	return -1;
+}
+
+
+int packageSugestion(Agency &agency) {
+
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+
+	map <string, int> placesFrequency;
+	
+	// map placesFrequency 
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+		for (int j = 0; j < packagesInfoVector.at(i).getPlaces().size(); j++) {
+
+			if (packagesInfoVector.at(i).getPlaces().size() > 1 && j == 0) {
+				continue;
+			}
+
+			else {
+
+				if (placesFrequency.find(packagesInfoVector.at(i).getPlaces().at(j)) == placesFrequency.end()) {
+					placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] = packagesInfoVector.at(i).getSold();
+				}
+
+				else {
+					placesFrequency[packagesInfoVector.at(i).getPlaces().at(j)] += packagesInfoVector.at(i).getSold();
+				}
+			}
+
+
+
+		}
+	}
+	
+	// inverts the map to a multimap
+	multimap<int, string, greater<int> > descending = invertMap(placesFrequency);
+
+	bool invalidNumberFlag;
+	int nMostVisited;
+
+	// Input control for the number of places to display
+	do {
+		invalidNumberFlag = false;
+
+		cout << "N most visited places: ";
+		cin >> nMostVisited;
+
+		if ((cin.fail()) || (nMostVisited > descending.size()) || (nMostVisited < 0)) {
+
+			if (cin.eof()) {
+				cout << "\nStopping the program . . ." << endl;
+				return 0;
+			}
+
+			invalidNumberFlag = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+
+			cout << "Invalid input" << endl;
+		}
+
+		else if (nMostVisited == 0) {
+			return 0;
+		}
+		cout << "\x1B[2J\x1B[H";
+
+	} while (invalidNumberFlag);
+
+	
+	vector< vector<string> > clientsPlacesVisited;
+	vector<string> oneClientPlacesVisited;
+	string aPlace;
+
+	for (int i = 0; i < clientsInfoVector.size(); i++) {
+		oneClientPlacesVisited = {};
+
+		for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
+
+			for (int k = 0; k < clientsInfoVector.at(i).getPackageList().at(j).getPlaces().size(); k++) {
+				aPlace = clientsInfoVector.at(i).getPackageList().at(j).getPlaces().at(k);
+
+				if (find(oneClientPlacesVisited.begin(), oneClientPlacesVisited.end(), aPlace) == oneClientPlacesVisited.end()) {
+					oneClientPlacesVisited.push_back(aPlace);
+				}
+				
+			}
+		}
+		// it needs the flow control for the 1st ("Douro Vinhateiro")
+		for (int m = 0; m < oneClientPlacesVisited.size(); m++) {
+			cout << oneClientPlacesVisited.at(m) << endl;
+		}
+		cout << endl;
+
+		clientsPlacesVisited.push_back(oneClientPlacesVisited);
+	}
+
+	// comparar vetor referente a cada cliente com os lugares mais visitados e é o 1º que encontrar
+	// depois vê-se qual pacote é que tem ele lugar E que o cliente ainda não visitou
+	// Para terminar, dar output da sugestão para cada cliente
 
 	return -1;
 }

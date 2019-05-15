@@ -13,8 +13,8 @@ using namespace std;
 
 // IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
 vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6 };
+vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
 int mainMenu(Agency &agency) {
 
@@ -64,7 +64,10 @@ int mainMenu(Agency &agency) {
 	switch (mainOperationSelector) {
 
 		case 1:
-			cout << agency << endl;
+
+			cout << agency << '\n' << endl;
+			cout << "Sales: " << endl;
+			numberValueSoldPackages(agency);
 			break;
 
 		case 2:
@@ -77,6 +80,7 @@ int mainMenu(Agency &agency) {
 						if (mainMenu(agency) == 0) {
 							return 0;
 						}
+						break;
 
 					case 1:
 						packageDisplayAll(agency);
@@ -135,8 +139,14 @@ int mainMenu(Agency &agency) {
 							return 0;
 						}
 						break;
+
+					case 11:
+						if (mostVisitedPlaces(agency) == 0) {
+							return 0;
+						}
+						break;
 				}
-				
+
 			} while (packageFlag);
 			break;
 
@@ -146,7 +156,7 @@ int mainMenu(Agency &agency) {
 				clientFlag = false;
 				switch (clientMenu(agency)) {
 					clientFlag = false;
-					
+
 					case 0:
 						if (mainMenu(agency) == 0) {
 							return 0;
@@ -170,7 +180,7 @@ int mainMenu(Agency &agency) {
 							clientFlag = true;
 						}
 						break;
-					
+
 					case 4:
 						if (removeClient(agency) == 0) {
 							clientFlag = true;
@@ -188,24 +198,19 @@ int mainMenu(Agency &agency) {
 							clientFlag = true;
 						}
 						break;
-						
+
+					case 7:
+						if (packageSugestion(agency) == 0) {
+							clientFlag = true;
+						}
+						break;
+
 				}
 
 			} while (clientFlag);
 			break;
 
 
-			/*if (mostVisitedPlaces(agency) == 0) {
-				return 0;
-			}*/
-
-			// numberValueSoldPackages(agency);
-
-			
-		case 4:
-			if (mostVisitedPlaces(agency) == 0) {
-				return 0;
-			}
 
 
 		default:
@@ -243,6 +248,7 @@ int packageMenu(Agency &agency) {
 		cout << "  8. Change a Package to Available or Unavailable" << endl;
 		cout << "  9. Packages Sold To All Clients" << endl;
 		cout << " 10. Packages Sold to a Client" << endl;
+		cout << " 11. Most Visited Places" << endl;
 		cout << "  0. Go back to Main Menu" << endl;
 
 		cout << endl;
@@ -291,6 +297,7 @@ int clientMenu(Agency &agency) {
 		cout << "  4. Delete a Client" << endl;
 		cout << "  5. Buy a Package" << endl;
 		cout << "  6. Change a Client" << endl;
+		cout << "  7. Packages Sugestion" << endl;
 
 		cout << endl;
 

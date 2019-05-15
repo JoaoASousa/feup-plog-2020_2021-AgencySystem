@@ -30,3 +30,5 @@ int packageDisplayOneClient(Agency &agency);
 void numberValueSoldPackages(Agency &agency);
 
 int mostVisitedPlaces(Agency &agency);
+
+int packageSugestion(Agency &agency);

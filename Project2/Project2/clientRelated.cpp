@@ -1,6 +1,8 @@
+#include "utilities.h"
 #include "clientRelated.h"
 #include "packagesRelated.h"
 #include <iostream>
+#include <map>
 
 using namespace std;
 
@@ -608,6 +610,7 @@ int changeClient(Agency &agency) {
 			return 0;
 		}
 
+
 		if ((cin.fail()) || (count(changeOptions.begin(), changeOptions.end(), changeSelection) == 0)) {
 
 			if (cin.eof()) {
@@ -831,3 +834,4 @@ int changeClient(Agency &agency) {
 
 	return -1;
 }
+
