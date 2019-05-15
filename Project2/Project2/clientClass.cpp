@@ -101,6 +101,7 @@ ostream &operator<<(ostream& out, const Client &client) {
 		}
 		
 	}
+
 	out << endl;
 	out << "Amount Spent: " << client.totalPurchased;
 

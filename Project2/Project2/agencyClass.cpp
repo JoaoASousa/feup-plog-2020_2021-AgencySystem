@@ -68,13 +68,6 @@ void Agency::setPackagesFile(string packagesFileName) {
 	this->packagesFileName = packagesFileName;
 }
 
-//void Agency::setClients(vector<Client> & clients) {
-//	this->clients = clients;
-//}
-//
-//void Agency::setPackages(vector<Packages> & packages) {
-//	this->packages = packages;
-//}
 
 
 
@@ -103,13 +96,6 @@ string Agency::getPackagesFile() const {
 	return packagesFileName;
 }
 
-//vector<Client> Agency::getClients() const{
-//	return clients;
-//}
-//
-//vector<Package> Agency::getPackages() const {
-//	return packages;
-//}
 
 
 

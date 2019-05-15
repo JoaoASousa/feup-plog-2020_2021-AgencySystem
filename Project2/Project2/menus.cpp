@@ -16,7 +16,7 @@ vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
-int mainMenu(Agency &agency) {
+int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 
 	bool mainMenuFailFlags;
@@ -56,7 +56,7 @@ int mainMenu(Agency &agency) {
 	} while (mainMenuFailFlags);
 	
 	
-	int goBack = -1;
+	
 
 	bool packageFlag = false;
 	bool clientFlag = false;
@@ -67,27 +67,27 @@ int mainMenu(Agency &agency) {
 
 			cout << agency << '\n' << endl;
 			cout << "Sales: " << endl;
-			numberValueSoldPackages(agency);
+			numberValueSoldPackages(agency, clientsInfoVector, packagesInfoVector);
 			break;
 
 		case 2:
-			// goBack = packageMenu(agency);
+			
 			do {
 				packageFlag = false;
-				switch (packageMenu(agency)) {
+				switch (packageMenu(agency, clientsInfoVector, packagesInfoVector)) {
 					packageFlag = false;
 					case 0:
-						if (mainMenu(agency) == 0) {
+						if (mainMenu(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							return 0;
 						}
 						break;
 
 					case 1:
-						packageDisplayAll(agency);
+						packageDisplayAll(agency, clientsInfoVector, packagesInfoVector);
 						break;
 
 					case 2:
-						switch (packageDisplayOne(agency)) {
+						switch (packageDisplayOne(agency, clientsInfoVector, packagesInfoVector)) {
 							case 0:
 								packageFlag = true;
 								break;
@@ -95,53 +95,53 @@ int mainMenu(Agency &agency) {
 						break;
 
 					case 3:
-						switch (displayBetweenDates(agency)) {
+						switch (displayBetweenDates(agency, clientsInfoVector, packagesInfoVector)) {
 							case 0:
 								packageFlag = true;
 						}
 						break;
 
 					case 4:
-						if (displayForPlace(agency) == 0) {
+						if (displayForPlace(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
 						}
 						break;
 
 					case 5:
-						if (displayDateAndPlace(agency) == 0) {
+						if (displayDateAndPlace(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
 						}
 						break;
 					case 6:
-						if (addPackage(agency) == 0) {
+						if (addPackage(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
 						}
 						break;
 
 					case 7:
-						if (changePackage(agency) == 0) {
+						if (changePackage(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
 						}
 						break;
 
 					case 8:
-						if (unavailablePackage(agency) == 0) {
+						if (unavailablePackage(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
 						}
 						break;
 
 					case 9:
-						packageDisplayAllClients(agency);
+						packageDisplayAllClients(agency, clientsInfoVector, packagesInfoVector);
 						break;
 
 					case 10:
-						if (packageDisplayOneClient(agency) == 0) {
+						if (packageDisplayOneClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							return 0;
 						}
 						break;
 
 					case 11:
-						if (mostVisitedPlaces(agency) == 0) {
+						if (mostVisitedPlaces(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							return 0;
 						}
 						break;
@@ -154,53 +154,53 @@ int mainMenu(Agency &agency) {
 
 			do {
 				clientFlag = false;
-				switch (clientMenu(agency)) {
+				switch (clientMenu(agency, clientsInfoVector, packagesInfoVector)) {
 					clientFlag = false;
 
 					case 0:
-						if (mainMenu(agency) == 0) {
+						if (mainMenu(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							return 0;
 						};
 						break;
 
 					case 1:
-						if (clientDisplayAll(agency) == 0) {
+						if (clientDisplayAll(agency, clientsInfoVector) == 0) {
 							return 0;
 						}
 						break;
 
 					case 2:
-						if (displayOneClient(agency) == 0) {
+						if (displayOneClient(agency, clientsInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
 
 					case 3:
-						if (addClient(agency) == 0) {
+						if (addClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
 
 					case 4:
-						if (removeClient(agency) == 0) {
+						if (removeClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
 
 					case 5:
-						if (buyPackage(agency) == 0) {
+						if (buyPackage(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
 
 					case 6:
-						if (changeClient(agency) == 0) {
+						if (changeClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
 
 					case 7:
-						if (packageSugestion(agency) == 0) {
+						if (packageSugestion(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							clientFlag = true;
 						}
 						break;
@@ -217,18 +217,13 @@ int mainMenu(Agency &agency) {
 			break;
 	}
 
-	/*if (goBack == 0) {
-		if (mainMenu(agency) == 0) {
-			return -1;
-		};
-
-	}*/
+	
 
 	return mainOperationSelector;
 }
 
 
-int packageMenu(Agency &agency) {
+int packageMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool packageMenuFailFlags;
 	int packageOperationSelector;
@@ -279,7 +274,7 @@ int packageMenu(Agency &agency) {
 }
 
 
-int clientMenu(Agency &agency) {
+int clientMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool clientMenuFailFlag;
 	int clientOperationSelector;

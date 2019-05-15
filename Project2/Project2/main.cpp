@@ -39,11 +39,14 @@ int main(){
 
 	Agency agency(agencyFileName);
 
+	vector<Client> clientsInfoVector = clientsInfo(agency);
+	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+
 	int value;
 	do {
 		moreActions = false;
 		
-		value = mainMenu(agency);
+		value = mainMenu(agency, clientsInfoVector, packagesInfoVector);
 
 		// fix ?
 		if (value <= 0 && value > -10) {

@@ -114,11 +114,11 @@ void writePackagesFromVector(string &packagesFileName, int &lastCreated, vector<
 
 
 // outputs to the terminal the information of all packages
-void packageDisplayAll(Agency &agency) {
+void packageDisplayAll(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
 
-		cout << packagesInfo(agency.getPackagesFile()).at(i) << endl;
+		cout << packagesInfoVector.at(i) << endl;
 		cout << endl;
 
 	}
@@ -127,7 +127,7 @@ void packageDisplayAll(Agency &agency) {
 
 // return 0 if going back; else return -1
 // outputs to the terminal the information of a specific package
-int packageDisplayOne(Agency &agency) {
+int packageDisplayOne(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool packageSelectorFailFlag = false;
 	vector <int> packageNumbers = { 0 };
@@ -136,14 +136,14 @@ int packageDisplayOne(Agency &agency) {
 	// Input control for the package choice
 	do {
 		packageSelectorFailFlag = false;
-		for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
-			cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
-				<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
+			cout << "Package #" << abs(packagesInfoVector.at(i).getId()) << " ("
+				<< packagesInfoVector.at(i).getPlaces().at(0) << ")";
 
-			packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+			packageNumbers.push_back(abs(packagesInfoVector.at(i).getId()));
 
-			if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
+			if (packagesInfoVector.at(i).getId() < 0) {
 				cout << "\t[Unavailable Package]";
 			}
 			cout << endl;
@@ -177,16 +177,16 @@ int packageDisplayOne(Agency &agency) {
 	} while (packageSelectorFailFlag);
 
 	// output to the terminal the selected package
-	cout << packagesInfo(agency.getPackagesFile()).at(packageSelection - 1) << endl;
+	cout << packagesInfoVector.at(packageSelection - 1) << endl;
 
 	return -1;
 }
 
 
 // outputs to the terminal the packages that are between 2 specific dates
-int displayBetweenDates(Agency &agency) {
+int displayBetweenDates(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	Date currentDate;
 
 	bool firstDateFailInput, secondDateFailInput;
@@ -255,9 +255,9 @@ int displayBetweenDates(Agency &agency) {
 	bool validLowerBound = false, validUpperBound = false;
 	vector<Package> validPackages;
 
-	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
 
-		validLowerBound = checkDate(packagesInfo(agency.getPackagesFile()).at(i).getBeginDate(), firstDate);
+		validLowerBound = checkDate(packagesInfoVector.at(i).getBeginDate(), firstDate);
 
 		if (validLowerBound) {
 			validUpperBound = checkDate(secondDate, packagesInfoVector.at(i).getEndDate());
@@ -280,9 +280,9 @@ int displayBetweenDates(Agency &agency) {
 
 
 // outputs to the terminal the packages for a specific place
-int displayForPlace(Agency &agency) {
+int displayForPlace(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	vector<Package> packagesToDisplay;
 	
 	string placeInputString;
@@ -344,9 +344,9 @@ int displayForPlace(Agency &agency) {
 
 
 // outputs to the terminal the packages that are between 2 specific dates and for a specific place
-int displayDateAndPlace(Agency &agency) {
+int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	Date currentDate;
 
 	// Dates
@@ -418,9 +418,9 @@ int displayDateAndPlace(Agency &agency) {
 	bool validLowerBound = false, validUpperBound = false;
 	vector<Package> validPackages;
 
-	for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+	for (int i = 0; i < packagesInfoVector.size(); i++) {
 
-		validLowerBound = checkDate(packagesInfo(agency.getPackagesFile()).at(i).getBeginDate(), firstDate);
+		validLowerBound = checkDate(packagesInfoVector.at(i).getBeginDate(), firstDate);
 
 		if (validLowerBound) {
 			validUpperBound = checkDate(secondDate, packagesInfoVector.at(i).getEndDate());
@@ -494,9 +494,9 @@ int displayDateAndPlace(Agency &agency) {
 
 
 // add a package
-int addPackage(Agency &agency) {
+int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string packagesFileName = agency.getPackagesFile();
 
 	string textLine;
@@ -712,9 +712,9 @@ int addPackage(Agency &agency) {
 
 
 // change a specific package information
-int changePackage(Agency &agency) {
+int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	vector <int> possibleChoices;
 	bool invalidPackageInputFlag;
 	int packageSelector;
@@ -1044,9 +1044,9 @@ int changePackage(Agency &agency) {
 
 
 // change a specific package to become unavailable or the opposite (from unavailable to available)
-int unavailablePackage(Agency &agency) {
+int unavailablePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	vector <int> possibleChoices;	// vector that will contain the possible packages to choose from
 	bool invalidPackageInputFlag;
 	int packageSelector;
@@ -1136,10 +1136,10 @@ int unavailablePackage(Agency &agency) {
 
 
 // outputs to the terminal the information of each package that has been bought by at least one client
-void packageDisplayAllClients(Agency &agency) {
+void packageDisplayAllClients(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
 	vector<Package> packagesToDisplay;
 	vector<int> alreadyInVector;
 
@@ -1175,10 +1175,10 @@ void packageDisplayAllClients(Agency &agency) {
 
 
 // outputs to the terminal the packages' Info for the packages bought by a specific client
-int packageDisplayOneClient(Agency &agency) {
+int packageDisplayOneClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 	
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
 	vector<Package> packagesToDisplay;
 
 	bool clientSelectorFailFlag = false;
@@ -1189,10 +1189,10 @@ int packageDisplayOneClient(Agency &agency) {
 	do {
 		clientSelectorFailFlag = false;
 
-		for (int i = 0; i < clientsInfo(agency).size(); i++) {
+		for (int i = 0; i < clientsInfoVector.size(); i++) {
 
 			cout << "Client #" << i + 1 << ": "
-				<< clientsInfo(agency).at(i).getName() << endl;
+				<< clientsInfoVector.at(i).getName() << endl;
 			clientNumbers.push_back(i);
 		}
 
@@ -1250,9 +1250,9 @@ int packageDisplayOneClient(Agency &agency) {
 
 
 // outputs to the terminal the number of sold "seats" and the total value for each of the packages
-void numberValueSoldPackages(Agency &agency) {
+void numberValueSoldPackages(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 
 	map <int, pair<int,int> > idSoldMap;	// key is the id of the package
 	pair<int, int> soldValue;				// 1st element of the pair is the number of sold "seats", 2nd element is the total value (pricePer * soldSeats)
@@ -1275,9 +1275,9 @@ void numberValueSoldPackages(Agency &agency) {
 
 
 // outputs to the terminal the N most visited Places
-int mostVisitedPlaces(Agency &agency) {
+int mostVisitedPlaces(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 
 	map <string, int> placesFrequency;
 
@@ -1355,10 +1355,10 @@ int mostVisitedPlaces(Agency &agency) {
 }
 
 
-int packageSugestion(Agency &agency) {
+int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
 
 	map <string, int> placesFrequency;
 	
@@ -1476,8 +1476,10 @@ int packageSugestion(Agency &agency) {
 	// for each client
 	for (int i = 0; i < clientsPlacesVisited.size(); i++) {
 		newPlacesOneClient = {};
+
 		// para cada um dos lugares mais visitados
 		for (int j = 0; j < mostVisitedSorted.size(); j++) {
+
 			//cout << mostVisitedSorted.at(j) << endl;
 			found = true;
 			for (int k = 0; k < clientsPlacesVisited.at(i).size(); k++) {
@@ -1530,10 +1532,10 @@ int packageSugestion(Agency &agency) {
 					// for each place not visited by the client
 					if (newPlaces.at(i).at(0) == packagesInfoVector.at(j).getPlaces().at(p)) {
 
-						cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(j).getId()) << " ("
-							<< packagesInfo(agency.getPackagesFile()).at(j).getPlaces().at(0) << ")";
+						cout << "Package #" << abs(packagesInfoVector.at(j).getId()) << " ("
+							<< packagesInfoVector.at(j).getPlaces().at(0) << ")";
 
-						if (packagesInfo(agency.getPackagesFile()).at(j).getId() < 0) {
+						if (packagesInfoVector.at(j).getId() < 0) {
 							cout << "\t[Currently Unavailable]";
 						}
 
@@ -1546,13 +1548,6 @@ int packageSugestion(Agency &agency) {
 			}
 		}
 	}
-
-	
-
-
-	// comparar vetor referente a cada cliente com os lugares mais visitados e é o 1º que encontrar
-	// depois vê-se qual pacote é que tem ele lugar E que o cliente ainda não visitou
-	// Para terminar, dar output da sugestão para cada cliente
 
 	return -1;
 }

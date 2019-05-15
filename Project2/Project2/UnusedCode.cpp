@@ -159,3 +159,46 @@
 				cout << endl;
 				cout << clientsInfo(agency).at(i) << endl;
 			}*/
+
+
+			/*int goBack = -1;*/
+// goBack = packageMenu(agency);
+			/*if (goBack == 0) {
+					if (mainMenu(agency) == 0) {
+						return -1;
+					};
+
+				}*/
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// from address.cpp
+
+/*setStreet(stringsVector.at(0).erase(stringsVector.at(0).find_last_not_of(" ") + 1));
+	setDoorNumber(stoi(stringsVector.at(1)));
+	setFloor(stringsVector.at(2));
+	setZipCode(stringsVector.at(3));
+	setLocation(stringsVector.at(4));*/
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// from agencyClass.cpp
+
+//void Agency::setClients(vector<Client> & clients) {
+//	this->clients = clients;
+//}
+//
+//void Agency::setPackages(vector<Packages> & packages) {
+//	this->packages = packages;
+//}
+
+
+//vector<Client> Agency::getClients() const{
+//	return clients;
+//}
+//
+//vector<Package> Agency::getPackages() const {
+//	return packages;
+//}
+
+/////////////////////////////////////////////////////////////////////////////////

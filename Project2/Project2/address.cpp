@@ -38,11 +38,6 @@ Address::Address(string addressString){
 	setFloor(trimString(stringsVector.at(2)));
 	setZipCode(trimString(stringsVector.at(3)));
 	setLocation(trimString(stringsVector.at(4)));
-	/*setStreet(stringsVector.at(0).erase(stringsVector.at(0).find_last_not_of(" ") + 1));
-	setDoorNumber(stoi(stringsVector.at(1)));
-	setFloor(stringsVector.at(2));
-	setZipCode(stringsVector.at(3));
-	setLocation(stringsVector.at(4));*/
 	
 }
 
@@ -97,6 +92,7 @@ string Address::getLocation() const {
 
 
 ostream& operator<<(ostream& out, const Address &address) {
+
 	out << address.getStreet() << ", " << address.getDoorNumber()
 		<< ", " << address.getFloor() << ", "
 		<< address.getZipCode() << ", " << address.getLocation();

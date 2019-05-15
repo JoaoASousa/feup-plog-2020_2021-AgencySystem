@@ -48,9 +48,7 @@ void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfo
 	}
 }
 
-int clientDisplayAll(Agency &agency) {
-
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+int clientDisplayAll(Agency &agency, vector<Client> &clientsInfoVector) {
 
 	for (int i = 0; i < clientsInfoVector.size(); i++) {
 
@@ -60,9 +58,9 @@ int clientDisplayAll(Agency &agency) {
 	return -1;
 }
 
-int displayOneClient(Agency &agency) {
+int displayOneClient(Agency &agency, vector<Client> &clientsInfoVector) {
 
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
 
 	bool clientSelectorFailFlag = false;
 	vector <int> clientsNumbers = { 0 };
@@ -116,10 +114,10 @@ int displayOneClient(Agency &agency) {
 
 }
 
-int addClient(Agency &agency) {
+int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Client> clientsInfoVector = clientsInfo(agency);
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string clientsFileName = agency.getClientsFile();
 
 	Client newClient;
@@ -310,13 +308,13 @@ int addClient(Agency &agency) {
 	return -1;
 }
 
-int removeClient(Agency &agency) {
+int removeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool clientSelectorFailFlag = false;
 	vector <int> clientsNumbers = { 0 };
 	int clientSelection;
 
-	vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
 	string clientsFileName = agency.getClientsFile();
 
 	// Input control for the client choice
@@ -369,10 +367,10 @@ int removeClient(Agency &agency) {
 
 }
 
-int buyPackage(Agency &agency) {
+int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Client> clientsInfoVector = clientsInfo(agency);
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string clientsFileName = agency.getClientsFile();
 	string packagesFileName = agency.getPackagesFile();
 
@@ -433,14 +431,14 @@ int buyPackage(Agency &agency) {
 	do {
 		packageSelectorFailFlag = false;
 
-		for (int i = 0; i < packagesInfo(agency.getPackagesFile()).size(); i++) {
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
-			cout << "Package #" << abs(packagesInfo(agency.getPackagesFile()).at(i).getId()) << " ("
-				<< packagesInfo(agency.getPackagesFile()).at(i).getPlaces().at(0) << ")";
+			cout << "Package #" << abs(packagesInfoVector.at(i).getId()) << " ("
+				<< packagesInfoVector.at(i).getPlaces().at(0) << ")";
 
-			packageNumbers.push_back(abs(packagesInfo(agency.getPackagesFile()).at(i).getId()));
+			packageNumbers.push_back(abs(packagesInfoVector.at(i).getId()));
 
-			if (packagesInfo(agency.getPackagesFile()).at(i).getId() < 0) {
+			if (packagesInfoVector.at(i).getId() < 0) {
 				cout << "\t[Unavailable Package]";
 			}
 			cout << endl;
@@ -470,15 +468,15 @@ int buyPackage(Agency &agency) {
 		}
 
 		// unavailable package
-		else if (packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getId() < 0) {
+		else if (packagesInfoVector.at(packageSelection - 1).getId() < 0) {
 			packageSelectorFailFlag = true;
 		}
 
 		// if the limit of people is surpassed
-		newTotalSold = packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getSold() +
+		newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
 			clientsInfoVector.at(clientSelection - 1).getFamilySize();
 
-		if (newTotalSold > packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getMaxPeople()) {
+		if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
 			packageSelectorFailFlag = true;
 		}
 
@@ -490,11 +488,11 @@ int buyPackage(Agency &agency) {
 	
 	vector<Package> newPackageList;
 	newPackageList = clientsInfoVector.at(clientSelection - 1).getPackageList();
-	newPackageList.push_back(packagesInfo(agency.getPackagesFile()).at(packageSelection - 1));
+	newPackageList.push_back(packagesInfoVector.at(packageSelection - 1));
 	
 	int newTotalPurchased;
 	newTotalPurchased = clientsInfoVector.at(clientSelection - 1).getTotalPurchased();
-	newTotalPurchased += packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).getPricePer()
+	newTotalPurchased += packagesInfoVector.at(packageSelection - 1).getPricePer()
 		* clientsInfoVector.at(clientSelection - 1).getFamilySize();
 
 
@@ -503,7 +501,7 @@ int buyPackage(Agency &agency) {
 	clientsInfoVector.at(clientSelection - 1).setPackageList(newPackageList);
 	// cout << "new total sold " << newTotalSold << endl;
 	packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
-	// packagesInfo(agency.getPackagesFile()).at(packageSelection - 1).setSold(newTotalSold);
+	// packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
 
 
 	string textLine;
@@ -527,10 +525,10 @@ int buyPackage(Agency &agency) {
 	return -1;
 }
 
-int changeClient(Agency &agency) {
+int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector<Client> clientsInfoVector = clientsInfo(agency);
-	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	// vector<Client> clientsInfoVector = clientsInfo(agency);
+	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string clientsFileName = agency.getClientsFile();
 	string packagesFileName = agency.getPackagesFile();
 
@@ -829,7 +827,7 @@ int changeClient(Agency &agency) {
 		clientsInfoVector.at(clientSelection - 1).setAddress(clientAddress);
 	}
 	
-	writeClientsFromVector(clientsFileName, clientsInfoVector);
+	// writeClientsFromVector(clientsFileName, clientsInfoVector);
 
 
 	return -1;
