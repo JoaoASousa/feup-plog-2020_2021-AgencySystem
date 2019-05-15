@@ -1,8 +1,11 @@
 #include <iostream>
 
+#include "clientRelated.h"
 #include "utilities.h"
 #include "menus.h"
 #include "agencyClass.h"
+
+#include "packagesRelated.h"
 
 using namespace std;
 
@@ -41,12 +44,31 @@ int main(){
 
 	vector<Client> clientsInfoVector = clientsInfo(agency);
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+	string clientsFileName = agency.getClientsFile();
+	string packagesFileName = agency.getPackagesFile();
+
+	string textLine;
+	int lastCreated;
+	ifstream packagesFile(packagesFileName);
+
+	bool firstLine = true;
+
+	while (getline(packagesFile, textLine)) {
+
+		if (firstLine) {
+			lastCreated = abs(stoi(textLine));
+			firstLine = false;
+			break;
+		}
+	}
+
+	packagesFile.close();
 
 	int value;
 	do {
 		moreActions = false;
 		
-		value = mainMenu(agency, clientsInfoVector, packagesInfoVector);
+		value = mainMenu(agency, clientsInfoVector, packagesInfoVector, lastCreated);
 
 		// fix ?
 		if (value <= 0 && value > -10) {
@@ -65,6 +87,10 @@ int main(){
 
 	} while (moreActions);
 
+
+
+	writeClientsFromVector(clientsFileName, clientsInfoVector);
+	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return 0;
 

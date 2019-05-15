@@ -301,7 +301,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	clientsInfoVector.push_back(newClient);
 
-	writeClientsFromVector(clientsFileName, clientsInfoVector);
+	// writeClientsFromVector(clientsFileName, clientsInfoVector);
 
 	cout << "\x1B[2J\x1B[H";
 
@@ -361,7 +361,7 @@ int removeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 	clientsInfoVector.erase(clientsInfoVector.begin() + clientSelection - 1);
 
-	writeClientsFromVector(clientsFileName, clientsInfoVector);
+	// writeClientsFromVector(clientsFileName, clientsInfoVector);
 
 	return -1;
 
@@ -519,8 +519,8 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		}
 	}
 
-	writeClientsFromVector(clientsFileName, clientsInfoVector);
-	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+	// writeClientsFromVector(clientsFileName, clientsInfoVector);
+	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return -1;
 }
@@ -832,4 +832,3 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 	return -1;
 }
-

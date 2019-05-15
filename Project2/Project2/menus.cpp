@@ -16,7 +16,7 @@ vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
 vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
-int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
+int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector, int &lastCreated) {
 
 
 	bool mainMenuFailFlags;
@@ -77,7 +77,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 				switch (packageMenu(agency, clientsInfoVector, packagesInfoVector)) {
 					packageFlag = false;
 					case 0:
-						if (mainMenu(agency, clientsInfoVector, packagesInfoVector) == 0) {
+						if (mainMenu(agency, clientsInfoVector, packagesInfoVector, lastCreated) == 0) {
 							return 0;
 						}
 						break;
@@ -113,7 +113,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 						}
 						break;
 					case 6:
-						if (addPackage(agency, clientsInfoVector, packagesInfoVector) == 0) {
+						if (addPackage(agency, clientsInfoVector, packagesInfoVector, lastCreated) == 0) {
 							packageFlag = true;
 						}
 						break;
@@ -158,7 +158,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 					clientFlag = false;
 
 					case 0:
-						if (mainMenu(agency, clientsInfoVector, packagesInfoVector) == 0) {
+						if (mainMenu(agency, clientsInfoVector, packagesInfoVector, lastCreated) == 0) {
 							return 0;
 						};
 						break;

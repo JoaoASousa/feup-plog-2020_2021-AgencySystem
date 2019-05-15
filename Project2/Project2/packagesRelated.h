@@ -17,7 +17,7 @@ int displayForPlace(Agency &agency, vector<Client> &clientsInfoVector, vector<Pa
 
 int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector);
 
-int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector);
+int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector, int &lastCreated);
 
 int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector);
 

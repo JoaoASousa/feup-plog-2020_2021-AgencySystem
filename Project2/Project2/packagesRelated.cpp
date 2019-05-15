@@ -494,28 +494,11 @@ int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vecto
 
 
 // add a package
-int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
+int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector, int &lastCreated) {
 
 	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string packagesFileName = agency.getPackagesFile();
-
-	string textLine;
-	int lastCreated;
-	ifstream packagesFile(packagesFileName);
-
-	bool firstLine = true;
-
-	while (getline(packagesFile, textLine)) {
-
-		if (firstLine) {
-			lastCreated = abs(stoi(textLine));
-			firstLine = false;
-			break;
-		}
-	}
-
-	packagesFile.close();
-
+		
 	Package newPackage;
 
 	newPackage.setId(abs(lastCreated) + 1);
@@ -705,7 +688,7 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 	packagesInfoVector.push_back(newPackage);
 	
 	// writes to the file the updated information
-	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return -1;
 }
@@ -1037,7 +1020,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 	}
 
 	// writes to the file the updated information
-	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return -1;
 }
@@ -1129,7 +1112,7 @@ int unavailablePackage(Agency &agency, vector<Client> &clientsInfoVector, vector
 	}
 
 	// writes to the file the updated information
-	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return -1;
 }
@@ -1355,6 +1338,7 @@ int mostVisitedPlaces(Agency &agency, vector<Client> &clientsInfoVector, vector<
 }
 
 
+// outputs to the terminal a Package Sugestion for each Client
 int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
@@ -1542,9 +1526,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 						cout << endl;
 						break;
 					}
-
 				}
-
 			}
 		}
 	}
