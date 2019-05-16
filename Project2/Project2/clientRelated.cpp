@@ -274,18 +274,31 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 			}
 
 		}
-		/////////////////////////////////////////////////////////////////////////////////////////////
-		/*newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
-			clientsInfoVector.at(clientSelection - 1).getFamilySize();
-
-		if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
-			packageSelectorFailFlag = true;
-		}*/
 
 		if (packageCounter != clientPackagesIds.size()) {
 			packageListInputFail = true;
 		}
 
+		int newTotalSold;
+
+		for (int i = 0; i < packagesInfoVector.size(); i++) {
+
+			for (int j = 0; j < clientPackagesIds.size(); j++) {
+
+				if (abs(packagesInfoVector.at(i).getId()) == clientPackagesIds.at(j)) {
+
+					newTotalSold = packagesInfoVector.at(i).getSold() + newClient.getFamilySize();
+
+					if (newTotalSold > packagesInfoVector.at(i).getMaxPeople()) {
+						packageListInputFail = true;
+						cout << "Maximum number of people reached" << endl;
+					}
+					else {
+						packagesInfoVector.at(i).setSold(newTotalSold);
+					}
+				}
+			}
+		}
 
 
 	} while (packageListInputFail);
