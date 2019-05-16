@@ -127,7 +127,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 	getline(cin >> ws, nameString);
 	// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
 
-	if (nameString == to_string(0)) {
+	if (trimString(nameString) == to_string(0)) {
 		return 0;
 	}
 
@@ -139,7 +139,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 		cin.ignore(1000, '\n');
 	}
 
-	newClient.setName(nameString);
+	newClient.setName(trimString(nameString));
 
 	bool nifInputFail;
 	int nif;
@@ -274,6 +274,13 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 			}
 
 		}
+		/////////////////////////////////////////////////////////////////////////////////////////////
+		/*newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
+			clientsInfoVector.at(clientSelection - 1).getFamilySize();
+
+		if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
+			packageSelectorFailFlag = true;
+		}*/
 
 		if (packageCounter != clientPackagesIds.size()) {
 			packageListInputFail = true;

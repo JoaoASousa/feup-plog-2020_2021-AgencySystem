@@ -675,6 +675,10 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 			soldInputFail = true;
 		}
 
+		else if (sold > maxPeople) {
+			soldInputFail = true;
+		}
+
 		if (cin.fail()) {
 			cout << "\nInvalid input)" << endl;
 			soldInputFail = true;
@@ -846,6 +850,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			}
 
 			packagesInfoVector.at(packageToChangePosition).setPlaces(stringToStringVector(placeChangesString));
+			break;
 
 		// changing the begin date
 		case 2:
@@ -879,6 +884,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			} while (startDateFailInput);
 
 			packagesInfoVector.at(packageToChangePosition).setBeginDate(startDate);
+			break;
 
 		// changing the end date
 		case 3:
@@ -912,6 +918,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			} while (endDateFailInput);
 
 			packagesInfoVector.at(packageToChangePosition).setEndDate(endDate);
+			break;
 
 		// changing the price per person
 		case 4:
@@ -949,6 +956,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			} while (pricePerInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setPricePer(pricePer);
+			break;
 
 		// changing the maximum number of people
 		case 5:
@@ -976,6 +984,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			} while (totalInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setMaxPeople(maxPeople);
+			break;
 
 		// changing the number of sold "seats"
 		case 6:
@@ -990,6 +999,10 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 					soldInputFail = true;
 				}
 
+				else if (sold > packagesInfoVector.at(packageToChangePosition).getMaxPeople()) {
+					soldInputFail = true;
+				}
+
 				if (cin.fail()) {
 					cout << "\nInvalid input)" << endl;
 					soldInputFail = true;
@@ -999,6 +1012,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			} while (soldInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setSold(sold);
+			break;
 	}
 
 
@@ -1018,6 +1032,41 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			break;
 		}
 	}
+
+
+	// Updating the clients total expenses
+
+	int updatedTotalSpent;
+
+	// for each client
+	for (int i = 0; i < clientsInfoVector.size(); i++) {
+		updatedTotalSpent = 0;
+		// for each client's package bought
+		for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
+
+			for (int k = 0; k < packagesInfoVector.size(); k++) {
+				if (abs(clientsInfoVector.at(i).getPackageList().at(j).getId()) == abs(packagesInfoVector.at(k).getId())) {
+					updatedTotalSpent += packagesInfoVector.at(k).getPricePer() * clientsInfoVector.at(i).getFamilySize();
+				}
+			}
+			
+		}
+		cout << updatedTotalSpent << endl;
+		clientsInfoVector.at(i).setTotalPurchased(updatedTotalSpent);
+	}
+
+	/*int totalPurchases = 0;*/
+
+	/*for (int i = 0; i < clientPackages.size(); i++) {
+		totalPurchases += clientPackages.at(i).getPricePer() * familySize;
+	}
+
+	if (totalPurchases < 0) {
+		cout << "Invalid Package Price" << endl;
+		return 0;
+	}
+
+	newClient.setTotalPurchased(totalPurchases);*/
 
 	// writes to the file the updated information
 	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);

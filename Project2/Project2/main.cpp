@@ -88,7 +88,7 @@ int main(){
 	} while (moreActions);
 
 
-
+	
 	writeClientsFromVector(clientsFileName, clientsInfoVector);
 	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
