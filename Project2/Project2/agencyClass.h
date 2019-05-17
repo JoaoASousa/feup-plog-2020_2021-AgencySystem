@@ -9,7 +9,7 @@
 using namespace std;
 
 class Agency {
-	// Address agencyAddress(string addressString); // HELP
+
 	private:
 		string name;
 		unsigned int nif;
