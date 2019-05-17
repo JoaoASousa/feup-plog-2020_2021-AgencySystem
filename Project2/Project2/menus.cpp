@@ -136,13 +136,15 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 
 					case 10:
 						if (packageDisplayOneClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
-							return 0;
+							packageFlag = true;
+							// return 0;
 						}
 						break;
 
 					case 11:
 						if (mostVisitedPlaces(agency, clientsInfoVector, packagesInfoVector) == 0) {
-							return 0;
+							packageFlag = true; 
+							// return 0;
 						}
 						break;
 				}
