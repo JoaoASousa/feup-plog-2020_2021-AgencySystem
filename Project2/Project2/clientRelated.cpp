@@ -502,6 +502,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 	vector <int> packageNumbers = { 0 };
 	int packageSelection;
 	int newTotalSold;
+	bool changeToUnavailable;
 
 	// Input control for the package choice
 	do {
@@ -560,6 +561,9 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 			if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
 				packageSelectorFailFlag = true;
+			}
+			else if (newTotalSold == packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
+				packagesInfoVector.at(packageSelection - 1).setId(-packagesInfoVector.at(packageSelection - 1).getId());
 			}
 		}
 
