@@ -5,7 +5,7 @@ Madeira - Funchal, Porto Santo, Porto
 2019/8/5
 300
 50
-24
+5
 ::::::::::
 -2
 Veneza
@@ -20,8 +20,8 @@ Douro vinhateiro - Porto, Regua, Pinhao, Vila Real
 2019/9/21
 2019/9/22
 100
-120
-66
+40
+6
 ::::::::::
 -4
 Spain - Barcelona, Madrid, Valencia
@@ -29,12 +29,12 @@ Spain - Barcelona, Madrid, Valencia
 2020/1/6
 500
 11
-10
+9
 ::::::::::
 5
 New World - San Francisco, Washington D.C., Atlanta, New York
 2019/10/1
 2019/10/9
-900
+800
 20
-5
+7
