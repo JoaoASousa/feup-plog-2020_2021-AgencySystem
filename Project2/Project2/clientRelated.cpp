@@ -29,20 +29,26 @@ void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfo
 				<< " / " << clientsInfoVector.at(i).getAddress().getLocation()
 				<< endl;
 
-			for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
-				
-				if (clientsInfoVector.at(i).getPackageList().size() == 0) {
-					clientsFileInput << endl;
-				}
-
-				if (j != 0) {
-					clientsFileInput << " ; ";
-				}
-				clientsFileInput << abs(clientsInfoVector.at(i).getPackageList().at(j).getId());
+			if (clientsInfoVector.at(i).getPackageList().size() == 0) {
+				clientsFileInput << endl;
+				clientsFileInput << clientsInfoVector.at(i).getTotalPurchased() << endl;
 			}
-			clientsFileInput << endl;
-			clientsFileInput << clientsInfoVector.at(i).getTotalPurchased() << endl;
-			
+
+			else {
+				for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
+
+					if (clientsInfoVector.at(i).getPackageList().size() == 0) {
+						clientsFileInput << endl;
+					}
+
+					if (j != 0) {
+						clientsFileInput << " ; ";
+					}
+					clientsFileInput << abs(clientsInfoVector.at(i).getPackageList().at(j).getId());
+				}
+				clientsFileInput << endl;
+				clientsFileInput << clientsInfoVector.at(i).getTotalPurchased() << endl;
+			}
 		}
 		clientsFileInput.close();
 	}
@@ -228,7 +234,37 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 			cin.ignore(1000, '\n');
 		}
 
+		else {
+			addressInputFail = false;
+
+			try {
+
+				stringstream ss(clientAddressString);
+
+				string temp;
+
+				vector <string> stringsVector;
+
+				while (getline(ss, temp, '/')) {
+					stringsVector.push_back(temp);
+				}
+
+				if (stringsVector.size() != 5){
+					addressInputFail = true;
+				}
+
+				else {
+					stringsVector.at(1) = (stoi(trimString(stringsVector.at(1))));
+				}
+				
+			}
+			catch (...) {
+				addressInputFail = true;
+			}
+		}
+
 	} while (addressInputFail);
+	
 
 	Address clientAddress(clientAddressString);
 
@@ -246,7 +282,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 		packageCounter = 0;
 		clientPackages = {};
 
-		cout << "Packages bought ([id] ; [id] ... ) : ";
+		cout << "Packages bought ([id] ; [id] ...  Or \"none\") : ";
 		cin >> packageListString;
 
 		if (packageListString == to_string(0)) {
@@ -262,7 +298,12 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 			cin.ignore(1000, '\n');
 		}
 		
-		clientPackagesIds = stringToIntVector(packageListString);
+		if (trimString(packageListString) == "none") {
+			clientPackagesIds = {};
+		}
+		else {
+			clientPackagesIds = stringToIntVector(packageListString);
+		}
 		
 		for (int i = 0; i < packagesInfoVector.size(); i++) {
 
@@ -279,6 +320,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 			packageListInputFail = true;
 		}
 
+		// Updating Sold Packages
 		int newTotalSold;
 
 		for (int i = 0; i < packagesInfoVector.size(); i++) {
@@ -403,7 +445,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 		clientSelectorFailFlag = false;
 		for (int i = 0; i < clientsInfoVector.size(); i++) {
-
+			
 			cout << "Client #" << i + 1 << " ("
 				<< clientsInfoVector.at(i).getName() << ")";
 
@@ -439,6 +481,12 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 	} while (clientSelectorFailFlag);
 
+
+	vector <int> packagesAlreadyBought;
+	////////////////////////////////////////////////////////////////////////////////////
+	for (int i = 0; i < clientsInfoVector.at(clientSelection - 1).getPackageList().size(); i++) {
+		packagesAlreadyBought.push_back(abs(clientsInfoVector.at(clientSelection - 1).getPackageList().at(i).getId()));
+	}
 
 
 	bool packageSelectorFailFlag = false;
@@ -491,13 +539,20 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		else if (packagesInfoVector.at(packageSelection - 1).getId() < 0) {
 			packageSelectorFailFlag = true;
 		}
-
-		// if the limit of people is surpassed
-		newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
-			clientsInfoVector.at(clientSelection - 1).getFamilySize();
-
-		if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
+		
+		// if the client already has bought the package
+		else if (find(packagesAlreadyBought.begin(), packagesAlreadyBought.end(), abs(packagesInfoVector.at(packageSelection - 1).getId())) != packagesAlreadyBought.end()) {
 			packageSelectorFailFlag = true;
+		}
+
+		else {
+			// if the limit of people is surpassed
+			newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
+				clientsInfoVector.at(clientSelection - 1).getFamilySize();
+
+			if (newTotalSold > packagesInfoVector.at(packageSelection - 1).getMaxPeople()) {
+				packageSelectorFailFlag = true;
+			}
 		}
 
 		cout << "\x1B[2J\x1B[H";
@@ -516,12 +571,11 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		* clientsInfoVector.at(clientSelection - 1).getFamilySize();
 
 
-	
 	clientsInfoVector.at(clientSelection - 1).setTotalPurchased(newTotalPurchased);
 	clientsInfoVector.at(clientSelection - 1).setPackageList(newPackageList);
-	// cout << "new total sold " << newTotalSold << endl;
+
 	packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
-	// packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
+
 
 
 	string textLine;
@@ -671,6 +725,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 	switch (changeSelection) {
 		
 		case 1:
+			cout << "Current Name: " << clientsInfoVector.at(clientSelection - 1).getName() << endl;
 			cout << "Name: ";
 			getline(cin >> ws, nameString);
 			// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
@@ -686,15 +741,16 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				cin.clear();
 				cin.ignore(1000, '\n');
 			}
-
+			
 			clientsInfoVector.at(clientSelection - 1).setName(nameString);
+			cout << clientsInfoVector.at(clientSelection - 1).getName() << endl;
 			break;
 
 
 		case 2:
 			do {
 				nifInputFail = false;
-
+				cout << "Current Nif: " << clientsInfoVector.at(clientSelection - 1).getNif() << endl;
 				cout << "NIF: ";
 				cin >> nif;
 
@@ -727,6 +783,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 		case 3:
 			do {
+				cout << "Current Family Size: " << clientsInfoVector.at(clientSelection - 1).getFamilySize() << endl;
 				familySizeInputFail = false;
 
 				cout << "Family Size: ";
@@ -755,6 +812,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 		case 4:
 			do {
+				cout << "Current Address: " << clientsInfoVector.at(clientSelection - 1).getAddress() << endl;
 				addressInputFail = false;
 				changedAddress = true;
 
@@ -775,15 +833,52 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 					cin.ignore(1000, '\n');
 				}
 
+				else {
+					addressInputFail = false;
+
+					try {
+
+						stringstream ss(clientAddressString);
+
+						string temp;
+
+						vector <string> stringsVector;
+
+						while (getline(ss, temp, '/')) {
+							stringsVector.push_back(temp);
+						}
+
+						if (stringsVector.size() != 5) {
+							addressInputFail = true;
+						}
+
+						else {
+							stringsVector.at(1) = (stoi(trimString(stringsVector.at(1))));
+						}
+
+					}
+					catch (...) {
+						addressInputFail = true;
+					}
+				}
+
 			} while (addressInputFail);
 
-			// function to do what's bellow in the "if" statement so it can loop while the input
-			// produces an exception ?
 			break;
 
 
 		case 5:
 			do {
+				cout << "Current Packages Bought: ";
+				for (int p = 0; p < clientsInfoVector.at(clientSelection - 1).getPackageList().size(); p++) {
+					if (p == 0) {
+						cout << abs(clientsInfoVector.at(clientSelection - 1).getPackageList().at(p).getId());
+					}
+					else {
+						cout << ", " << abs(clientsInfoVector.at(clientSelection - 1).getPackageList().at(p).getId());
+					}
+				}
+				cout << endl;
 				packageListInputFail = false;
 				packageCounter = 0;
 				clientPackages = {};
