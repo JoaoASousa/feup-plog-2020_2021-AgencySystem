@@ -1543,12 +1543,13 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 		cout << endl;
 	}*/
 
+	bool noSugestionFound;
 
 	cout << "Package Sugestions" << endl;
 
 	// for each client
 	for (int i = 0; i < newPlaces.size(); i++) {
-
+		noSugestionFound = true;
 		cout << clientsInfoVector.at(i).getName() << ":     \t";
 
 		if (newPlaces.at(i).size() == 0) {
@@ -1563,22 +1564,29 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 				for (int p = 0; p < packagesInfoVector.at(j).getPlaces().size(); p++) {
 
 					// for each place not visited by the client
-					if (newPlaces.at(i).at(0) == packagesInfoVector.at(j).getPlaces().at(p)) {
+					if ((newPlaces.at(i).at(0) == packagesInfoVector.at(j).getPlaces().at(p)) && (packagesInfoVector.at(j).getId() > 0)) {
 
 						cout << "Package #" << abs(packagesInfoVector.at(j).getId()) << " ("
 							<< packagesInfoVector.at(j).getPlaces().at(0) << ")";
 
-						if (packagesInfoVector.at(j).getId() < 0) {
+						/*if (packagesInfoVector.at(j).getId() < 0) {
 							cout << "\t[Currently Unavailable]";
-						}
+						}*/
 
+						noSugestionFound = false;
 						cout << endl;
 						break;
 					}
 				}
 			}
 		}
+
+		if (noSugestionFound) {
+			cout << "No Available Package Sugestion" << endl;
+		}
 	}
+
+	
 
 	return -1;
 }
