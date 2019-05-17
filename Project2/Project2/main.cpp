@@ -72,6 +72,8 @@ int main(){
 
 		// fix ?
 		if (value <= 0 && value > -10) {
+			writeClientsFromVector(clientsFileName, clientsInfoVector);
+			writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 			return 0;
 		}
 
