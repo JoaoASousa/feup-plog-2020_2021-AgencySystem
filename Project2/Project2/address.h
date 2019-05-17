@@ -16,7 +16,6 @@ class Address {
 
 	public:
 		Address();
-		//Address(string street, unsigned short doorNumber, string floor, string postalCode, string location);
 		Address(string addressString);
 
 		// set functions

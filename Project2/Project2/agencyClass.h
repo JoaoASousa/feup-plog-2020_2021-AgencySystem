@@ -17,13 +17,7 @@ class Agency {
 		string url;
 		string clientsFileName;
 		string packagesFileName;
-		//vector <Client> clients;
-		//vector <Package> packages;
 
-		//bool clientsInfoHasChanged;
-		//bool packetsInfoHasChanged;
-		//unsigned int maxClientsId; 
-		//unsigned int maxPacketsId;
 
 
 	public:
@@ -36,8 +30,7 @@ class Agency {
 		void setAddress(Address agencyAddress);
 		void setClientsFile(string clientsFileName);
 		void setPackagesFile(string packagesFileName);
-		//void setClients(vector<Client> &clients);
-		//void setPackages(vector<Packages> &packages);
+
 
 
 		// get functions
@@ -48,8 +41,6 @@ class Agency {
 		string getClientsFile() const;
 		string getPackagesFile() const;
 
-		//vector<Client> getClients() const;
-		//vector<Package> getPackages() const;
 
 
 		friend ostream& operator<<(ostream& out, const Agency & agency);
