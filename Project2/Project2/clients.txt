@@ -2,8 +2,8 @@ Rui Manuel
 234987156
 4
 Rua Sem Fim / 200 / 5Esq / 1200-001 / Lisboa
-1 ; 2
-6000
+1 ; 2 ; 5
+9600
 ::::::::::
 Belmiro Miguel
 111987666

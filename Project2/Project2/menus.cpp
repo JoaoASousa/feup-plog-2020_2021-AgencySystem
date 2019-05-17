@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-
+#include <iomanip>
 
 #include "packagesRelated.h"
 #include "utilities.h"
@@ -11,10 +11,10 @@
 
 using namespace std;
 
-// IR ATUALIZANDO À MEDIDA QUE SE VAI ADICIONANDO FUNCIONALIDADES AO MENU
-vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
-vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
+
+const vector<int> mainMenuOptions = { 0, 1, 2, 3, 4};
+const vector<int> packageMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+const vector<int> clientMenuOptions = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
 int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector, int &lastCreated) {
 
@@ -25,7 +25,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 	do {
 		mainMenuFailFlags = false;
 
-		cout << "\nMain Menu\n" << endl;
+		cout << "\n  Main Menu\n" << endl;
 
 		cout << "  1. Agency" << endl;
 		cout << "  2. Packages" << endl;
@@ -55,21 +55,23 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 		
 	} while (mainMenuFailFlags);
 	
-	
-	
 
 	bool packageFlag = false;
 	bool clientFlag = false;
-
+	
+	
 	switch (mainOperationSelector) {
 
+		// Agency selected
 		case 1:
-
-			cout << agency << '\n' << endl;
-			cout << "      Sales" << endl;
+			cout << '\n' << agency << endl;
+			cout << string(70, '-') << endl;
+			cout << endl;
+			cout << "Agency Sales" << endl;
 			numberValueSoldPackages(agency, clientsInfoVector, packagesInfoVector);
 			break;
 
+		// Package (menu) selected
 		case 2:
 			
 			do {
@@ -112,6 +114,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 							packageFlag = true;
 						}
 						break;
+
 					case 6:
 						if (addPackage(agency, clientsInfoVector, packagesInfoVector, lastCreated) == 0) {
 							packageFlag = true;
@@ -137,14 +140,12 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 					case 10:
 						if (packageDisplayOneClient(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true;
-							// return 0;
 						}
 						break;
 
 					case 11:
 						if (mostVisitedPlaces(agency, clientsInfoVector, packagesInfoVector) == 0) {
 							packageFlag = true; 
-							// return 0;
 						}
 						break;
 				}
@@ -152,8 +153,10 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 			} while (packageFlag);
 			break;
 
-		case 3:
 
+		// Client (menu) selected
+		case 3:
+			
 			do {
 				clientFlag = false;
 				switch (clientMenu(agency, clientsInfoVector, packagesInfoVector)) {
@@ -212,19 +215,14 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 			} while (clientFlag);
 			break;
 
-
-
-
 		default:
 			break;
 	}
 
-	
-
 	return mainOperationSelector;
 }
 
-
+// packages Menu Operation Selection
 int packageMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool packageMenuFailFlags;
@@ -233,7 +231,7 @@ int packageMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Packag
 	do {
 		packageMenuFailFlags = false;
 
-		cout << "\nPackage Menu\n" << endl;
+		cout << "\n  Package Menu\n" << endl;
 
 		cout << "  1. Display All Packages" << endl;
 		cout << "  2. Display a Package of Choice" << endl;
@@ -246,7 +244,7 @@ int packageMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Packag
 		cout << "  9. Packages Sold To All Clients" << endl;
 		cout << " 10. Packages Sold to a Client" << endl;
 		cout << " 11. Most Visited Places" << endl;
-		cout << "  0. Go back to Main Menu" << endl;
+		cout << "  0. Go back to the Main Menu" << endl;
 
 		cout << endl;
 
@@ -272,10 +270,9 @@ int packageMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Packag
 	} while (packageMenuFailFlags);
 
 	return packageOperationSelector;
-
 }
 
-
+// clients Menu Operation Selection
 int clientMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool clientMenuFailFlag;
@@ -286,7 +283,7 @@ int clientMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 		cout << "\x1B[2J\x1B[H";
 
-		cout << "\nClient Menu\n" << endl;
+		cout << "\n  Client Menu\n" << endl;
 
 		cout << "  1. Display All Clients" << endl;
 		cout << "  2. Display a Client of Choice" << endl;
@@ -295,6 +292,7 @@ int clientMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		cout << "  5. Buy a Package" << endl;
 		cout << "  6. Change a Client" << endl;
 		cout << "  7. Packages Sugestion" << endl;
+		cout << "  0. Go back to the Main Menu" << endl;
 
 		cout << endl;
 
@@ -318,7 +316,6 @@ int clientMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		cout << "\x1B[2J\x1B[H";
 
 	} while (clientMenuFailFlag);
-
 	
 	return clientOperationSelector;
 }

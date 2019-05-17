@@ -85,12 +85,12 @@ unsigned Client::getTotalPurchased() const {
 
 ostream &operator<<(ostream& out, const Client &client) {
 
-	out << "Name: " << client.name << endl;
-	out << "NIF: " << client.nif << endl;
-	out << "Family Size: " << client.familySize << endl;
-	out << "Address: " << client.clientAddress << endl;
+	out << "\nName:\t\t\t" << client.name << endl;
+	out << "NIF:\t\t\t" << client.nif << endl;
+	out << "Family Size:\t\t" << client.familySize << endl;
+	out << "Address:\t\t" << client.clientAddress << endl;
 	
-	out << "Packages Bought (IDs): ";
+	out << "Packages Bought (IDs):\t";
 	for (int i = 0; i < client.packages.size(); i++) {
 		if (i == 0) {
 			
@@ -103,7 +103,7 @@ ostream &operator<<(ostream& out, const Client &client) {
 	}
 
 	out << endl;
-	out << "Amount Spent: " << client.totalPurchased;
+	out << "Amount Spent:\t\t" << client.totalPurchased;
 
 	return out;
 }

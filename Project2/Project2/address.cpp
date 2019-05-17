@@ -20,7 +20,6 @@ Address::Address() {
 
 }
 
-// Address::Address(string street, unsigned short doorNumber, string floor, string zipCode, string location) {
 Address::Address(string addressString){
 
 	stringstream ss(addressString);

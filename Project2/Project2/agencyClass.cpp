@@ -1,5 +1,6 @@
 #include <fstream>
 #include <vector>
+#include <iomanip>
 
 #include "utilities.h"
 #include "agencyClass.h"
@@ -8,7 +9,7 @@
 // ------------------------------------------------------------------------
 // Constructors
 
-// sets agency Information
+// sets the agency's information
 Agency::Agency(string agencyFileName) {
 
 	string textLine;
@@ -22,11 +23,6 @@ Agency::Agency(string agencyFileName) {
 		}
 
 		agencyFile.close();
-		if (agencyInfo.size() != 6) {
-			// if some information is missing from the .txt file
-			return ;
-		}
-
 
 		setName(agencyInfo.at(0));
 		setNif(stoi(agencyInfo.at(1)));
@@ -69,8 +65,6 @@ void Agency::setPackagesFile(string packagesFileName) {
 }
 
 
-
-
 // get functions
 string Agency::getName() const {
 	return name;
@@ -97,15 +91,14 @@ string Agency::getPackagesFile() const {
 }
 
 
-
-
 ostream& operator<<(ostream& out, const Agency &agency) {
-	out << "Agency " << agency.name << '\n'
-		<< "NIF: " << agency.nif << '\n'
-		<< "URL: " << agency.url << '\n'
-		<< "Address: " << agency.agencyAddress << '\n'
-		<< "Client's File Name: " << agency.clientsFileName << '\n'
-		<< "Packages' File Name: " << agency.packagesFileName << '\n';
+	
+	out << left << setw(25) << "Agency Name: " << '\t' << agency.name << '\n'
+		<< left << setw(25) << "NIF: " << '\t' << agency.nif << '\n'
+		<< left << setw(25) << "URL: " << '\t' << agency.url << '\n'
+		<< left << setw(25) << "Address: " << '\t' << agency.agencyAddress << '\n'
+		<< left << setw(25) << "Client's File Name: " << '\t' << agency.clientsFileName << '\n'
+		<< left << setw(25) << "Packages' File Name: " << '\t' << agency.packagesFileName << '\n';
 
 	return out;
 

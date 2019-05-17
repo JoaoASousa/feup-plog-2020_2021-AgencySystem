@@ -4,11 +4,14 @@
 using namespace std;
 
 
+// function that checks if the filename given corresponds to a valid agency 
 bool validAgencyFile(string agencyName) {
 
 	string textLine;
 	ifstream agencyFile(agencyName);
 	vector <string> agencyInfo = {};
+	bool openPacksFile = true;
+	bool openClientsFile = true;
 
 	if (agencyFile.is_open()) {
 
@@ -18,11 +21,42 @@ bool validAgencyFile(string agencyName) {
 
 		agencyFile.close();
 
+		// if some information is missing from the .txt file
 		if (agencyInfo.size() != 6) {
+			cout << "Missing information\n" << endl;
 			return false;
 		}
+
 		else {
-			return true;
+			// checking if the packages' file provided exists
+			ifstream packagesFile(agencyInfo.at(5));
+
+			vector<Package> packagesInfo;
+
+			if (!packagesFile.is_open()) {
+				openPacksFile = false;
+				cout << "Invalid packages filename" << endl;
+			}
+			packagesFile.close();
+
+			// checking if the clients' file provided exists
+			ifstream clientsFile(agencyInfo.at(4));
+
+			if (!clientsFile.is_open()) {
+				openClientsFile = false;
+				cout << "Invalid clients filename" << endl;
+			}
+			clientsFile.close();
+
+			// if they both exist
+			if (openClientsFile && openPacksFile) {
+				return true;
+			}
+
+			else {
+				cout << endl;
+				return false;
+			}
 		}
 	}
 
@@ -32,6 +66,8 @@ bool validAgencyFile(string agencyName) {
 
 }
 
+
+// returns a vector of packages from a string containing the name of the packages' file
 vector<Package> packagesInfo(string packagesFileName) {
 	
 	string textLine;
@@ -115,6 +151,8 @@ vector<Package> packagesInfo(string packagesFileName) {
 	return packagesInfo;
 }
 
+
+// returns a vector of clients from a string containing the name of the clients' file
 vector<Client> clientsInfo(Agency agency) {
 	
 	vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
@@ -134,7 +172,6 @@ vector<Client> clientsInfo(Agency agency) {
 
 		while (getline(clientsFile, textLine)) {
 			if (textLine.find("::::::::::") != string::npos) {
-				// lineCounter = 0;
 			}
 
 			else {
@@ -164,15 +201,12 @@ vector<Client> clientsInfo(Agency agency) {
 							
 							for (int j = 0; j < clientPackagesIds.size(); j++) {
 								if (abs(packagesInfoVector.at(i).getId()) == clientPackagesIds.at(j)) {
-									// cout << '\n' << clientPackagesIds.at(j) << '\n' << endl;
 									clientPackages.push_back(packagesInfoVector.at(i));
 								}
 							}
 							
 						}
 						client.setPackageList(clientPackages);
-						// client.packages = parsePackages(textLine);
-						// packagesString = packageIDsString(client.packages);
 						break;
 					
 					case 5:
@@ -197,6 +231,8 @@ vector<Client> clientsInfo(Agency agency) {
 	return clientsInfo;
 }
 
+
+// return the number of days given the month and year
 int daysOfMonth(int month, int year) {
 
 	bool leapYear = false;
@@ -216,8 +252,10 @@ int daysOfMonth(int month, int year) {
 	return 30;
 }
 
+
+// checks if a date isn't before a reference (date)
 bool checkDate(Date ToEvaluateDate, Date referenceDate) {
-	//cout << referenceDate << endl;
+
 	bool validDate = true;
 
 	// basic verification
@@ -235,10 +273,12 @@ bool checkDate(Date ToEvaluateDate, Date referenceDate) {
 		validDate = false;
 	}
 
+	// same year / month, day verification
 	else if ((ToEvaluateDate.getYear() == referenceDate.getYear()) && (ToEvaluateDate.getMonth() == referenceDate.getMonth()) && (ToEvaluateDate.getDay() < referenceDate.getDay())) {
 		validDate = false;
 	}
 
+	// day verification
 	else if (daysOfMonth(ToEvaluateDate.getMonth(), ToEvaluateDate.getYear()) < ToEvaluateDate.getDay()) {
 		validDate = false;
 	}
@@ -246,9 +286,9 @@ bool checkDate(Date ToEvaluateDate, Date referenceDate) {
 	return validDate;
 }
 
-vector <string> stringToStringVector(string fullString) {
 
-	//istringstream ss(fullString);
+// function to convert a string to a vector of strings
+vector <string> stringToStringVector(string fullString) {
 
 	string temp;
 	string const delims = { "-," };
@@ -260,17 +300,12 @@ vector <string> stringToStringVector(string fullString) {
 		pos = fullString.find_first_of(delims, beg + 1);
 		stringsVector.push_back(trimString(fullString.substr(beg, pos - beg)));
 	}
-	/*while (ss >> temp) {
-		if (temp == "-" || temp == ",") {
-			continue;
-		}
-		cout << temp << endl;
-		stringsVector.push_back(temp);
-	}*/
 
 	return stringsVector;
 }
 
+
+// function to convert a string to a vector of integers
 vector <int> stringToIntVector(string fullString) {
 
 	string temp;
@@ -281,13 +316,14 @@ vector <int> stringToIntVector(string fullString) {
 	while ((beg = fullString.find_first_not_of(delims, pos)) != std::string::npos){
 		
 		pos = fullString.find_first_of(delims, beg + 1);
-		//cout << '\n' << stoi(fullString.substr(beg, pos - beg)) << '\n' << endl;
 		intVector.push_back(stoi(trimString(fullString.substr(beg, pos - beg))));
 	}
 
 	return intVector;
 }
 
+
+// function to trim both ends of a string
 string trimString(const string &toTrim, const string &whitespace) {
 
 	auto stringBegin = toTrim.find_first_not_of(whitespace);

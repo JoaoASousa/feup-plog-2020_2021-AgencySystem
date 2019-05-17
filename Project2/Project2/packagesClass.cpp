@@ -18,6 +18,7 @@ Package::Package() {
 }
 
 Package::Package(int id, vector<string> sites, Date begin, Date end, double pricePer, unsigned maxPeople, unsigned sold) {
+	
 	setId(id);
 	setPlaces(sites);
 	setBeginDate(begin);
@@ -96,10 +97,10 @@ ostream &operator<<(ostream& out, const Package &package) {
 	out << "Package Number #" << abs(package.id);
 	
 	if (abs(package.id) != package.id) {
-		out << "\t[Unavailable Package]";
+		out << "\t\t[Unavailable Package]";
 	}
 
-	out << "\nPlaces: ";
+	out << "\nPlaces:\t\t\t\t";
 	
 	for (int i = 0; i < package.places.size(); i++) {
 		
@@ -125,12 +126,12 @@ ostream &operator<<(ostream& out, const Package &package) {
 	}
 
 	out << '\n';
-	out << "Begin Date: " << package.begin << '\n';
-	out << "End Date: " << package.end << '\n';
+	out << "Begin Date:\t\t\t" << package.begin << '\n';
+	out << "End Date:\t\t\t" << package.end << '\n';
 
-	out << "Price per Person: " << package.pricePer << '\n';
-	out << "Maximum number of People: " << package.maxPeople << '\n';
-	out << "Currently sold: " << package.sold;
+	out << "Price per Person:\t\t" << package.pricePer << '\n';
+	out << "Maximum number of People:\t" << package.maxPeople << '\n';
+	out << "Currently sold:\t\t\t" << package.sold;
 
 	return out;
 }

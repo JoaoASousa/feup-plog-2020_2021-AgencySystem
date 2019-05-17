@@ -9,6 +9,8 @@
 
 using namespace std;
 
+// cout << "\x1B[2J\x1B[H";  --> used to "clear the screen"
+// functions related to operations such as "Display All the Packages" return 0 in order to go back a menu; else return -1
 
 int main(){
 
@@ -17,8 +19,10 @@ int main(){
 	bool moreActions;
 
 	
-	cout << "\nWelcome!" << endl;
+	cout << "\nWelcome!\n" << endl;
 	
+	cout << "You may input '0' (zero) or press Control + z at any time to either go to the previous menu or to quit the program." << endl << endl;
+
 	do {
 		cout << "Please insert the name of the Agency's File: ";
 		cin >> agencyFileName;
@@ -65,18 +69,19 @@ int main(){
 	packagesFile.close();
 
 	int value;
+
+	
 	do {
 		moreActions = false;
 		
 		value = mainMenu(agency, clientsInfoVector, packagesInfoVector, lastCreated);
 
-		// fix ?
 		if (value <= 0 && value > -10) {
+			// updating the information in the files
 			writeClientsFromVector(clientsFileName, clientsInfoVector);
 			writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 			return 0;
 		}
-
 		
 		cout << "\nMore Actions ? [Y/N] ";
 		cin >> moreActionsAnswer;
@@ -90,11 +95,10 @@ int main(){
 	} while (moreActions);
 
 
-	
+	// updating the information in the files 
 	writeClientsFromVector(clientsFileName, clientsInfoVector);
 	writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
 
 	return 0;
 
 }
-

@@ -220,3 +220,67 @@
 
 	// writes to the file the updated information
 	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
+
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// from packageSugestions
+
+/*for (int m = 0; m < oneClientPlacesVisited.size(); m++) {
+			cout << oneClientPlacesVisited.at(m) << endl;
+		}
+		cout << endl;*/
+
+
+/*if (find(clientsPlacesVisited.at(i).begin(), clientsPlacesVisited.at(i).end(), mostVisitedSorted.at(j)) == clientsPlacesVisited.at(i).end()) {
+				newPlacesOneClient.push_back(mostVisitedSorted.at(j));
+			}*/
+
+/*for (int i = 0; i < newPlaces.size(); i++) {
+		cout << "Client #" << i + 1 << endl;
+		for (int m = 0; m < newPlaces.at(i).size(); m++) {
+			cout << newPlaces.at(i).at(m) << endl;
+		}
+		cout << endl;
+	}*/
+
+/////////////////////////////////////////////////////////////////////////////////
+
+// from changePackage
+
+// updating the clients total expenses
+/*
+int updatedTotalSpent;
+
+// for each client
+for (int i = 0; i < clientsInfoVector.size(); i++) {
+	updatedTotalSpent = 0;
+	// for each client's package bought
+	for (int j = 0; j < clientsInfoVector.at(i).getPackageList().size(); j++) {
+
+		for (int k = 0; k < packagesInfoVector.size(); k++) {
+			if (abs(clientsInfoVector.at(i).getPackageList().at(j).getId()) == abs(packagesInfoVector.at(k).getId())) {
+				updatedTotalSpent += packagesInfoVector.at(k).getPricePer() * clientsInfoVector.at(i).getFamilySize();
+			}
+		}
+
+	}
+	cout << updatedTotalSpent << endl;
+	clientsInfoVector.at(i).setTotalPurchased(updatedTotalSpent);
+}
+*/
+
+/////////////////////////////////////////////////////////////////////////////////
+
+
+// from stringToStringVector
+
+	//istringstream ss(fullString);
+
+	/*while (ss >> temp) {
+		if (temp == "-" || temp == ",") {
+			continue;
+		}
+		cout << temp << endl;
+		stringsVector.push_back(temp);
+	}*/

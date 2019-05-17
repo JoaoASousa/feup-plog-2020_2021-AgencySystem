@@ -6,7 +6,7 @@
 
 using namespace std;
 
-
+// writes to the clients' file the information contained in the vector of clients
 void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfoVector) {
 
 	ofstream clientsFileInput(clientsFileName);
@@ -54,8 +54,11 @@ void writeClientsFromVector(string &clientsFileName, vector<Client> &clientsInfo
 	}
 }
 
+
+// outputs to the terminal the information of all clients
 int clientDisplayAll(Agency &agency, vector<Client> &clientsInfoVector) {
 
+	cout << endl;
 	for (int i = 0; i < clientsInfoVector.size(); i++) {
 
 		cout << endl;
@@ -64,17 +67,17 @@ int clientDisplayAll(Agency &agency, vector<Client> &clientsInfoVector) {
 	return -1;
 }
 
+
+// outputs to the terminal the information of a specific client
 int displayOneClient(Agency &agency, vector<Client> &clientsInfoVector) {
-
-	// vector<Client> clientsInfoVector = clientsInfo(agency);
-
+	
 	bool clientSelectorFailFlag = false;
 	vector <int> clientsNumbers = { 0 };
 	int clientSelection;
 
 	// Input control for the client choice
 	do {
-
+		cout << endl;
 		clientSelectorFailFlag = false;
 		for (int i = 0; i < clientsInfoVector.size(); i++) {
 
@@ -114,24 +117,26 @@ int displayOneClient(Agency &agency, vector<Client> &clientsInfoVector) {
 	} while (clientSelectorFailFlag);
 
 	// output to the terminal the selected client
+	cout << endl;
 	cout << clientsInfoVector.at(clientSelection - 1) << endl;
 
 	return -1;
 
 }
 
+
+// add a client
 int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	// vector<Client> clientsInfoVector = clientsInfo(agency);
-	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
 	string clientsFileName = agency.getClientsFile();
 
 	Client newClient;
 
+	// name of the new client
 	string nameString;
+	cout << endl;
 	cout << "Name: ";
 	getline(cin >> ws, nameString);
-	// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
 
 	if (trimString(nameString) == to_string(0)) {
 		return 0;
@@ -147,12 +152,14 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	newClient.setName(trimString(nameString));
 
+
+	// nif of the new client
 	bool nifInputFail;
 	int nif;
 
 	do {
 		nifInputFail = false;
-
+		cout << endl;
 		cout << "NIF: ";
 		cin >> nif;
 
@@ -181,13 +188,13 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	newClient.setNif(nif);
 
-
+	// family size of the new client
 	bool familySizeInputFail;
 	int familySize;
 
 	do {
 		familySizeInputFail = false;
-		
+		cout << endl;
 		cout << "Family Size: ";
 		cin >> familySize;
 
@@ -210,13 +217,13 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	newClient.setFamilySize(familySize);
 
-
+	// address of the new client
 	bool addressInputFail;
 	string clientAddressString;
 
 	do {
 		addressInputFail = false;
-
+		cout << endl;
 		cout << "Address ([Street] / [Door number] / [Floor, '-' if not applicable] / [Zip Code] / [Place]) : ";
 		getline(cin >> ws, clientAddressString);
 
@@ -270,7 +277,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	newClient.setAddress(clientAddress);
 
-	
+	// list of bought packages of the new client
 	bool packageListInputFail;
 	string packageListString;
 	vector<int> clientPackagesIds;
@@ -278,6 +285,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 	int packageCounter;
 
 	do {
+		cout << endl;
 		packageListInputFail = false;
 		packageCounter = 0;
 		clientPackages = {};
@@ -333,7 +341,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 					if (newTotalSold > packagesInfoVector.at(i).getMaxPeople()) {
 						packageListInputFail = true;
-						cout << "Maximum number of people reached" << endl;
+						cout << "\nMaximum number of people reached" << endl;
 					}
 					else {
 						packagesInfoVector.at(i).setSold(newTotalSold);
@@ -347,6 +355,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	newClient.setPackageList(clientPackages);
 
+	// total purchases of the new client (total spent)
 	int totalPurchases = 0;
 
 	for (int i = 0; i < clientPackages.size(); i++) {
@@ -354,7 +363,7 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 	}
 		
 	if (totalPurchases < 0) {
-		cout << "Invalid Package Price" << endl;
+		cout << "\nInvalid Package Price" << endl;
 		return 0;
 	}
 	
@@ -363,25 +372,25 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 
 	clientsInfoVector.push_back(newClient);
 
-	// writeClientsFromVector(clientsFileName, clientsInfoVector);
 
 	cout << "\x1B[2J\x1B[H";
 
 	return -1;
 }
 
+
+// remove a client
 int removeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	bool clientSelectorFailFlag = false;
 	vector <int> clientsNumbers = { 0 };
 	int clientSelection;
-
-	// vector<Client> clientsInfoVector = clientsInfo(agency);
+	
 	string clientsFileName = agency.getClientsFile();
 
 	// Input control for the client choice
 	do {
-
+		cout << endl;
 		clientSelectorFailFlag = false;
 		for (int i = 0; i < clientsInfoVector.size(); i++) {
 
@@ -422,17 +431,16 @@ int removeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 
 	clientsInfoVector.erase(clientsInfoVector.begin() + clientSelection - 1);
-
-	// writeClientsFromVector(clientsFileName, clientsInfoVector);
+	
 
 	return -1;
 
 }
 
-int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	// vector<Client> clientsInfoVector = clientsInfo(agency);
-	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+// buy a specified package for a specified client
+int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
+	
 	string clientsFileName = agency.getClientsFile();
 	string packagesFileName = agency.getPackagesFile();
 
@@ -442,7 +450,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 	// Input control for the client choice
 	do {
-
+		cout << endl;
 		clientSelectorFailFlag = false;
 		for (int i = 0; i < clientsInfoVector.size(); i++) {
 			
@@ -535,7 +543,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 			return 0;
 		}
 
-		// unavailable package
+		// if the package is unavailable
 		else if (packagesInfoVector.at(packageSelection - 1).getId() < 0) {
 			packageSelectorFailFlag = true;
 		}
@@ -546,7 +554,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		}
 
 		else {
-			// if the limit of people is surpassed
+			// if the limit of people of the package would be surpassed
 			newTotalSold = packagesInfoVector.at(packageSelection - 1).getSold() +
 				clientsInfoVector.at(clientSelection - 1).getFamilySize();
 
@@ -559,12 +567,14 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 	} while (packageSelectorFailFlag);
 
-	cout << "Package Purchase Successful" << endl;
+	cout << "\nPackage Purchase Successful" << endl;
 	
+	// updating the packages bought by the client
 	vector<Package> newPackageList;
 	newPackageList = clientsInfoVector.at(clientSelection - 1).getPackageList();
 	newPackageList.push_back(packagesInfoVector.at(packageSelection - 1));
 	
+	// updating the total amount spent by the client
 	int newTotalPurchased;
 	newTotalPurchased = clientsInfoVector.at(clientSelection - 1).getTotalPurchased();
 	newTotalPurchased += packagesInfoVector.at(packageSelection - 1).getPricePer()
@@ -574,35 +584,17 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 	clientsInfoVector.at(clientSelection - 1).setTotalPurchased(newTotalPurchased);
 	clientsInfoVector.at(clientSelection - 1).setPackageList(newPackageList);
 
+	// updating the number of packages sold in the packages' file
 	packagesInfoVector.at(packageSelection - 1).setSold(newTotalSold);
 
-
-
-	string textLine;
-	int lastCreated;
-	ifstream packagesFile(packagesFileName);
-
-	bool firstLine = true;
-
-	while (getline(packagesFile, textLine)) {
-
-		if (firstLine) {
-			lastCreated = abs(stoi(textLine));
-			firstLine = false;
-			break;
-		}
-	}
-
-	// writeClientsFromVector(clientsFileName, clientsInfoVector);
-	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
-
+	
 	return -1;
 }
 
-int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	// vector<Client> clientsInfoVector = clientsInfo(agency);
-	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
+// change a specific client information
+int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
+	
 	string clientsFileName = agency.getClientsFile();
 	string packagesFileName = agency.getPackagesFile();
 
@@ -613,7 +605,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 	// Input control for the client choice
 	do {
-
+		cout << endl;
 		clientSelectorFailFlag = false;
 		for (int i = 0; i < clientsInfoVector.size(); i++) {
 
@@ -645,6 +637,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 		}
 
 		else if (clientSelection == 0) {
+			cout << "\x1B[2J\x1B[H";
 			return 0;
 		}
 
@@ -724,13 +717,14 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 	switch (changeSelection) {
 		
+		// changing the name
 		case 1:
 			cout << "Current Name: " << clientsInfoVector.at(clientSelection - 1).getName() << endl;
 			cout << "Updated Name: ";
 			getline(cin >> ws, nameString);
-			// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
 
 			if (nameString == to_string(0)) {
+				cout << "\x1B[2J\x1B[H";
 				return 0;
 			}
 
@@ -745,7 +739,8 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			clientsInfoVector.at(clientSelection - 1).setName(nameString);
 			break;
 
-
+		
+		// changing the nif
 		case 2:
 			do {
 				nifInputFail = false;
@@ -758,6 +753,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				}
 
 				if (nif == 0) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -781,7 +777,8 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			clientsInfoVector.at(clientSelection - 1).setNif(nif);
 			break;
 
-
+		
+		// changing the family size
 		case 3:
 			do {
 				familySizeInputFail = false;
@@ -791,6 +788,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				cin >> familySize;
 
 				if (familySize == 0) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -812,6 +810,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			break;
 
 
+		// changing the address
 		case 4:
 			do {
 				cout << "Current Address: " << clientsInfoVector.at(clientSelection - 1).getAddress() << endl;
@@ -822,6 +821,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				getline(cin >> ws, clientAddressString);
 
 				if (clientAddressString == to_string(0)) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -838,6 +838,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				else {
 					addressInputFail = false;
 
+					// address input control
 					try {
 
 						stringstream ss(clientAddressString);
@@ -869,7 +870,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 			break;
 
-
+		// changing the packages bought
 		case 5:
 			do {
 				cout << "Current Packages Bought: ";
@@ -881,15 +882,17 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 						cout << ", " << abs(clientsInfoVector.at(clientSelection - 1).getPackageList().at(p).getId());
 					}
 				}
+
 				cout << endl;
 				packageListInputFail = false;
 				packageCounter = 0;
 				clientPackages = {};
 
-				cout << "Packages bought ([id] ; [id] ... ) : ";
+				cout << "Packages bought ([id] ; [id] ...  Or \"none\") : ";
 				cin >> packageListString;
 
 				if (packageListString == to_string(0)) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -902,7 +905,12 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 					cin.ignore(1000, '\n');
 				}
 
-				clientPackagesIds = stringToIntVector(packageListString);
+				if (trimString(packageListString) == "none") {
+					clientPackagesIds = {};
+				}
+				else {
+					clientPackagesIds = stringToIntVector(packageListString);
+				}
 
 				for (int i = 0; i < packagesInfoVector.size(); i++) {
 
@@ -925,6 +933,8 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 			clientsInfoVector.at(clientSelection - 1).setPackageList(clientPackages);
 
+
+			// updating the total amount spent
 			totalPurchases = 0;
 
 			for (int i = 0; i < clientPackages.size(); i++) {
@@ -945,8 +955,6 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 		clientsInfoVector.at(clientSelection - 1).setAddress(clientAddress);
 	}
 	
-	// writeClientsFromVector(clientsFileName, clientsInfoVector);
-
 
 	return -1;
 }
