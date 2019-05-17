@@ -66,7 +66,7 @@ int mainMenu(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> 
 		case 1:
 
 			cout << agency << '\n' << endl;
-			cout << "Sales: " << endl;
+			cout << "      Sales" << endl;
 			numberValueSoldPackages(agency, clientsInfoVector, packagesInfoVector);
 			break;
 

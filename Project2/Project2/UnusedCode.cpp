@@ -202,3 +202,21 @@
 //}
 
 /////////////////////////////////////////////////////////////////////////////////
+
+// from changePackage functions
+
+/*int totalPurchases = 0;*/
+
+	/*for (int i = 0; i < clientPackages.size(); i++) {
+		totalPurchases += clientPackages.at(i).getPricePer() * familySize;
+	}
+
+	if (totalPurchases < 0) {
+		cout << "Invalid Package Price" << endl;
+		return 0;
+	}
+
+	newClient.setTotalPurchased(totalPurchases);*/
+
+	// writes to the file the updated information
+	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);

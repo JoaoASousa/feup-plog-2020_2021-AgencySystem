@@ -483,7 +483,7 @@ int buyPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 
 
 	vector <int> packagesAlreadyBought;
-	////////////////////////////////////////////////////////////////////////////////////
+
 	for (int i = 0; i < clientsInfoVector.at(clientSelection - 1).getPackageList().size(); i++) {
 		packagesAlreadyBought.push_back(abs(clientsInfoVector.at(clientSelection - 1).getPackageList().at(i).getId()));
 	}
@@ -726,7 +726,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 		
 		case 1:
 			cout << "Current Name: " << clientsInfoVector.at(clientSelection - 1).getName() << endl;
-			cout << "Name: ";
+			cout << "Updated Name: ";
 			getline(cin >> ws, nameString);
 			// ter atencao às entradas de nome com mais do que 1 espaço entre nomes
 
@@ -743,7 +743,6 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			}
 			
 			clientsInfoVector.at(clientSelection - 1).setName(nameString);
-			cout << clientsInfoVector.at(clientSelection - 1).getName() << endl;
 			break;
 
 
@@ -751,7 +750,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			do {
 				nifInputFail = false;
 				cout << "Current Nif: " << clientsInfoVector.at(clientSelection - 1).getNif() << endl;
-				cout << "NIF: ";
+				cout << "Updated NIF: ";
 				cin >> nif;
 
 				if (nif < 100000000 || nif > 999999999) {
@@ -775,6 +774,8 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 						cin.ignore(1000, '\n');
 					}
 				}
+
+				cout << "\x1B[2J\x1B[H";
 			} while (nifInputFail);
 
 			clientsInfoVector.at(clientSelection - 1).setNif(nif);
@@ -783,10 +784,10 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 		case 3:
 			do {
-				cout << "Current Family Size: " << clientsInfoVector.at(clientSelection - 1).getFamilySize() << endl;
 				familySizeInputFail = false;
 
-				cout << "Family Size: ";
+				cout << "Current Family Size: " << clientsInfoVector.at(clientSelection - 1).getFamilySize() << endl;
+				cout << "Updated Family Size: ";
 				cin >> familySize;
 
 				if (familySize == 0) {
@@ -804,6 +805,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 					cin.ignore(1000, '\n');
 				}
 
+				cout << "\x1B[2J\x1B[H";
 			} while (familySizeInputFail);
 
 			clientsInfoVector.at(clientSelection - 1).setFamilySize(familySize);
@@ -816,7 +818,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				addressInputFail = false;
 				changedAddress = true;
 
-				cout << "Address ([Street] / [Door number] / [Floor, '-' if not applicable] / [Zip Code] / [Place]) : ";
+				cout << "Updated Address ([Street] / [Door number] / [Floor, '-' if not applicable] / [Zip Code] / [Place]) : ";
 				getline(cin >> ws, clientAddressString);
 
 				if (clientAddressString == to_string(0)) {
@@ -862,6 +864,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 					}
 				}
 
+				cout << "\x1B[2J\x1B[H";
 			} while (addressInputFail);
 
 			break;
@@ -917,7 +920,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				}
 
 
-
+				cout << "\x1B[2J\x1B[H";
 			} while (packageListInputFail);
 
 			clientsInfoVector.at(clientSelection - 1).setPackageList(clientPackages);

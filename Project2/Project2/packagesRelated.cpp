@@ -731,6 +731,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 		cin >> packageSelector;
 
 		if (packageSelector == 0) {
+			cout << "\x1B[2J\x1B[H";
 			return 0;
 		}
 
@@ -834,10 +835,37 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 
 		// changing the places
 		case 1:
-			cout << "Places ([main place] - [other], [other], ...) : ";
+
+			cout << "Current Places: ";
+
+			for (int i = 0; i < packagesInfoVector.at(packageToChangePosition).getPlaces().size(); i++) {
+
+				if (i == 0) {
+					if (packagesInfoVector.at(packageToChangePosition).getPlaces().size() > 1) {
+						cout << packagesInfoVector.at(packageToChangePosition).getPlaces().at(i) << " - ";
+
+					}
+					else {
+						cout << packagesInfoVector.at(packageToChangePosition).getPlaces().at(i);
+					}
+
+				}
+
+				else {
+					if (i == 1) {
+						cout << packagesInfoVector.at(packageToChangePosition).getPlaces().at(i);
+					}
+					else {
+						cout << ", " << packagesInfoVector.at(packageToChangePosition).getPlaces().at(i);
+					}
+				}
+			}
+			cout << endl;
+			cout << "Updated Places ([main place] - [other], [other], ...) : ";
 			getline(cin >> ws, placeChangesString);
 
 			if (placeChangesString == to_string(0)) {
+				cout << "\x1B[2J\x1B[H";
 				return 0;
 			}
 
@@ -848,7 +876,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				cin.clear();
 				cin.ignore(1000, '\n');
 			}
-
+			cout << "\x1B[2J\x1B[H";
 			packagesInfoVector.at(packageToChangePosition).setPlaces(stringToStringVector(placeChangesString));
 			break;
 
@@ -859,10 +887,12 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			do {
 				startDateFailInput = false;
 
-				cout << "First Date (YYYY / MM / DD) : ";
+				cout << "Current Begin Date: " << packagesInfoVector.at(packageToChangePosition).getBeginDate() << endl;
+				cout << "Updated Begin Date (YYYY / MM / DD) : ";
 				getline(cin >> ws, startDateString);
 
 				if (startDateString == to_string(0)) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -880,7 +910,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				if (!checkDate(startDate, currentDate)) {
 					startDateFailInput = true;
 				}
-
+				cout << "\x1B[2J\x1B[H";
 			} while (startDateFailInput);
 
 			packagesInfoVector.at(packageToChangePosition).setBeginDate(startDate);
@@ -892,11 +922,12 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			// Input control for the end date
 			do {
 				endDateFailInput = false;
-
-				cout << "Second Date (YYYY / MM / DD) : ";
+				cout << "Current End Date: " << packagesInfoVector.at(packageToChangePosition).getEndDate() << endl;
+				cout << "Updated End Date (YYYY / MM / DD) : ";
 				getline(cin >> ws, endDateString);
 
 				if (endDateString == to_string(0)) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -914,7 +945,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				if (!checkDate(endDate, startDate)) {
 					endDateFailInput = true;
 				}
-
+				cout << "\x1B[2J\x1B[H";
 			} while (endDateFailInput);
 
 			packagesInfoVector.at(packageToChangePosition).setEndDate(endDate);
@@ -926,10 +957,12 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			// Input control for price per person (negative number not allowed)
 			do {
 				pricePerInputFail = false;
-				cout << "Price per person: ";
+				cout << "Current Price per person: " << packagesInfoVector.at(packageToChangePosition).getPricePer() << endl;
+				cout << "Updated Price per person: ";
 				cin >> pricePer;
 
 				if (pricePer == 0) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -952,7 +985,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 					}
 
 				}
-
+				cout << "\x1B[2J\x1B[H";
 			} while (pricePerInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setPricePer(pricePer);
@@ -964,10 +997,12 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			// Input control for max number of people (negative number not allowed)
 			do {
 				totalInputFail = false;
-				cout << "Max number of people: ";
+				cout << "Current Max number of people: " << packagesInfoVector.at(packageToChangePosition).getMaxPeople() << endl;
+				cout << "Updated Max number of people: ";
 				cin >> maxPeople;
 
 				if (maxPeople == 0) {
+					cout << "\x1B[2J\x1B[H";
 					return 0;
 				}
 
@@ -976,11 +1011,19 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				}
 
 				if (cin.fail()) {
+
+					if (cin.eof()) {
+						cin.clear();
+						cin.ignore(1000, '\n');
+						return 0;
+					}
+
 					cout << "\n(Invalid input)" << endl;
 					totalInputFail = true;
 					cin.clear();
 					cin.ignore(1000, '\n');
 				}
+				cout << "\x1B[2J\x1B[H";
 			} while (totalInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setMaxPeople(maxPeople);
@@ -992,7 +1035,8 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			// Input control for the number of sold (negative number not allowed)
 			do {
 				soldInputFail = false;
-				cout << "Sold: ";
+				cout << "Current number of Sold \"Seats\": " << packagesInfoVector.at(packageToChangePosition).getSold() << endl;
+				cout << "Updated number of Sold \"Seats\": ";
 				cin >> sold;
 
 				if (sold < 0) {
@@ -1004,11 +1048,20 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				}
 
 				if (cin.fail()) {
+
+					if (cin.eof()) {
+						cin.clear();
+						cin.ignore(1000, '\n');
+						return 0;
+					}
+
 					cout << "\nInvalid input)" << endl;
 					soldInputFail = true;
 					cin.clear();
 					cin.ignore(1000, '\n');
 				}
+				cout << "\x1B[2J\x1B[H";
+
 			} while (soldInputFail);
 
 			packagesInfoVector.at(packageToChangePosition).setSold(sold);
@@ -1027,7 +1080,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 	while (getline(packagesFile, textLine)) {
 
 		if (firstLine) {
-			lastCreated = abs(stoi(textLine));		// last package created was already unavailable?
+			lastCreated = abs(stoi(textLine));
 			firstLine = false;
 			break;
 		}
@@ -1055,22 +1108,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 		clientsInfoVector.at(i).setTotalPurchased(updatedTotalSpent);
 	}
 
-	/*int totalPurchases = 0;*/
-
-	/*for (int i = 0; i < clientPackages.size(); i++) {
-		totalPurchases += clientPackages.at(i).getPricePer() * familySize;
-	}
-
-	if (totalPurchases < 0) {
-		cout << "Invalid Package Price" << endl;
-		return 0;
-	}
-
-	newClient.setTotalPurchased(totalPurchases);*/
-
-	// writes to the file the updated information
-	// writePackagesFromVector(packagesFileName, lastCreated, packagesInfoVector);
-
+	
 	return -1;
 }
 
@@ -1297,10 +1335,13 @@ void numberValueSoldPackages(Agency &agency, vector<Client> &clientsInfoVector, 
 	}
 
 	// outputs to the terminal the number of sold "seats" and total revenue for each of the packages
+	cout << endl;
+	cout << "      Packages\t\tSold\tRevenue" << endl;
 	for (map<int, pair<int, int> >::const_iterator mi = idSoldMap.begin(); mi != idSoldMap.end(); mi++) {
-		cout << endl;
-		cout << "Package Number " << mi->first << " - " << packagesInfoVector.at(mi->first - 1).getPlaces().at(0) << endl;
-		cout << "Sold: " << setw(6) << mi->second.first << "\tValue: " << mi->second.second << endl;
+		//cout << "Package Number " << mi->first << " - " << packagesInfoVector.at(mi->first - 1).getPlaces().at(0) << endl;
+		cout << "#" << mi->first << left << setw(4)  << " - " << setw(20) << left << packagesInfoVector.at(mi->first - 1).getPlaces().at(0);
+		//cout << "Sold: " << setw(6) << mi->second.first << "\tValue: " << mi->second.second << endl;
+		cout << "\t" << mi->second.first << "\t" << mi->second.second << endl;
 	}
 
 }

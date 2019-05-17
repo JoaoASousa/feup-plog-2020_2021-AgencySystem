@@ -17,7 +17,7 @@ int main(){
 	bool moreActions;
 
 	
-	cout << "Welcome!" << endl;
+	cout << "\nWelcome!" << endl;
 	
 	do {
 		cout << "Please insert the name of the Agency's File: ";
