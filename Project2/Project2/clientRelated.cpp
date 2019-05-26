@@ -163,27 +163,26 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 		cout << "NIF: ";
 		cin >> nif;
 
-		if (nif < 100000000 || nif > 999999999) {
-			nifInputFail = true;
-		}
-
-		if (nif == 0) {
-			return 0;
-		}
-
 		if (cin.fail()) {
 			if (cin.eof()) {
-				cin.clear();
-				cin.ignore(1000, '\n');
 				return 0;
 			}
 			else {
-				cout << "Invalid input" << endl;
+				cout << "\n(Invalid input)" << endl;
 				nifInputFail = true;
 				cin.clear();
 				cin.ignore(1000, '\n');
 			}
 		}
+
+		else if (nif < 100000000 || nif > 999999999) {
+			nifInputFail = true;
+		}
+
+		else if (nif == 0) {
+			return 0;
+		}
+
 	} while (nifInputFail);
 
 	newClient.setNif(nif);
@@ -198,19 +197,25 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 		cout << "Family Size: ";
 		cin >> familySize;
 
-		if (familySize == 0) {
+		if (cin.fail()) {
+			if (cin.eof()) {
+				return 0;
+			}
+			else {
+				cout << "\n(Invalid input)" << endl;
+				familySizeInputFail = true;
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+		}
+
+		else if (familySize == 0) {
 			return 0;
 		}
 
-		if (familySize < 0) {
-			familySizeInputFail = true;
-		}
-
-		if (cin.fail()) {
+		else if (familySize < 0) {
 			cout << "\n(Invalid input)" << endl;
 			familySizeInputFail = true;
-			cin.clear();
-			cin.ignore(1000, '\n');
 		}
 
 	} while (familySizeInputFail);
@@ -291,9 +296,10 @@ int addClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Package>
 		clientPackages = {};
 
 		cout << "Packages bought ([id] ; [id] ...  Or \"none\") : ";
-		cin >> packageListString;
+		getline(cin >> ws, packageListString);
 
 		if (packageListString == to_string(0)) {
+			cout << "\x1B[2J\x1B[H";
 			return 0;
 		}
 
@@ -763,8 +769,6 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 
 				if (cin.fail()) {
 					if (cin.eof()) {
-						cin.clear();
-						cin.ignore(1000, '\n');
 						return 0;
 					}
 					else {
@@ -801,10 +805,15 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				}
 
 				if (cin.fail()) {
-					cout << "\n(Invalid input)" << endl;
-					familySizeInputFail = true;
-					cin.clear();
-					cin.ignore(1000, '\n');
+					if (cin.eof()) {
+						return 0;
+					}
+					else {
+						cout << "Invalid input" << endl;
+						familySizeInputFail = true;
+						cin.clear();
+						cin.ignore(1000, '\n');
+					}
 				}
 
 				cout << "\x1B[2J\x1B[H";
@@ -893,7 +902,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				clientPackages = {};
 
 				cout << "Packages bought ([id] ; [id] ...  Or \"none\") : ";
-				cin >> packageListString;
+				getline(cin >> ws, packageListString);
 
 				if (packageListString == to_string(0)) {
 					cout << "\x1B[2J\x1B[H";
@@ -949,6 +958,10 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 				cout << "Invalid Package Price" << endl;
 				return 0;
 			}
+			else {
+				clientsInfoVector.at(clientSelection - 1).setTotalPurchased(totalPurchases);
+			}
+
 			break;
 
 	}

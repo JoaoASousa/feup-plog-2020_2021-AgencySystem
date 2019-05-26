@@ -271,10 +271,16 @@ int displayBetweenDates(Agency &agency, vector<Client> &clientsInfoVector, vecto
 	cout << endl;
 
 	// output to the terminal the packages that meet the requirements
-	for (int i = 0; i < validPackages.size(); i++) {
-		cout << validPackages.at(i) << endl;
-		cout << endl;
+	if (validPackages.size() == 0) {
+		cout << "No package meets the requirements" << endl;
+	}
 
+	else {
+		for (int i = 0; i < validPackages.size(); i++) {
+			cout << validPackages.at(i) << endl;
+			cout << endl;
+
+		}
 	}
 
 	return -1;
@@ -362,17 +368,19 @@ int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vecto
 		cout << "First Date (YYYY / MM / DD) : ";
 		getline(cin >> ws, firstDateString);
 
-		if (firstDateString == to_string(0)) {
-			cout << "\x1B[2J\x1B[H";
-			return 0;
-		}
-
 		if (cin.fail()) {
 			if (cin.eof()) {
 				return 0;
 			}
-			cin.clear();
-			cin.ignore(1000, '\n');
+			else {
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+		}
+
+		else if (firstDateString == to_string(0)) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
 		}
 
 		Date firstDateS(firstDateString);
@@ -391,18 +399,20 @@ int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vecto
 
 		cout << "Second Date (YYYY / MM / DD) : ";
 		getline(cin >> ws, secondDateString);
-
-		if (secondDateString == to_string(0)) {
-			cout << "\x1B[2J\x1B[H";
-			return 0;
-		}
-
+		
 		if (cin.fail()) {
 			if (cin.eof()) {
 				return 0;
 			}
-			cin.clear();
-			cin.ignore(1000, '\n');
+			else {
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+		}
+
+		else if (secondDateString == to_string(0)) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
 		}
 
 		Date secondDateS(secondDateString);
@@ -457,8 +467,6 @@ int displayDateAndPlace(Agency &agency, vector<Client> &clientsInfoVector, vecto
 		}
 
 		else if (trimString(placeInputString) == "0") {
-			cin.clear();
-			cin.ignore(1000, '\n');
 			cout << "\x1B[2J\x1B[H";
 			return 0;
 		}
@@ -600,18 +608,8 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		cout << "Price per person: ";
 		cin >> pricePer;
 
-		if (pricePer == 0) {
-			return 0;
-		}
-
-		if (pricePer < 0) {
-			pricePerInputFail = true;
-		}
-
 		if (cin.fail()) {
 			if (cin.eof()) {
-				cin.clear();
-				cin.ignore(1000, '\n');
 				return 0;
 			}
 
@@ -621,14 +619,20 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 				cin.clear();
 				cin.ignore(1000, '\n');
 			}
+		}
 
+		else if (pricePer == 0) {
+			return 0;
+		}
+		else if (pricePer < 0) {
+			pricePerInputFail = true;
 		}
 
 	} while (pricePerInputFail);
 
 	newPackage.setPricePer(pricePer);
 
-	
+
 	bool totalInputFail;
 	int maxPeople;
 
@@ -637,21 +641,22 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		totalInputFail = false;
 		cout << "Max number of people: ";
 		cin >> maxPeople;
-
-		if (maxPeople == 0) {
-			return 0;
-		}
-
-		if (maxPeople < 0) {
-			totalInputFail = true;
-		}
-
+		
 		if (cin.fail()) {
 			cout << "\n(Invalid input)" << endl;
 			totalInputFail = true;
 			cin.clear();
 			cin.ignore(1000, '\n');
 		}
+
+		else if (maxPeople == 0) {
+			return 0;
+		}
+
+		else if (maxPeople < 0) {
+			totalInputFail = true;
+		}
+
 	} while (totalInputFail);
 
 	newPackage.setMaxPeople(maxPeople);
@@ -666,7 +671,14 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 		cout << "Sold: ";
 		cin >> sold;
 
-		if (sold < 0) {
+		if (cin.fail()) {
+			cout << "\nInvalid input)" << endl;
+			soldInputFail = true;
+			cin.clear();
+			cin.ignore(1000, '\n');
+		}
+
+		else if (sold < 0) {
 			soldInputFail = true;
 		}
 
@@ -674,12 +686,6 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 			soldInputFail = true;
 		}
 
-		if (cin.fail()) {
-			cout << "\nInvalid input)" << endl;
-			soldInputFail = true;
-			cin.clear();
-			cin.ignore(1000, '\n');
-		}
 	} while (soldInputFail);
 
 	newPackage.setSold(sold);
@@ -694,7 +700,7 @@ int addPackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package
 int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
 	// vector<Package> packagesInfoVector = packagesInfo(agency.getPackagesFile());
-	vector <int> possibleChoices;
+	vector <int> possibleChoices = { 0 };
 	bool invalidPackageInputFlag;
 	int packageSelector;
 
@@ -722,10 +728,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 		cout << "Please insert the corresponding number: ";
 		cin >> packageSelector;
 
-		if (packageSelector == 0) {
-			cout << "\x1B[2J\x1B[H";
-			return 0;
-		}
+		
 
 		if ((cin.fail()) || (count(possibleChoices.begin(), possibleChoices.end(), packageSelector) == 0)) {
 
@@ -740,6 +743,10 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			cout << "Invalid input" << endl;
 		}
 
+		else if (packageSelector == 0) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
 
 		cout << "\x1B[2J\x1B[H";
 
@@ -757,7 +764,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 
 
 	bool invalidChangeSelection;
-	vector<int> changeOptions = { 1, 2, 3, 4, 5, 6 };
+	vector<int> changeOptions = {0, 1, 2, 3, 4, 5, 6 };
 	int changeSelection;
 
 	// Input control for the change selection
@@ -781,10 +788,6 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 		cout << "Please insert the corresponding number: ";
 		cin >> changeSelection;
 
-		if (changeSelection == 0) {
-			cout << "\x1B[2J\x1B[H";
-			return 0;
-		}
 
 		if ((cin.fail()) || (count(changeOptions.begin(), changeOptions.end(), changeSelection) == 0)) {
 
@@ -799,6 +802,10 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 			cout << "Invalid input" << endl;
 		}
 
+		else if (changeSelection == 0) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
+		}
 		cout << "\x1B[2J\x1B[H";
 
 	} while (invalidChangeSelection);
@@ -962,20 +969,9 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				cout << endl;
 				cout << "Updated Price per person: ";
 				cin >> pricePer;
-
-				if (pricePer == 0) {
-					cout << "\x1B[2J\x1B[H";
-					return 0;
-				}
-
-				if (pricePer < 0) {
-					pricePerInputFail = true;
-				}
-
+				
 				if (cin.fail()) {
 					if (cin.eof()) {
-						cin.clear();
-						cin.ignore(1000, '\n');
 						return 0;
 					}
 
@@ -987,6 +983,17 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 					}
 
 				}
+
+				else if (pricePer == 0) {
+					cout << "\x1B[2J\x1B[H";
+					return 0;
+				}
+
+				else if (pricePer < 0) {
+					pricePerInputFail = true;
+				}
+
+
 				cout << "\x1B[2J\x1B[H";
 			} while (pricePerInputFail);
 
@@ -1006,20 +1013,9 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				cout << "Updated Max number of people: ";
 				cin >> maxPeople;
 
-				if (maxPeople == 0) {
-					cout << "\x1B[2J\x1B[H";
-					return 0;
-				}
-
-				if (maxPeople < 0) {
-					totalInputFail = true;
-				}
-
 				if (cin.fail()) {
 
 					if (cin.eof()) {
-						cin.clear();
-						cin.ignore(1000, '\n');
 						return 0;
 					}
 
@@ -1028,6 +1024,16 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 					cin.clear();
 					cin.ignore(1000, '\n');
 				}
+
+				else if (maxPeople == 0) {
+					cout << "\x1B[2J\x1B[H";
+					return 0;
+				}
+
+				else if (maxPeople < 0) {
+					totalInputFail = true;
+				}
+
 				cout << "\x1B[2J\x1B[H";
 			} while (totalInputFail);
 
@@ -1047,19 +1053,9 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 				cout << "Updated number of Sold \"Seats\": ";
 				cin >> sold;
 
-				if (sold < 0) {
-					soldInputFail = true;
-				}
-
-				else if (sold > packagesInfoVector.at(packageToChangePosition).getMaxPeople()) {
-					soldInputFail = true;
-				}
-
 				if (cin.fail()) {
 
 					if (cin.eof()) {
-						cin.clear();
-						cin.ignore(1000, '\n');
 						return 0;
 					}
 
@@ -1068,6 +1064,15 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 					cin.clear();
 					cin.ignore(1000, '\n');
 				}
+
+				else if (sold < 0) {
+					soldInputFail = true;
+				}
+
+				else if (sold > packagesInfoVector.at(packageToChangePosition).getMaxPeople()) {
+					soldInputFail = true;
+				}
+
 				cout << "\x1B[2J\x1B[H";
 
 			} while (soldInputFail);
@@ -1084,7 +1089,7 @@ int changePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Pack
 // change a specific package to become unavailable or the opposite (from unavailable to available)
 int unavailablePackage(Agency &agency, vector<Client> &clientsInfoVector, vector<Package> &packagesInfoVector) {
 
-	vector <int> possibleChoices;	// vector that will contain the possible packages to choose from
+	vector <int> possibleChoices = {0};	// vector that will contain the possible packages to choose from
 	bool invalidPackageInputFlag;
 	int packageSelector;
 
@@ -1111,23 +1116,24 @@ int unavailablePackage(Agency &agency, vector<Client> &clientsInfoVector, vector
 		cout << endl;
 		cout << "Please insert the corresponding number: ";
 		cin >> packageSelector;
-
-		if (packageSelector == 0) {
-			cout << "\x1B[2J\x1B[H";
-			return 0;
-		}
-
+		
 		if ((cin.fail()) || (count(possibleChoices.begin(), possibleChoices.end(), packageSelector) == 0)) {
 
 			if (cin.eof()) {
 				return 0;
 			}
 
-			invalidPackageInputFlag = true;
-			cin.clear();
-			cin.ignore(1000, '\n');
+			else {
+				cout << "Invalid input" << endl;
+				invalidPackageInputFlag = true;
+				cin.clear();
+				cin.ignore(1000, '\n');
+			}
+		}
 
-			cout << "Invalid input" << endl;
+		else if (packageSelector == 0) {
+			cout << "\x1B[2J\x1B[H";
+			return 0;
 		}
 
 		cout << "\x1B[2J\x1B[H";
@@ -1414,7 +1420,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 	do {
 		invalidNumberFlag = false;
 
-		cout << "N most visited places: ";
+		cout << "N most visited places ( N <= " << descending.size() << " ): ";
 		cin >> nMostVisited;
 
 		if ((cin.fail()) || (nMostVisited > descending.size()) || (nMostVisited < 0)) {
@@ -1472,7 +1478,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 	vector<string> mostVisitedSorted;
 
 	// mostVisitedSorted will have the N most visited places
-	// (sorted from most visited to least visited
+	// (sorted from most visited to least visited)
 	for (auto const &pair : descending) {
 		mostVisitedSorted.push_back(pair.second);
 		nMostVisited = nMostVisited - 1;
@@ -1513,17 +1519,20 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 	
 
 	bool noSugestionFound;
+	bool sugestionProvided;
 
 	cout << "Package Sugestions" << endl;
 
 	// for each client
 	for (int i = 0; i < newPlaces.size(); i++) {
-		
+
 		noSugestionFound = true;
+		sugestionProvided = true;
 		cout << clientsInfoVector.at(i).getName() << ":     \t";
 
 		if (newPlaces.at(i).size() == 0) {
 			cout << "No Available Package Sugestion" << endl;
+			continue;
 		}
 
 		else {
@@ -1534,28 +1543,33 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 				for (int p = 0; p < packagesInfoVector.at(j).getPlaces().size(); p++) {
 
 					// for each place not visited by the client
+					for (int m = 0; m < newPlaces.at(i).size(); m++) {
 
-					if ((newPlaces.at(i).at(0) == packagesInfoVector.at(j).getPlaces().at(p)) && (packagesInfoVector.at(j).getId() > 0)) {
+						if ((newPlaces.at(i).at(m) == packagesInfoVector.at(j).getPlaces().at(p)) && (packagesInfoVector.at(j).getId() > 0) && (sugestionProvided)
+							&& (clientsInfoVector.at(i).getFamilySize() + packagesInfoVector.at(j).getSold() <= packagesInfoVector.at(j).getMaxPeople())) {
 
 
-						cout << "Package #" << abs(packagesInfoVector.at(j).getId()) << " ("
-							<< packagesInfoVector.at(j).getPlaces().at(0) << ")";
+							cout << "Package #" << abs(packagesInfoVector.at(j).getId()) << " ("
+								<< packagesInfoVector.at(j).getPlaces().at(0) << ")";
 
-						noSugestionFound = false;
-						cout << endl;
-						break;
+							noSugestionFound = false;
+							sugestionProvided = false;
+							cout << endl;
+							break;
+						}
 					}
-
+					
 				}
 			}
 		}
 
 		if (noSugestionFound) {
 			cout << "No Available Package Sugestion" << endl;
+			continue;
 		}
 	}
 
-	
+
 
 	return -1;
 }
