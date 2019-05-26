@@ -908,10 +908,10 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 					cin.clear();
 					cin.ignore(1000, '\n');
 				}
-
 				if (trimString(packageListString) == "none") {
 					clientPackagesIds = {};
 				}
+				
 				else {
 					clientPackagesIds = stringToIntVector(packageListString);
 				}
@@ -936,7 +936,7 @@ int changeClient(Agency &agency, vector<Client> &clientsInfoVector, vector<Packa
 			} while (packageListInputFail);
 
 			clientsInfoVector.at(clientSelection - 1).setPackageList(clientPackages);
-
+			
 
 			// updating the total amount spent
 			totalPurchases = 0;

@@ -1,11 +1,11 @@
-5
+8
 1
 Madeira - Funchal, Porto Santo, Porto
 2019/8/1
 2019/8/5
 300
 50
-5
+11
 ::::::::::
 -2
 Veneza
@@ -13,7 +13,7 @@ Veneza
 2019/3/5
 100
 30
-24
+2
 ::::::::::
 3
 Douro vinhateiro - Porto, Regua, Pinhao, Vila Real
@@ -23,7 +23,7 @@ Douro vinhateiro - Porto, Regua, Pinhao, Vila Real
 40
 6
 ::::::::::
--4
+4
 Spain - Barcelona, Madrid, Valencia
 2020/1/1
 2020/1/6

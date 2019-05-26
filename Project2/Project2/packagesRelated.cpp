@@ -1465,7 +1465,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 				}
 			}
 		}
-
+		
 		clientsPlacesVisited.push_back(oneClientPlacesVisited);
 	}
 
@@ -1490,7 +1490,6 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 	// (ordered from most to least visited)
 	for (int i = 0; i < clientsPlacesVisited.size(); i++) {
 		newPlacesOneClient = {};
-
 		for (int j = 0; j < mostVisitedSorted.size(); j++) {
 
 			found = true;
@@ -1519,6 +1518,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 
 	// for each client
 	for (int i = 0; i < newPlaces.size(); i++) {
+		
 		noSugestionFound = true;
 		cout << clientsInfoVector.at(i).getName() << ":     \t";
 
@@ -1534,7 +1534,9 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 				for (int p = 0; p < packagesInfoVector.at(j).getPlaces().size(); p++) {
 
 					// for each place not visited by the client
+
 					if ((newPlaces.at(i).at(0) == packagesInfoVector.at(j).getPlaces().at(p)) && (packagesInfoVector.at(j).getId() > 0)) {
+
 
 						cout << "Package #" << abs(packagesInfoVector.at(j).getId()) << " ("
 							<< packagesInfoVector.at(j).getPlaces().at(0) << ")";
@@ -1543,6 +1545,7 @@ int packageSugestion(Agency &agency, vector<Client> &clientsInfoVector, vector<P
 						cout << endl;
 						break;
 					}
+
 				}
 			}
 		}
