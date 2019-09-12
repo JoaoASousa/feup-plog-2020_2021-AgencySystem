@@ -209,7 +209,7 @@ vector<Client> clientsInfo(Agency agency) {
 						client.setPackageList(clientPackages);
 						break;
 					
-					case 5:
+					case 5: 
 						client.setTotalPurchased(stoi(textLine));
 						break;
 				}
